@@ -1,0 +1,9 @@
+.app-header {
+    margin: 20px auto;
+    max-width: 500px;
+  }
+  
+  form input,
+  textarea {
+    margin-bottom: 10px;
+  }

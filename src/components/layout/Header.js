@@ -1,7 +1,7 @@
 import React from "react";
 import { Navbar, Nav, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import SettingsIcon from '@material-ui/icons/Settings';
-import axiosInstance from 'axios';
+import axiosInstance from '../../axiosApi';
 
 /**
  * Navbar component

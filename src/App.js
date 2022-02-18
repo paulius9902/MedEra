@@ -1,9 +1,27 @@
 import React, { Component} from "react";
 import { Routes, Route} from "react-router-dom";
-import Header from "./layout/Header";
-import Footer from "./layout/Footer";
-import Home from "./layout/Home";
+import Header from "./components/layout/Header";
+import Footer from "./components/layout/Footer";
+import Home from "./components/layout/Home";
 import './App.css';
+import Login from "./components/login/login";
+
+import ShowPatients from "./components/patients/ShowPatients";
+import PatientDetail from "./components/patients/PatientDetail";
+import UpdatePatient from "./components/patients/UpdatePatient";
+import AddPatient from "./components/patients/AddPatient";
+import ShowDoctors from "./components/doctors/ShowDoctors";
+import DoctorDetail from "./components/doctors/DoctorDetail";
+import UpdateDoctor from "./components/doctors/UpdateDoctor";
+import AddDoctor from "./components/doctors/AddDoctor";
+import ShowVisits from "./components/visits/ShowVisits";
+import AddVisit from "./components/visits/AddVisit";
+import VisitDetail from "./components/visits/VisitDetail";
+import Profile from "./components/profile/Profile";
+import ChangePassword from "./components/profile/ChangePassword";
+import About from "./components/about/About";
+import ShowUsers from "./components/users/ShowUsers";
+import AddUsers from "./components/users/AddUser";
 
 class App extends Component{
     constructor(props) {
@@ -24,6 +42,30 @@ class App extends Component{
                     <Header/>
                     <main>
                         <Routes>
+                            <Route exact path={"/login/"} element={<Login/>}/>
+            
+                            <Route exact path={"/patient/"} element={<ShowPatients/>}/>
+                            <Route exact path={"/patient/create"} element={<AddPatient/>}/>
+                            <Route exact path="/patient/:id/" element={<PatientDetail/>} />
+                            <Route exact path="/patient/:id/update" element={<UpdatePatient/>} />
+
+                            <Route exact path={"/doctor/"} element={<ShowDoctors/>}/>
+                            <Route exact path={"/doctor/create"} element={<AddDoctor/>}/>
+                            <Route exact path="/doctor/:id/" element={<DoctorDetail/>} />
+                            <Route exact path="/doctor/:id/update" element={<UpdateDoctor/>} />
+                                
+                            <Route exact path={"/visit/"} element={<ShowVisits/>}/>
+                            <Route exact path={"/visit/create"} element={<AddVisit/>}/>
+                            <Route exact path={"/visit/test/"} element={<VisitDetail/>}/>
+                                
+                            <Route exact path={"/settings/"} element={<Profile/>}/>
+                            <Route exact path={"/change_password/"} element={<ChangePassword/>}/>
+
+                            <Route exact path={"/user/"} element={<ShowUsers/>}/>
+                            <Route exact path={"/user/create"} element={<AddUsers/>}/>
+
+                            <Route exact path={"/about/"} element={<About/>}/>
+
                             <Route exact path="/" element={<Home/>} />
                         </Routes>
                     </main>
@@ -39,7 +81,11 @@ class App extends Component{
                     <Header/>
                     <main>
                         <Routes>
-                            <Route exact path="/" element={<Home/>} />
+                        <Route exact path={"/login/"} element={<Login/>}/>
+    
+                        <Route exact path={"/about/"} element={<About/>}/>
+
+                        <Route exact path="/" element={<Home/>} />
                        </Routes>
                    </main>
                    <Footer/>

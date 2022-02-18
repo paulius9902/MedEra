@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import axios from 'axios';
+import axios from './axiosApi';
 import './index.css';
 
 axios.defaults.xsrfCookieName = 'csrftoken'
