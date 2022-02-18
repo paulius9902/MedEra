@@ -1,0 +1,1 @@
+web: gunicorn medera.wsgi --log-file -
