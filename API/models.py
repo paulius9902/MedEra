@@ -50,7 +50,6 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
     is_doctor = models.BooleanField(default=False)
     is_patient = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     #doctor = models.ForeignKey(Doctors, models.DO_NOTHING, blank=True, null=True)
     #patient = models.ForeignKey(Patients, models.DO_NOTHING, blank=True, null=True)
