@@ -1,12 +1,9 @@
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.db import models
-from medera.settings import TIME_ZONE
 from django.urls import reverse
 from django.db import models
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-import datetime
 from users.models import NewUser
 
 # Create your models here.        
