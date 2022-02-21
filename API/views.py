@@ -10,12 +10,12 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.decorators import permission_classes, authentication_classes
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.authtoken.models import Token
+from .serializers import ChangePasswordSerializer, CustomUserSerializer
 
-from API.models import Comments, Doctors, Patients, WorkHours, Visits
+from API.models import Comments, Doctors, NewUser, Patients, WorkHours, Visits
 from API.serializers import CommentSerializer, PatientSerializer, DoctorSerializer, VisitSerializer, WorkHoursSerializer, VisitSerializerDoctorPatient
-from users.models import NewUser
-from users.serializers import CustomUserSerializer
 from rest_framework.viewsets import ModelViewSet
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from datetime import datetime
 
@@ -524,3 +524,53 @@ class UserGet(APIView):
                 return HttpResponse('Neturite administratoriaus teisių!', status=204, content_type='application/javascript')
         else:
             return HttpResponse('Savęs ištrinti negalima!', status=204, content_type='application/javascript')
+
+class BlacklistTokenUpdateView(APIView):
+    permission_classes = [AllowAny]
+    authentication_classes = ()
+
+    def post(self, request):
+        try:
+            refresh_token = request.data["refresh"]
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            return JsonResponse("Sėkmingai atsijungta!",status=status.HTTP_200_OK, safe=False)
+        except Exception as e:
+            return JsonResponse("Nepavyko atsijungti!", status=status.HTTP_400_BAD_REQUEST, safe=False)
+
+class ChangePasswordView(APIView):
+    serializer_class = ChangePasswordSerializer
+    model = NewUser
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def put(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        serializer = self.serializer_class(data=request.data)
+
+        if serializer.is_valid():
+            old_password = serializer.data.get("old_password")
+            if not self.object.check_password(old_password):
+                return JsonResponse({"old_password": ["Wrong password"]}, status=status.HTTP_400_BAD_REQUEST, safe=False)
+            self.object.set_password(serializer.data.get('new_password'))
+            self.object.save()
+            update_session_auth_hash(request, self.object)
+
+            return JsonResponse("Slaptažodis sėkmingai pakeistas!",status=status.HTTP_200_OK, safe=False)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST, safe=False)
+
+class UserView(APIView):
+    serializer_class = CustomUserSerializer
+    model = NewUser
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, queryset=None):
+        obj = self.request.user
+        return obj
+
+    def get(self, request):
+        obj = self.get_object()
+        serializer = self.serializer_class(obj)
+        return JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)

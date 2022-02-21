@@ -51,7 +51,6 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'whitenoise.runserver_nostatic',
     'API',
-    'users',
 ]
 
 MIDDLEWARE = [
@@ -134,7 +133,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = "users.NewUser"
+AUTH_USER_MODEL = "API.NewUser"
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
