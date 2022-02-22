@@ -8,76 +8,17 @@ from django.utils.translation import gettext_lazy as _
 
 # Create your models here.        
 
-class CustomAccountManager(BaseUserManager):
-
-    def create_superuser(self, email, first_name, password, **other_fields):
-
-        other_fields.setdefault('is_doctor', True)
-        other_fields.setdefault('is_superuser', True)
-        other_fields.setdefault('is_patient', True)
-        other_fields.setdefault('is_active', True)
-
-        if other_fields.get('is_doctor') is not True:
-            raise ValueError(
-                'Superuser must be assigned to is_doctor=True.')
-        if other_fields.get('is_patient') is not True:
-            raise ValueError(
-                'Superuser must be assigned to is_patient=True.')
-        if other_fields.get('is_superuser') is not True:
-            raise ValueError(
-                'Superuser must be assigned to is_superuser=True.')
-
-        return self.create_user(email, first_name, password, **other_fields)
-
-    def create_user(self, email, first_name, password, **other_fields):
-
-        if not email:
-            raise ValueError(_('You must provide an email address'))
-
-        email = self.normalize_email(email)
-        user = self.model(email=email,
-                          first_name=first_name, **other_fields)
-        user.set_password(password)
-        user.save()
-        return user
-
-
-class NewUser(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(max_length=150, unique=True)
-    first_name = models.CharField(max_length=150, blank=True)
-    start_date = models.DateTimeField(default=timezone.now)
-    about = models.TextField(_('about'), max_length=500, blank=True)
-    is_doctor = models.BooleanField(default=False)
-    is_patient = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=True)
-    #doctor = models.ForeignKey(Doctors, models.DO_NOTHING, blank=True, null=True)
-    #patient = models.ForeignKey(Patients, models.DO_NOTHING, blank=True, null=True)
-
-
-    objects = CustomAccountManager()
-
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name']
-
-    class Meta:
-        managed = False
-        db_table = 'users'
-
-    def __str__(self):
-        return self.email
-
 class Doctors(models.Model):
     doctor_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50)
     birthday = models.DateField(blank=True, null=True)
-    gender = models.CharField(max_length=1, blank=True, null=True)
-    phone_number = models.CharField(max_length=15, blank=True, null=True)
-    spacialization = models.CharField(max_length=50, blank=True, null=True)
+    gender = models.CharField(max_length=1)
+    phone_number = models.CharField(max_length=15)
+    specialization = models.CharField(max_length=50)
     termination_date = models.DateField(blank=True, null=True)
-    creation_date = models.DateField(blank=True, null=True)
-    last_update_date = models.DateField(blank=True, null=True)
+    creation_date = models.DateTimeField(auto_now_add=timezone.now)
+    last_update_date = models.DateTimeField(auto_now=timezone.now)
 
     class Meta:
         managed = False
@@ -94,14 +35,14 @@ class Patients(models.Model):
     patient_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
     surname = models.CharField(max_length=50)
-    birthday = models.DateField(blank=True, null=True)
-    gender = models.CharField(max_length=1, blank=True, null=True)
-    phone_number = models.CharField(max_length=15, blank=True, null=True)
+    birthday = models.DateField()
+    gender = models.CharField(max_length=1)
+    phone_number = models.CharField(max_length=15)
     height = models.IntegerField(blank=True, null=True)
     weight = models.IntegerField(blank=True, null=True)
     termination_date = models.DateField(blank=True, null=True)
-    creation_date = models.DateField(blank=True, null=True)
-    last_update_date = models.DateField(blank=True, null=True)
+    creation_date = models.DateTimeField(auto_now_add=timezone.now)
+    last_update_date = models.DateTimeField(auto_now=timezone.now)
 
     class Meta:
         managed = False
@@ -114,8 +55,8 @@ class Patients(models.Model):
         return f"Patient: {self.name} {self.surname}"
 
 class Rooms(models.Model):
-    room_id = models.IntegerField(primary_key=True)
-    number = models.IntegerField()
+    room_id = models.AutoField(primary_key=True)
+    number = models.IntegerField(unique=True)
     location = models.CharField(max_length=500, blank=True, null=True)
 
     class Meta:
@@ -225,3 +166,62 @@ class WorkHours(models.Model):
         managed = False
         db_table = 'work_hours'
         unique_together = (('week_day', 'doctor'),)
+
+class CustomAccountManager(BaseUserManager):
+
+    def create_superuser(self, email, first_name, password, **other_fields):
+
+        other_fields.setdefault('is_doctor', True)
+        other_fields.setdefault('is_superuser', True)
+        other_fields.setdefault('is_patient', True)
+        other_fields.setdefault('is_active', True)
+
+        if other_fields.get('is_doctor') is not True:
+            raise ValueError(
+                'Superuser must be assigned to is_doctor=True.')
+        if other_fields.get('is_patient') is not True:
+            raise ValueError(
+                'Superuser must be assigned to is_patient=True.')
+        if other_fields.get('is_superuser') is not True:
+            raise ValueError(
+                'Superuser must be assigned to is_superuser=True.')
+
+        return self.create_user(email, first_name, password, **other_fields)
+
+    def create_user(self, email, first_name, password, **other_fields):
+
+        if not email:
+            raise ValueError(_('You must provide an email address'))
+
+        email = self.normalize_email(email)
+        user = self.model(email=email,
+                          first_name=first_name, **other_fields)
+        user.set_password(password)
+        user.save()
+        return user
+
+
+class NewUser(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(max_length=150, unique=True)
+    first_name = models.CharField(max_length=150, blank=True)
+    start_date = models.DateTimeField(default=timezone.now)
+    about = models.TextField(_('about'), max_length=500, blank=True)
+    is_doctor = models.BooleanField(default=False)
+    is_patient = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    doctor = models.ForeignKey(Doctors, models.DO_NOTHING, blank=True, null=True)
+    patient = models.ForeignKey(Patients, models.DO_NOTHING, blank=True, null=True)
+
+
+    objects = CustomAccountManager()
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['first_name']
+
+    class Meta:
+        managed = False
+        db_table = 'users'
+
+    def __str__(self):
+        return self.email
