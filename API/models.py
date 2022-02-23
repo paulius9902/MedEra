@@ -5,6 +5,7 @@ from django.db import models
 from django.urls import reverse
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import UserManager
 
 # Create your models here.        
 
@@ -30,30 +31,6 @@ class Doctors(models.Model):
     def __str__(self):
         return f"Doctor: {self.name} {self.surname}"
 
-
-class Patients(models.Model):
-    patient_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=50)
-    surname = models.CharField(max_length=50)
-    birthday = models.DateField()
-    gender = models.CharField(max_length=1)
-    phone_number = models.CharField(max_length=15)
-    height = models.IntegerField(blank=True, null=True)
-    weight = models.IntegerField(blank=True, null=True)
-    termination_date = models.DateField(blank=True, null=True)
-    creation_date = models.DateTimeField(auto_now_add=timezone.now)
-    last_update_date = models.DateTimeField(auto_now=timezone.now)
-
-    class Meta:
-        managed = False
-        db_table = 'patients'
-
-    def get_absolute_url(self):
-        return reverse("patient_detail", args=[str(self.patient_id)])
-
-    def __str__(self):
-        return f"Patient: {self.name} {self.surname}"
-
 class Rooms(models.Model):
     room_id = models.AutoField(primary_key=True)
     number = models.IntegerField(unique=True)
@@ -71,6 +48,43 @@ class VisitStatuses(models.Model):
         managed = False
         db_table = 'visit_statuses'
 
+class Allergies(models.Model):
+    allergy_id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=200, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'allergies'
+
+class Patients(models.Model):
+    patient_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=50)
+    surname = models.CharField(max_length=50)
+    birthday = models.DateField()
+    gender = models.CharField(max_length=1)
+    phone_number = models.CharField(max_length=15)
+    height = models.IntegerField(blank=True, null=True)
+    weight = models.IntegerField(blank=True, null=True)
+    termination_date = models.DateField(blank=True, null=True)
+    creation_date = models.DateTimeField(auto_now_add=timezone.now)
+    last_update_date = models.DateTimeField(auto_now=timezone.now)
+    allergies = models.ManyToManyField(
+        Allergies,
+        through='PatientsAllergies',
+        through_fields=('patient', 'allergy'),
+    )
+
+    class Meta:
+        managed = False
+        db_table = 'patients'
+
+    def get_absolute_url(self):
+        return reverse("patient_detail", args=[str(self.patient_id)])
+
+    def __str__(self):
+        return f"Patient: {self.name} {self.surname}"
+
 class Visits(models.Model):
     start_date = models.DateTimeField()
     doctor = models.ForeignKey(Doctors, models.DO_NOTHING)
@@ -87,18 +101,9 @@ class Visits(models.Model):
         db_table = 'visits'
         unique_together = (('start_date', 'doctor'),)
 
-class Allergies(models.Model):
-    allergy_id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=100)
-    severity = models.CharField(max_length=20, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'allergies'
-        
 class PatientsAllergies(models.Model):
-    patient = models.ForeignKey(Patients, models.DO_NOTHING, blank=True, null=True)
-    allergy = models.ForeignKey(Allergies, models.DO_NOTHING, blank=True, null=True)
+    patient = models.ForeignKey(Patients, models.DO_NOTHING)
+    allergy = models.ForeignKey(Allergies, models.DO_NOTHING)
 
     class Meta:
         managed = False
@@ -157,43 +162,9 @@ class WorkHours(models.Model):
         db_table = 'work_hours'
         unique_together = (('week_day', 'doctor'),)
 
-class CustomAccountManager(BaseUserManager):
-
-    def create_superuser(self, email, first_name, password, **other_fields):
-
-        other_fields.setdefault('is_doctor', True)
-        other_fields.setdefault('is_superuser', True)
-        other_fields.setdefault('is_patient', True)
-        other_fields.setdefault('is_active', True)
-
-        if other_fields.get('is_doctor') is not True:
-            raise ValueError(
-                'Superuser must be assigned to is_doctor=True.')
-        if other_fields.get('is_patient') is not True:
-            raise ValueError(
-                'Superuser must be assigned to is_patient=True.')
-        if other_fields.get('is_superuser') is not True:
-            raise ValueError(
-                'Superuser must be assigned to is_superuser=True.')
-
-        return self.create_user(email, first_name, password, **other_fields)
-
-    def create_user(self, email, first_name, password, **other_fields):
-
-        if not email:
-            raise ValueError(_('You must provide an email address'))
-
-        email = self.normalize_email(email)
-        user = self.model(email=email,
-                          first_name=first_name, **other_fields)
-        user.set_password(password)
-        user.save()
-        return user
-
 
 class NewUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=150, unique=True)
-    first_name = models.CharField(max_length=150, blank=True)
     start_date = models.DateTimeField(default=timezone.now)
     about = models.TextField(_('about'), max_length=500, blank=True)
     is_doctor = models.BooleanField(default=False)
@@ -204,10 +175,10 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
     patient = models.ForeignKey(Patients, models.DO_NOTHING, blank=True, null=True)
 
 
-    objects = CustomAccountManager()
+    #objects = CustomAccountManager()
+    objects = UserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name']
 
     class Meta:
         managed = False

@@ -8,13 +8,13 @@ from API.models import NewUser
 
 class UserAdminConfig(UserAdmin):
     model = NewUser
-    search_fields = ('email', 'first_name',)
-    list_filter = ('email', 'first_name', 'is_active', 'is_doctor')
+    search_fields = ('email', )
+    list_filter = ('email',  'is_active', 'is_doctor')
     ordering = ('-start_date',)
-    list_display = ('email', 'first_name',
+    list_display = ('email', 
                     'is_active', 'is_doctor')
     fieldsets = (
-        (None, {'fields': ('email', 'first_name',)}),
+        (None, {'fields': ('email', )}),
         ('Permissions', {'fields': ('is_doctor', 'is_active')}),
         ('Personal', {'fields': ('about',)}),
     )
@@ -24,7 +24,7 @@ class UserAdminConfig(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'first_name', 'password1', 'password2', 'is_active', 'is_doctor')}
+            'fields': ('email',  'password1', 'password2', 'is_active', 'is_doctor')}
          ),
     )
 
