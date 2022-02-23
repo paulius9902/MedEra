@@ -30,6 +30,9 @@ urlpatterns=[
     path('visit/<int:visit_id>/comment', views.CommentGetList.as_view(), name='comment_list'),
     path('visit/<int:visit_id>/comment/<int:comment_id>', views.CommentGet.as_view(), name='comment_detail'),
 
+    path('visit_status', views.VisitStatusGetList.as_view(), name='status_list'),
+    path('visit_status/<int:status_id>', views.VisitStatusGet.as_view(), name='status_detail'),
+
     path('user', views.UserGetList.as_view(), name='user_list'),
     path('user/<int:user_id>', views.UserGet.as_view(), name='user_detail'),
 

@@ -64,7 +64,7 @@ class Rooms(models.Model):
         db_table = 'rooms'
 
 class VisitStatuses(models.Model):
-    status_id = models.IntegerField(primary_key=True)
+    status_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
 
     class Meta:
@@ -77,10 +77,10 @@ class Visits(models.Model):
     patient = models.ForeignKey(Patients, models.DO_NOTHING)
     visit_id = models.AutoField(primary_key=True)
 
-    creation_date = models.DateTimeField(blank=True, null=True)
-    room = models.ForeignKey(Rooms, models.DO_NOTHING, blank=True, null=True)
-    health_issue = models.CharField(max_length=500, blank=True, null=True)
-    status = models.ForeignKey(VisitStatuses, models.DO_NOTHING, blank=True, null=True)
+    creation_date = models.DateTimeField(auto_now_add=timezone.now)
+    room = models.ForeignKey(Rooms, models.DO_NOTHING)
+    health_issue = models.CharField(max_length=500)
+    status = models.ForeignKey(VisitStatuses, models.DO_NOTHING)
 
     class Meta:
         managed = False
@@ -144,16 +144,6 @@ class LaboratoryTests(models.Model):
     class Meta:
         managed = False
         db_table = 'laboratory_tests'
-
-class Comments(models.Model):
-    comment_id = models.AutoField(primary_key=True)
-    creation_date = models.DateTimeField()
-    text = models.CharField(max_length=500, blank=True, null=True)
-    visit = models.ForeignKey(Visits, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'comments'
 
 class WorkHours(models.Model):
     work_hours_id = models.AutoField(primary_key=True)
@@ -225,3 +215,14 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+class Comments(models.Model):
+    comment_id = models.AutoField(primary_key=True)
+    creation_date = models.DateTimeField(auto_now_add=timezone.now)
+    text = models.CharField(max_length=500)
+    visit = models.ForeignKey(Visits, models.DO_NOTHING)
+    user = models.ForeignKey(NewUser, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'comments'
