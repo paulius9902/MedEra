@@ -46,7 +46,7 @@ class DiagnosisGet(APIView):
             else:
                 diagnosis = Diagnoses.objects.filter(Q(diagnosis_id=diagnosis_id) & Q(patient=user_serializer.data["patient"])).get()
         except Diagnoses.DoesNotExist:
-            return HttpResponse('Vizito komentaras nerastas!', status=404)
+            return HttpResponse('Paciento diagnozė nerasta!', status=404)
         diagnosis_serializer = DiagnosisSerializer(diagnosis, many=False)
         return JsonResponse(diagnosis_serializer.data, safe=False)
     def patch(self, request, diagnosis_id):

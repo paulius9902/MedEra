@@ -5,3 +5,6 @@ from .view_room import *
 from .view_comment import *
 from .view_user import *
 from .view_auth import *
+from .view_diagnosis import *
+from .view_laboratory_test import *
+from .view_prescription import *

@@ -29,6 +29,15 @@ urlpatterns=[
 
     path('room', views.RoomGetList.as_view(), name='room_list'),
     path('room/<int:room_id>', views.RoomGet.as_view(), name='room_detail'),
+
+    path('diagnosis', views.DiagnosisGetList.as_view(), name='diagnosis_list'),
+    path('diagnosis/<int:diagnosis_id>', views.DiagnosisGet.as_view(), name='diagnosis_detail'),
+
+    path('prescription', views.PrescriptionGetList.as_view(), name='prescription_list'),
+    path('prescription/<int:prescription_id>', views.PrescriptionGet.as_view(), name='prescription_detail'),
+
+    path('laboratory_test', views.LaboratoryTestGetList.as_view(), name='laboratory_test_list'),
+    path('laboratory_test/<int:test_id>', views.LaboratoryTestGet.as_view(), name='laboratory_test_detail'),
     
     path('visit/<int:visit_id>/comment', views.CommentGetList.as_view(), name='comment_list'),
     path('visit/<int:visit_id>/comment/<int:comment_id>', views.CommentGet.as_view(), name='comment_detail'),

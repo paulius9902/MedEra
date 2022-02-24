@@ -108,16 +108,16 @@ class PatientsAllergies(models.Model):
         unique_together = (('patient', 'allergy'),)
 
 class Diagnoses(models.Model):
-    diagnosis_id = models.IntegerField(primary_key=True)
+    diagnosis_id = models.AutoField(primary_key=True)
     creation_date = models.DateTimeField(auto_now_add=timezone.now)
     description = models.CharField(max_length=500)
-    temperature = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    temperature = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True)
     systolic_blood_pressure = models.IntegerField(blank=True, null=True)
     diastolic_blood_pressure = models.IntegerField(blank=True, null=True)
     heart_rate = models.IntegerField(blank=True, null=True)
     advice = models.CharField(max_length=200, blank=True, null=True)
     patient = models.ForeignKey(Patients, models.DO_NOTHING)
-    visit = models.ForeignKey(Visits, models.DO_NOTHING)
+    visit = models.OneToOneField(Visits, models.DO_NOTHING)
     doctor = models.ForeignKey(Doctors, models.DO_NOTHING)
 
     class Meta:
@@ -125,25 +125,27 @@ class Diagnoses(models.Model):
         db_table = 'diagnoses'
 
 class Prescriptions(models.Model):
-    prescription_id = models.IntegerField(primary_key=True)
-    medicine = models.CharField(max_length=100, blank=True, null=True)
+    prescription_id = models.AutoField(primary_key=True)
+    medicine = models.CharField(max_length=100)
     custom_usage = models.CharField(max_length=200, blank=True, null=True)
-    quantity = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    quantity = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
     diagnosis = models.ForeignKey(Diagnoses, models.DO_NOTHING, blank=True, null=True)
-    patient = models.ForeignKey(Patients, models.DO_NOTHING, blank=True, null=True)
+    patient = models.ForeignKey(Patients, models.DO_NOTHING)
+    doctor = models.ForeignKey(Doctors, models.DO_NOTHING)
 
     class Meta:
         managed = False
         db_table = 'prescriptions'
 
 class LaboratoryTests(models.Model):
-    test_id = models.IntegerField(blank=True, null=True)
-    test_date = models.DateTimeField(blank=True, null=True)
-    name = models.CharField(max_length=200, blank=True, null=True)
-    value_text = models.CharField(max_length=100, blank=True, null=True)
-    value_numeric = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
-    patient = models.ForeignKey(Patients, models.DO_NOTHING, blank=True, null=True)
+    test_id = models.AutoField(primary_key=True)
+    creation_date = models.DateTimeField(auto_now_add=timezone.now)
+    name = models.CharField(max_length=200)
+    value_text = models.CharField(max_length=100)
+    value_numeric = models.DecimalField(max_digits=5, decimal_places=2)
+    patient = models.ForeignKey(Patients, models.DO_NOTHING)
     visit = models.ForeignKey(Visits, models.DO_NOTHING, blank=True, null=True)
+    doctor = models.ForeignKey(Doctors, models.DO_NOTHING)
 
     class Meta:
         managed = False
