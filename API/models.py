@@ -1,3 +1,4 @@
+from pickle import TRUE
 from django.utils import timezone
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
@@ -69,11 +70,7 @@ class Patients(models.Model):
     termination_date = models.DateField(blank=True, null=True)
     creation_date = models.DateTimeField(auto_now_add=timezone.now)
     last_update_date = models.DateTimeField(auto_now=timezone.now)
-    allergies = models.ManyToManyField(
-        Allergies,
-        through='PatientsAllergies',
-        through_fields=('patient', 'allergy'),
-    )
+    allergies = models.ManyToManyField(Allergies, through="PatientsAllergies")
 
     class Meta:
         managed = False
@@ -108,18 +105,20 @@ class PatientsAllergies(models.Model):
     class Meta:
         managed = False
         db_table = 'patients_allergies'
+        unique_together = (('patient', 'allergy'),)
 
 class Diagnoses(models.Model):
     diagnosis_id = models.IntegerField(primary_key=True)
-    creation_date = models.DateField()
-    description = models.CharField(max_length=500, blank=True, null=True)
+    creation_date = models.DateTimeField(auto_now_add=timezone.now)
+    description = models.CharField(max_length=500)
     temperature = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
     systolic_blood_pressure = models.IntegerField(blank=True, null=True)
     diastolic_blood_pressure = models.IntegerField(blank=True, null=True)
     heart_rate = models.IntegerField(blank=True, null=True)
     advice = models.CharField(max_length=200, blank=True, null=True)
     patient = models.ForeignKey(Patients, models.DO_NOTHING)
-    visit = models.ForeignKey(Visits, models.DO_NOTHING, blank=True, null=True)
+    visit = models.ForeignKey(Visits, models.DO_NOTHING)
+    doctor = models.ForeignKey(Doctors, models.DO_NOTHING)
 
     class Meta:
         managed = False

@@ -1,13 +1,14 @@
 from django.db import models
 from django.db.models import fields
 from rest_framework import serializers
-from API.models import Allergies, Comments, Diagnoses, Doctors, LaboratoryTests, Patients, PatientsAllergies, Prescriptions, Rooms, VisitStatuses, WorkHours, Visits, NewUser
+from API.models import Allergies, Comments, Diagnoses, Doctors, LaboratoryTests, Patients, Prescriptions, Rooms, VisitStatuses, WorkHours, Visits, NewUser, PatientsAllergies
 
 class PatientSerializer(serializers.ModelSerializer):
     class Meta:
         model=Patients
         #fields=('patient_id', 'name', 'surname', 'user_id')
         fields=('__all__')
+        depth = 1
 
 class DoctorSerializer(serializers.ModelSerializer):
     class Meta:

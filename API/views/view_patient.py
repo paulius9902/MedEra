@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from API.models import Patients, NewUser
-from API.serializers import PatientSerializer
+from API.models import Allergies, Patients, NewUser, PatientsAllergies
+from API.serializers import AllergySerializer, PatientSerializer, PatientAllergySerializer
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
 from API.serializers import CustomUserSerializer
@@ -77,3 +77,36 @@ class PatientGet(APIView):
             return JsonResponse("Sėkmingai ištrinta!", safe=False)
         else:
             return HttpResponse('Neturite administratoriaus arba gydytojo teisių!', status=204)
+
+class PatientAllergyGetList(APIView):
+    permission_classes = [IsAuthenticated, ]
+    def post(self, request, patient_id):
+        patient_allergy = JSONParser().parse(request)
+        patient_allergy['patient'] = patient_id
+        patient_allergy_serializer = PatientAllergySerializer(data = patient_allergy)
+        
+        user = NewUser.objects.get(id=self.request.user.id)
+        user_serializer = CustomUserSerializer(user)
+        
+        if patient_allergy_serializer.is_valid():
+            if(user_serializer.data["is_superuser"] or user_serializer.data["is_doctor"]) :
+                patient_allergy_serializer.save()
+                return JsonResponse("Sėkmingai pridėta!",safe=False)
+            else:
+                return HttpResponse('Neturite administratoriaus arba gydytojo teisių!', status=204)
+        return JsonResponse(patient_allergy_serializer.errors, safe=False, status=400)
+
+class PatientAllergyGet(APIView):
+    permission_classes = [IsAuthenticated, ]
+    def delete(self, request, patient_id, allergy_id):
+        user = NewUser.objects.get(id=self.request.user.id)
+        user_serializer = CustomUserSerializer(user)
+        try:
+            if(user_serializer.data["is_superuser"] or user_serializer.data["is_doctor"]):
+                comment = PatientsAllergies.objects.filter(patient=patient_id, allergy=allergy_id).get()
+            else:
+                return HttpResponse('Neturite administratoriaus arba gydytojo teisių!', status=204)
+        except PatientsAllergies.DoesNotExist:
+            return HttpResponse('Paciento alergija nerasta!', status=404)
+        comment.delete()
+        return JsonResponse("Sėkmingai ištrinta!", safe=False)
