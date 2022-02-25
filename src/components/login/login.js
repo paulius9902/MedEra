@@ -1,14 +1,12 @@
 import React, { Component } from "react";
-import { Button, Form, Card, Nav } from 'react-bootstrap';
+import "./login.css";
+import {FormGroup, Label, Input } from "reactstrap";
 import axiosInstance from '../../axiosApi'
+import { Button, Form, Card, Nav } from 'react-bootstrap';
 import Container from '@material-ui/core/Container';
 
-/**
- * Login Form
- *
- * @component
- */
-class LogIn extends Component {
+
+ class Home extends Component {
   constructor(props) {
     super(props)
 
@@ -74,64 +72,60 @@ class LogIn extends Component {
       }
     });
   }
-
   render() {
     return (
-      <>
-        <Container component="main" maxWidth="md">
-          <div className="login">
-            <h2 className="welcome-text" style={{textAlign:'center'}}>Prisijunkite!</h2>
-            
-            <div className="box" style={{textAlign:'center'}}>
-              
-              <Card id="forms">
-                <Card.Header>
-                  <Nav variant="tabs">
-                    <Nav.Item>
-                      <Nav.Link href="/" className="active">Prisijungimas</Nav.Link>
-                    </Nav.Item>
-                  </Nav>
-                </Card.Header>
-                
-                <Card.Body>
-                  <Form id="userCredentials" onSubmit={this.login}>
-                    <Form.Group>
-                      <Form.Control 
-                        className="form-control form-control-lg"
-                        required
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={this.state.credentials.email}
-                        onChange={this.onChangeInput}
-                        placeholder="El. paštas"/>
-                    </Form.Group>
-                    <Form.Group>
-                      <Form.Control 
-                        className="form-control form-control-lg"
-                        required
-                        type="password"
-                        id="password"
-                        name="password"
-                        value={this.state.credentials.password}
-                        onChange={this.onChangeInput}
-                        placeholder="Slaptažodis"/>
-                    </Form.Group>
-
-                    <div style={{color:'red', paddingBottom:'10px'}}>{this.state.errors}</div>
-
-                    <Button variant="primary" type="submit" id="userSubmit" className="btn btn-primary mb-3">
+      <div className="background">
+        <div className="login-box">
+          <div className="container">
+            <div class="row app-des">
+              <div class="col left-background ">
+                <h2>MedEra</h2>
+                <p>Prisijunkite prie savo asmeninės MedEra paskyros</p>
+                <img src="" />
+              </div>
+              <div class="col login-form">
+                <form id="userCredentials" onSubmit={this.login}>
+                  <h2 className="font-weight-bold mb-4">Prisijungimas</h2>
+                  <FormGroup>
+                    <Label className="font-weight-bold mb-2">El.paštas</Label>
+                    <Form.Control 
+                      className="mb-3" 
+                      type="email" 
+                      placeholder="El. paštas"
+                      required
+                      id="email"
+                      name="email"
+                      value={this.state.credentials.email}
+                      onChange={this.onChangeInput}/>
+                    <Label className="font-weight-bold mb-2">Slaptažodis</Label>
+                    <Form.Control 
+                      className="mb-3" 
+                      type="password" 
+                      required
+                      id="password"
+                      name="password"
+                      value={this.state.credentials.password}
+                      onChange={this.onChangeInput}
+                      placeholder="Slaptažodis" />
+                  </FormGroup>
+                  <div style={{color:'red', paddingBottom:'10px'}}>{this.state.errors}</div>
+                  <Button variant="primary" type="submit" id="userSubmit" className="btn btn-primary mb-3">
                       Prisijungti
                     </Button>
-                  </Form>
-                </Card.Body>
-              </Card>
+                  <div style={{ marginTop: 8 }}>
+                    <a href="/">Užmiršote slaptažodį?</a>
+                  </div>
+                  <div style={{ marginTop: 8 }}>
+                  <a href="/">Neturite paskyros?</a>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
-          </Container>
-      </>
+        </div>
+      </div>
     );
   }
 }
 
-export default LogIn;
+export default Home;

@@ -90,8 +90,6 @@ class Header extends React.Component {
     {
       return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" id="customNav">
-          <Navbar.Brand href="/" style={{paddingRight:'10px'}}>MedEra</Navbar.Brand>
-          <Navbar.Text>Sveiki! {this.state.logged_user_name}</Navbar.Text>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto"></Nav>
@@ -109,8 +107,7 @@ class Header extends React.Component {
     else
     {      
       return (
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" id="customNav">
-          <Navbar.Brand href="/" style={{paddingRight:'10px'}}>MedEra</Navbar.Brand>
+        <Navbar collapseOnSelect bg="dark" variant="dark" id="customNav">
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="mr-auto"></Nav>
