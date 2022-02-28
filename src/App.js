@@ -90,7 +90,6 @@ class App extends React.Component {
         {
             return (
                 <div className="site">
-                    
                     <main>
                         <Routes>
                         <Route exact path={"/login/"} element={<Login/>}/>
@@ -102,7 +101,6 @@ class App extends React.Component {
                         <Route exact path="*" element={<Login/>} />
                        </Routes>
                    </main>
-                   <Footer/>
                 </div>
             );
         }

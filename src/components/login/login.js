@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import "./login.css";
 import {FormGroup, Label, Input } from "reactstrap";
 import axiosInstance from '../../axiosApi'
 import { Button, Form, Card, Nav } from 'react-bootstrap';
-import Container from '@material-ui/core/Container';
-
+import "./login.css";
 
  class Home extends Component {
   constructor(props) {
@@ -79,9 +77,8 @@ import Container from '@material-ui/core/Container';
           <div className="container">
             <div class="row app-des">
               <div class="col left-background ">
-                <h2>MedEra</h2>
+                <h1 class="red-text">MedEra</h1>
                 <p>Prisijunkite prie savo asmeninės MedEra paskyros</p>
-                <img src="" />
               </div>
               <div class="col login-form">
                 <form id="userCredentials" onSubmit={this.login}>
@@ -91,7 +88,7 @@ import Container from '@material-ui/core/Container';
                     <Form.Control 
                       className="mb-3" 
                       type="email" 
-                      placeholder="El. paštas"
+                      placeholder="Įveskite el. paštą"
                       required
                       id="email"
                       name="email"
@@ -106,7 +103,7 @@ import Container from '@material-ui/core/Container';
                       name="password"
                       value={this.state.credentials.password}
                       onChange={this.onChangeInput}
-                      placeholder="Slaptažodis" />
+                      placeholder="Įveskite slaptažodį" />
                   </FormGroup>
                   <div style={{color:'red', paddingBottom:'10px'}}>{this.state.errors}</div>
                   <Button variant="primary" type="submit" id="userSubmit" className="btn btn-primary mb-3">
