@@ -1,0 +1,23 @@
+.App {
+    font-family: sans-serif;
+    text-align: center;
+  }
+  
+  .side-bar {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  .group-nav {
+    float: right;
+  }
+  
+  h2.medera{
+    color: white;
+    margin: 16px 28px 16px 0;
+    float: left;
+  }
+  
+  .site-layout-background {
+    background: #fff;
+  }
+  

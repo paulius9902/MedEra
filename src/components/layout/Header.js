@@ -1,14 +1,15 @@
 import React from "react";
+import "antd/dist/antd.css";
+//import "./styles.css";
+import Icon from '@ant-design/icons';
+import axiosInstance from '../../axiosApi';
+import { Layout, Menu, Input, Divider, Avatar } from "antd";
 import { Navbar, Nav, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import SettingsIcon from '@material-ui/icons/Settings';
-import axiosInstance from '../../axiosApi';
 
-/**
- * Navbar component
- *
- * @component
- */
-class Header extends React.Component {
+const { Header } = Layout;
+
+class HeaderMe extends React.Component {
   constructor(props) {
     super(props)
 
@@ -84,52 +85,27 @@ class Header extends React.Component {
       .catch(error => {if(error.response){console.log(error.response.data);}});
     }
   } 
-  
   render() {
-    if (this.state.logged_in)
-    {
-      return (
-        <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" id="customNav">
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="mr-auto"></Nav>
-            <Nav> 
-              <Nav.Link onClick={this.visits}>Vizitai</Nav.Link>
-              <Nav.Link onClick={this.doctors}>Gydytojai</Nav.Link>
-              <Nav.Link onClick={this.about}>Apie mus</Nav.Link>
-              <Nav.Link onClick={this.logout}>Atsijungti</Nav.Link>
-              <Nav.Link href="/settings"><Settings/></Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
-      );   
-    } 
-    else
-    {      
-      return (
-        <Navbar collapseOnSelect bg="dark" variant="dark" id="customNav">
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="mr-auto"></Nav>
-            <Nav>
-              <Nav.Link onClick={this.about}>Apie mus</Nav.Link>
-              <Nav.Link onClick={this.login}>Prisijungti</Nav.Link>
-            </Nav>
-          </Navbar.Collapse>
-        </Navbar>
-      );
-    }
+    return (
+      <Header className="header">
+        <h2 className="medera"><a href="/" >MedEra</a></h2>
+
+        <Menu
+          theme="dark" mode="horizontal" defaultSelectedKeys={['4']}
+        >
+          <Menu.Item onClick={this.visits} key="1">Vizitai</Menu.Item>
+          <Menu.Item onClick={this.doctors} key="2">Gydytojai</Menu.Item>
+          <Menu.Item onClick={this.about} key="3">Apie mus</Menu.Item>
+          <Menu.Item onClick={this.logout} key="4">Atsijungti</Menu.Item>
+          <Menu.Item href="/settings/" key="5"><Settings/></Menu.Item>
+        </Menu>
+      </Header>
+    );
   }
 }
 
-export default Header;
+export default HeaderMe;
 
-/**
- * Account Settings component
- *
- * @memberof Header
- * @component
- */
 class Settings extends React.Component {
   render() {
     return(

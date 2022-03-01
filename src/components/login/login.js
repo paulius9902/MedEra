@@ -77,7 +77,7 @@ import "./login.css";
           <div className="container">
             <div class="row app-des">
               <div class="col left-background ">
-                <h1 class="red-text">MedEra</h1>
+                <h1 class="white-text">MedEra</h1>
                 <p>Prisijunkite prie savo asmeninės MedEra paskyros</p>
               </div>
               <div class="col login-form">

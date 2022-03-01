@@ -1,12 +1,13 @@
 import React, { Component} from "react";
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu, Input, Divider, Avatar, Breadcrumb} from 'antd';
 import { Routes, Route, Redirect} from "react-router-dom";
 import Header from "./components/layout/Header";
-import Footer from "./components/layout/Footer";
+//import Footer from "./components/layout/Footer";
 import Home from "./components/layout/Home";
 import SideBar from "./components/layout/SideBar";
 import './App.css';
 import Login from "./components/login/login";
+import Icon from '@ant-design/icons';
 
 import ShowPatients from "./components/patients/ShowPatients";
 import PatientDetail from "./components/patients/PatientDetail";
@@ -25,8 +26,8 @@ import About from "./components/about/About";
 import ShowUsers from "./components/users/ShowUsers";
 import AddUsers from "./components/users/AddUser";
 
-const {Content, Sider } = Layout;
 const { SubMenu } = Menu;
+const { Content, Sider, Footer } = Layout;
 
 class App extends React.Component {
     constructor(props) {
@@ -44,12 +45,18 @@ class App extends React.Component {
         {
 
             return (
-                <div className="site">
-                    <Layout style={{ minHeight: '100vh' }}>
-                    <SideBar/>
-                    <Layout className="site-layout">
-                        <Header/>
-                        <main>
+                <Layout>
+                    <Header/>
+                    <Content>
+                    <Layout className="site-layout" >
+                        <SideBar/>
+                        <Layout style={{ padding: '0 24px 24px' }}>
+                        <Breadcrumb style={{ margin: '16px 0' }}>
+                            <Breadcrumb.Item >Home</Breadcrumb.Item>
+                            <Breadcrumb.Item>List</Breadcrumb.Item>
+                            <Breadcrumb.Item>App</Breadcrumb.Item>
+                        </Breadcrumb>
+                        <main style={{ padding: '0 20px' }}>
                             <Routes>
                                 <Route exact path={"/login/"} element={<Login/>}/>
                 
@@ -80,10 +87,11 @@ class App extends React.Component {
                                 <Route exact path="*" element={<Home/>} />
                             </Routes>
                         </main>
-                        <Footer/>
                         </Layout>
-                        </Layout>
-                </div>
+                    </Layout>
+                    </Content>
+                    <Footer style={{ textAlign: 'center' }}>Copyright &copy; MedEra 2021</Footer>
+                </Layout>
             );
         }
         else

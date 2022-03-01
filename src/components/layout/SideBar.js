@@ -1,57 +1,65 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
-import { Navbar, Nav, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import './styles.css';
 import { Layout, Menu, Breadcrumb } from 'antd';
-import {
-  DesktopOutlined,
-  PieChartOutlined,
-  FileOutlined,
-  TeamOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
+import Icon from '@ant-design/icons';
+import { useState } from "react";
 
-const { Header, Content, Footer, Sider } = Layout;
-const { SubMenu } = Menu;
+const { Content, Footer, Sider } = Layout;
 
-class SideBar extends React.Component {
-  state = {
-    collapsed: false,
-  };
+const SideBar = () => {
+  const [collapsed, setCollapsed] = useState(true);
 
-  onCollapse = collapsed => {
-    console.log(collapsed);
-    this.setState({ collapsed });
-  };
-
-  render() {
-    const { collapsed } = this.state;
-    return (
-        <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse} >
-          <Navbar.Brand href="/" style={{paddingRight:'10px'}}>MedEra</Navbar.Brand>
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-            <Menu.Item key="1" icon={<PieChartOutlined />}>
-              Option 1
-            </Menu.Item>
-            <Menu.Item key="2" icon={<DesktopOutlined />}>
-              Option 2
-            </Menu.Item>
-            <SubMenu key="sub1" icon={<UserOutlined />} title="User">
-              <Menu.Item key="3">Tom</Menu.Item>
-              <Menu.Item key="4">Bill</Menu.Item>
-              <Menu.Item key="5">Alex</Menu.Item>
-            </SubMenu>
-            <SubMenu key="sub2" icon={<TeamOutlined />} title="Team">
-              <Menu.Item key="6">Team 1</Menu.Item>
-              <Menu.Item key="8">Team 2</Menu.Item>
-            </SubMenu>
-            <Menu.Item key="9" icon={<FileOutlined />}>
-              Files
-            </Menu.Item>
-          </Menu>
-        </Sider>
-    );
-  }
-}
-
+  return (
+    <Sider
+        theme="dark"
+        collapsible
+        collapsed={collapsed}
+        onCollapse={() => setCollapsed(!collapsed)}
+        style={{
+          overflow: "auto",
+          height: "100vh",
+          position: "sticky",
+          top: 0,
+          left: 0
+        }}
+      >
+        <Menu theme="dark" mode="inline" defaultSelectedKeys={["4"]}>
+          <Menu.Item key="1">
+            <Icon type="user" />
+            <span className="nav-text">nav 1</span>
+          </Menu.Item>
+          <Menu.Item key="2">
+            <Icon type="video-camera" />
+            <span className="nav-text">nav 2</span>
+          </Menu.Item>
+          <Menu.Item key="3">
+            <Icon type="upload" />
+            <span className="nav-text">nav 3</span>
+          </Menu.Item>
+          <Menu.Item key="4">
+            <Icon type="bar-chart" />
+            <span className="nav-text">nav 4</span>
+          </Menu.Item>
+          <Menu.Item key="5">
+            <Icon type="cloud-o" />
+            <span className="nav-text">nav 5</span>
+          </Menu.Item>
+          <Menu.Item key="6">
+            <Icon type="appstore-o" />
+            <span className="nav-text">nav 6</span>
+          </Menu.Item>
+          <Menu.Item key="7">
+            <Icon type="team" />
+            <span className="nav-text">nav 7</span>
+          </Menu.Item>
+          <Menu.Item key="8">
+            <Icon type="shop" />
+            <span className="nav-text">nav 8</span>
+          </Menu.Item>
+        </Menu>
+      </Sider>
+      );
+    };
 export default SideBar;
