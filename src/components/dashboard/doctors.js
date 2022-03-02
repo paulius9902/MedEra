@@ -7,32 +7,25 @@ import {
   Card,
   CardContent,
   Grid,
+  LinearProgress,
   Typography,
-  colors,
-  makeStyles
+  makeStyles,
+  colors
 } from '@material-ui/core';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import PeopleIcon from '@mui/icons-material/People';
+import MedicationIcon from '@mui/icons-material/Medication';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     height: '100%'
   },
   avatar: {
-    backgroundColor: colors.red[600],
+    backgroundColor: colors.orange[600],
     height: 56,
     width: 56
-  },
-  differenceIcon: {
-    color: colors.red[900]
-  },
-  differenceValue: {
-    color: colors.red[900],
-    marginRight: theme.spacing(1)
   }
 }));
 
-const Patients = ({ className, ...rest }) => {
+const Doctors = ({ className, ...rest }) => {
   const classes = useStyles();
 
   return (
@@ -52,7 +45,7 @@ const Patients = ({ className, ...rest }) => {
               gutterBottom
               variant="h6"
             >
-              PACIENTAI
+              GYDYTOJAI
             </Typography>
             <Typography
               color="textPrimary"
@@ -63,7 +56,7 @@ const Patients = ({ className, ...rest }) => {
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
-              <PeopleIcon />
+              <MedicationIcon />
             </Avatar>
           </Grid>
         </Grid>
@@ -72,8 +65,8 @@ const Patients = ({ className, ...rest }) => {
   );
 };
 
-Patients.propTypes = {
+Doctors.propTypes = {
   className: PropTypes.string
 };
 
-export default Patients;
+export default Doctors;

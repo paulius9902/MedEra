@@ -11,28 +11,27 @@ import {
   colors,
   makeStyles
 } from '@material-ui/core';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import PeopleIcon from '@mui/icons-material/People';
+import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100%'
   },
   avatar: {
-    backgroundColor: colors.red[600],
+    backgroundColor: colors.green[600],
     height: 56,
     width: 56
   },
   differenceIcon: {
-    color: colors.red[900]
+    color: colors.green[900]
   },
   differenceValue: {
-    color: colors.red[900],
+    color: colors.green[900],
     marginRight: theme.spacing(1)
   }
 }));
 
-const Patients = ({ className, ...rest }) => {
+const Visits = ({ className, ...rest }) => {
   const classes = useStyles();
 
   return (
@@ -52,7 +51,7 @@ const Patients = ({ className, ...rest }) => {
               gutterBottom
               variant="h6"
             >
-              PACIENTAI
+              VIZITAI
             </Typography>
             <Typography
               color="textPrimary"
@@ -63,7 +62,7 @@ const Patients = ({ className, ...rest }) => {
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
-              <PeopleIcon />
+              <InsertInvitationIcon />
             </Avatar>
           </Grid>
         </Grid>
@@ -72,8 +71,8 @@ const Patients = ({ className, ...rest }) => {
   );
 };
 
-Patients.propTypes = {
+Visits.propTypes = {
   className: PropTypes.string
 };
 
-export default Patients;
+export default Visits;

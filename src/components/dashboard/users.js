@@ -3,36 +3,27 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
   Avatar,
-  Box,
   Card,
   CardContent,
   Grid,
   Typography,
-  colors,
-  makeStyles
+  makeStyles,
+  colors
 } from '@material-ui/core';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import PeopleIcon from '@mui/icons-material/People';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     height: '100%'
   },
   avatar: {
-    backgroundColor: colors.red[600],
+    backgroundColor: colors.indigo[600],
     height: 56,
     width: 56
-  },
-  differenceIcon: {
-    color: colors.red[900]
-  },
-  differenceValue: {
-    color: colors.red[900],
-    marginRight: theme.spacing(1)
   }
 }));
 
-const Patients = ({ className, ...rest }) => {
+const Users = ({ className, ...rest }) => {
   const classes = useStyles();
 
   return (
@@ -52,7 +43,7 @@ const Patients = ({ className, ...rest }) => {
               gutterBottom
               variant="h6"
             >
-              PACIENTAI
+              VARTOTOJAI
             </Typography>
             <Typography
               color="textPrimary"
@@ -63,7 +54,7 @@ const Patients = ({ className, ...rest }) => {
           </Grid>
           <Grid item>
             <Avatar className={classes.avatar}>
-              <PeopleIcon />
+              <AccountBoxIcon />
             </Avatar>
           </Grid>
         </Grid>
@@ -72,8 +63,8 @@ const Patients = ({ className, ...rest }) => {
   );
 };
 
-Patients.propTypes = {
+Users.propTypes = {
   className: PropTypes.string
 };
 
-export default Patients;
+export default Users;
