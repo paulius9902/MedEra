@@ -11,7 +11,7 @@
     float: right;
   }
   
-  h2.medera{
+  h1.medera{
     color: white;
     margin: 16px 28px 16px 0;
     float: left;
@@ -19,5 +19,9 @@
   
   .site-layout-background {
     background: #fff;
+  }
+
+  .breadcrumb-style {
+    margin: '5px 0'
   }
   

@@ -1,13 +1,13 @@
 import React, { Component} from "react";
-import { Layout, Menu, Input, Divider, Avatar, Breadcrumb} from 'antd';
+import { Layout, Menu} from 'antd';
 import { Routes, Route, Redirect} from "react-router-dom";
 import Header from "./components/layout/Header";
+import Breadcrumb from "./components/layout/Breadcrumbs";
 //import Footer from "./components/layout/Footer";
 import Home from "./components/layout/Home";
 import SideBar from "./components/layout/SideBar";
 import './App.css';
 import Login from "./components/login/login";
-import Icon from '@ant-design/icons';
 
 import ShowPatients from "./components/patients/ShowPatients";
 import PatientDetail from "./components/patients/PatientDetail";
@@ -47,51 +47,47 @@ class App extends React.Component {
             return (
                 <Layout>
                     <Header/>
-                    <Content>
-                    <Layout className="site-layout" >
+                    <Layout>
                         <SideBar/>
-                        <Layout style={{ padding: '0 24px 24px' }}>
-                        <Breadcrumb style={{ margin: '16px 0' }}>
-                            <Breadcrumb.Item >Home</Breadcrumb.Item>
-                            <Breadcrumb.Item>List</Breadcrumb.Item>
-                            <Breadcrumb.Item>App</Breadcrumb.Item>
-                        </Breadcrumb>
-                        <main style={{ padding: '0 20px' }}>
-                            <Routes>
-                                <Route exact path={"/login/"} element={<Login/>}/>
-                
-                                <Route exact path={"/patient/"} element={<ShowPatients/>}/>
-                                <Route exact path={"/patient/create"} element={<AddPatient/>}/>
-                                <Route exact path="/patient/:id/" element={<PatientDetail/>} />
-                                <Route exact path="/patient/:id/update" element={<UpdatePatient/>} />
+                        <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
+                            <Breadcrumb/>
+                            <div style={{ padding: 24, background: "#fff", textAlign: "center" }}>
+                                <main style={{ padding: '0 20px' }}>
+                                    <Routes>
+                                        <Route exact path={"/login/"} element={<Login/>}/>
+                        
+                                        <Route exact path={"/patient/"} element={<ShowPatients/>}/>
+                                        <Route exact path={"/patient/create"} element={<AddPatient/>}/>
+                                        <Route exact path="/patient/:id/" element={<PatientDetail/>} />
+                                        <Route exact path="/patient/:id/update" element={<UpdatePatient/>} />
 
-                                <Route exact path={"/doctor/"} element={<ShowDoctors/>}/>
-                                <Route exact path={"/doctor/create"} element={<AddDoctor/>}/>
-                                <Route exact path="/doctor/:id/" element={<DoctorDetail/>} />
-                                <Route exact path="/doctor/:id/update" element={<UpdateDoctor/>} />
-                                    
-                                <Route exact path={"/visit/"} element={<ShowVisits/>}/>
-                                <Route exact path={"/visit/create"} element={<AddVisit/>}/>
-                                <Route exact path={"/visit/test/"} element={<VisitDetail/>}/>
-                                    
-                                <Route exact path={"/settings/"} element={<Profile/>}/>
-                                <Route exact path={"/change_password/"} element={<ChangePassword/>}/>
+                                        <Route exact path={"/doctor/"} element={<ShowDoctors/>}/>
+                                        <Route exact path={"/doctor/create"} element={<AddDoctor/>}/>
+                                        <Route exact path="/doctor/:id/" element={<DoctorDetail/>} />
+                                        <Route exact path="/doctor/:id/update" element={<UpdateDoctor/>} />
+                                            
+                                        <Route exact path={"/visit/"} element={<ShowVisits/>}/>
+                                        <Route exact path={"/visit/create"} element={<AddVisit/>}/>
+                                        <Route exact path={"/visit/test/"} element={<VisitDetail/>}/>
+                                            
+                                        <Route exact path={"/settings/"} element={<Profile/>}/>
+                                        <Route exact path={"/change_password/"} element={<ChangePassword/>}/>
 
-                                <Route exact path={"/user/"} element={<ShowUsers/>}/>
-                                <Route exact path={"/user/create"} element={<AddUsers/>}/>
+                                        <Route exact path={"/user/"} element={<ShowUsers/>}/>
+                                        <Route exact path={"/user/create"} element={<AddUsers/>}/>
 
-                                <Route exact path={"/about/"} element={<About/>}/>
+                                        <Route exact path={"/about/"} element={<About/>}/>
 
-                                <Route exact path="/" element={<Home/>} />
+                                        <Route exact path="/" element={<Home/>} />
 
-                                <Route exact path="*" element={<Home/>} />
-                            </Routes>
-                        </main>
-                        </Layout>
-                    </Layout>
-                    </Content>
-                    <Footer style={{ textAlign: 'center' }}>Copyright &copy; MedEra 2021</Footer>
+                                        <Route exact path="*" element={<Home/>} />
+                                    </Routes>
+                                </main>
+                            </div>
+                            <Footer style={{ textAlign: 'center' }}>Copyright &copy; MedEra 2021</Footer>
+                        </Content>
                 </Layout>
+            </Layout>
             );
         }
         else

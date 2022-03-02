@@ -1,30 +1,51 @@
 import React from "react";
+import Patients from '../dashboard/patients';
+import { Container, Grid, makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    backgroundColor: theme.palette.background.dark,
+    minHeight: '100%',
+    paddingBottom: theme.spacing(3),
+    paddingTop: theme.spacing(3)
+  }
+}));
 
 function Home() {
+  
+
+  const classes = useStyles();
+
   return (
-    <div className="home">
-      <div className="container">
-        <div className="row align-items-center my-5">
-          <div className="col-lg-7">
-            <img
-              className="img-fluid rounded mb-4 mb-lg-0"
-              src="https://images.hindustantimes.com/img/2021/07/01/550x309/333e1192-da1e-11eb-b1f5-4d7a6862d03d_1625115198767_1625115210291.jpg"
-              alt=""
-            />
-          </div>
-          <div className="col-lg-5">
-            <h1 className="font-weight-light">MedEra</h1>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
+      <Container maxWidth={false}>
+        <Grid container spacing={3}>
+          <Grid item lg={3} sm={6} xl={3} xs={12}>
+            <Patients />
+          </Grid>
+          <Grid item lg={3} sm={6} xl={3} xs={12}>
+          <Patients />
+          </Grid>
+          <Grid item lg={3} sm={6} xl={3} xs={12}>
+          <Patients />
+          </Grid>
+          <Grid item lg={3} sm={6} xl={3} xs={12}>
+          <Patients />
+          </Grid>
+          <Grid item lg={8} md={12} xl={9} xs={12}>
+          <Patients />
+          </Grid>
+          <Grid item lg={4} md={6} xl={3} xs={12}>
+          <Patients />
+          </Grid>
+          <Grid item lg={4} md={6} xl={3} xs={12}>
+          <Patients />
+          </Grid>
+          <Grid item lg={8} md={12} xl={9} xs={12}>
+          <Patients />
+          </Grid>
+        </Grid>
+      </Container>
   );
-}
+};
 
 export default Home;

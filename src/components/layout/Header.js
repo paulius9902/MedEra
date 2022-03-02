@@ -1,11 +1,11 @@
 import React from "react";
 import "antd/dist/antd.css";
-//import "./styles.css";
-import Icon from '@ant-design/icons';
+import "./styles.css";
+import { SettingOutlined, LaptopOutlined, UserOutlined, LogoutOutlined} from '@ant-design/icons';
 import axiosInstance from '../../axiosApi';
 import { Layout, Menu, Input, Divider, Avatar } from "antd";
 import { Navbar, Nav, OverlayTrigger, Tooltip} from 'react-bootstrap';
-import SettingsIcon from '@material-ui/icons/Settings';
+import SubMenu from "antd/lib/menu/SubMenu";
 
 const { Header } = Layout;
 
@@ -61,6 +61,10 @@ class HeaderMe extends React.Component {
     window.location = "/about";
   };
 
+  settings() {
+    window.location = "/settings";
+  };
+
   componentDidMount(event) {
     if (this.state.logged_in)
     {
@@ -86,18 +90,15 @@ class HeaderMe extends React.Component {
     }
   } 
   render() {
+    const rightStyle = { position: 'absolute', top: 0, right: 0 };
     return (
       <Header className="header">
-        <h2 className="medera"><a href="/" >MedEra</a></h2>
-
-        <Menu
-          theme="dark" mode="horizontal" defaultSelectedKeys={['4']}
-        >
-          <Menu.Item onClick={this.visits} key="1">Vizitai</Menu.Item>
-          <Menu.Item onClick={this.doctors} key="2">Gydytojai</Menu.Item>
-          <Menu.Item onClick={this.about} key="3">Apie mus</Menu.Item>
-          <Menu.Item onClick={this.logout} key="4">Atsijungti</Menu.Item>
-          <Menu.Item href="/settings/" key="5"><Settings/></Menu.Item>
+        <h1 className="medera"><a href="/" >MedEra</a></h1>
+        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['6']}>
+          <SubMenu key="4" style={rightStyle} title={<span><UserOutlined style={{ fontSize: '150%'}}/> Profilis </span>}>
+            <Menu.Item onClick={this.settings} key="5"><SettingOutlined style={{ fontSize: '150%'}}/> Nustatymai </Menu.Item>
+            <Menu.Item  onClick={this.logout} key="6"><LogoutOutlined style={{ fontSize: '150%'}}/> Atsijungti </Menu.Item>
+          </SubMenu>
         </Menu>
       </Header>
     );
@@ -105,20 +106,3 @@ class HeaderMe extends React.Component {
 }
 
 export default HeaderMe;
-
-class Settings extends React.Component {
-  render() {
-    return(
-      <OverlayTrigger
-        key="bottom"
-        placement="bottom"
-        overlay={
-          <Tooltip id="tooltip-bottom">
-            Account Settings
-          </Tooltip>
-        }>
-        <SettingsIcon/>
-      </OverlayTrigger>
-    );
-  }
-}
