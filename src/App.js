@@ -68,7 +68,7 @@ class App extends React.Component {
                                             
                                         <Route exact path={"/visit/"} element={<ShowVisits/>}/>
                                         <Route exact path={"/visit/create"} element={<AddVisit/>}/>
-                                        <Route exact path={"/visit/test/"} element={<VisitDetail/>}/>
+                                        <Route exact path={"/visit/:id/"} element={<VisitDetail/>}/>
                                             
                                         <Route exact path={"/settings/"} element={<Profile/>}/>
                                         <Route exact path={"/change_password/"} element={<ChangePassword/>}/>

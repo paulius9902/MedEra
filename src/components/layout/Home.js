@@ -1,13 +1,14 @@
 import React from "react";
-import Patients from '../dashboard/patients';
-import Doctors from '../dashboard/doctors';
-import Visits from '../dashboard/visits';
-import Users from '../dashboard/users';
+import Patients from '../dashboard/Patients';
+import Doctors from '../dashboard/Doctors';
+import Visits from '../dashboard/Visits';
+import Users from '../dashboard/Users';
 import { Container, Grid, makeStyles } from '@material-ui/core';
 
 function Home() {
 
   return (
+    <div>
       <Container maxWidth={false}>
         <Grid container spacing={3}>
           <Grid item lg={3} sm={6} xl={3} xs={12}>
@@ -24,6 +25,7 @@ function Home() {
           </Grid>
         </Grid>
       </Container>
+    </div>
   );
 };
 
