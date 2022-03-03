@@ -29,8 +29,7 @@ const Users = ({ className, ...rest }) => {
   return (
     <Card
       className={clsx(classes.root, className)}
-      {...rest}
-    >
+      {...rest}>
       <CardContent>
         <Grid
           container

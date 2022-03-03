@@ -37,8 +37,7 @@ const Doctors = ({ className, ...rest }) => {
         <Grid
           container
           justifyContent="space-between"
-          spacing={3}
-        >
+          spacing={3}>
           <Grid item>
             <Typography
               color="textSecondary"
