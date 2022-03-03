@@ -1,8 +1,8 @@
 import React from "react";
-import Patients from '../dashboard/Patients';
-import Doctors from '../dashboard/Doctors';
-import Visits from '../dashboard/Visits';
-import Users from '../dashboard/Users';
+import Patients from '../dashboard/patients';
+import Doctors from '../dashboard/doctors';
+import Visits from '../dashboard/visits';
+import Users from '../dashboard/users';
 import { Container, Grid, makeStyles } from '@material-ui/core';
 
 function Home() {
