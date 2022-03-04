@@ -132,18 +132,6 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='Rooms',
-            fields=[
-                ('room_id', models.AutoField(primary_key=True, serialize=False)),
-                ('number', models.IntegerField(unique=True)),
-                ('location', models.CharField(blank=True, max_length=500, null=True)),
-            ],
-            options={
-                'db_table': 'rooms',
-                'managed': False,
-            },
-        ),
-        migrations.CreateModel(
             name='Visits',
             fields=[
                 ('start_date', models.DateTimeField()),

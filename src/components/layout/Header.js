@@ -14,11 +14,7 @@ class HeaderMe extends React.Component {
     super(props)
 
     this.logout = this.logout.bind(this);
-    this.componentDidMount = this.componentDidMount.bind(this);
 
-    /**
-     * User state
-     */
     this.state = {
       logged_in: localStorage.getItem('access_token') ? true : false,
       logged_user_name: '',
@@ -28,11 +24,6 @@ class HeaderMe extends React.Component {
     }
   }
   
-  /**
-   * Logout method
-   *
-   * @method
-   */
   logout() {
     axiosInstance.post('api/logout', {refresh_token: localStorage.getItem('refresh_token')});
 
@@ -41,54 +32,10 @@ class HeaderMe extends React.Component {
     window.location = "/";
   };
 
-  login() {
-    window.location = "/login";
-  };
-
-  patients() {
-    window.location = "/patient";
-  };
-
-  visits() {
-    window.location = "/visit";
-  };
-
-  doctors() {
-    window.location = "/doctor";
-  };
-
-  about() {
-    window.location = "/about";
-  };
-
   settings() {
     window.location = "/settings";
   };
 
-  componentDidMount(event) {
-    if (this.state.logged_in)
-    {
-      axiosInstance.get('api/info')
-      .then((res) => {
-        const isSuperUser = res.data.is_superuser;
-        const isDoctor = res.data.is_doctor;
-        const isPatient = res.data.is_patient;
-        const firstName = res.data.first_name;
-        const userID = res.data.id;
-        this.setState({logged_user_name: firstName});
-        this.setState({is_superuser: isSuperUser});
-        this.setState({is_doctor: isDoctor});
-        this.setState({is_patient: isPatient});
-        this.setState({user_id: userID});
-        localStorage.setItem('is_superuser', isSuperUser)
-        localStorage.setItem('is_doctor', isDoctor)
-        localStorage.setItem('is_patient', isPatient)
-        localStorage.setItem('first_name', firstName)
-        localStorage.setItem('user_id', userID)
-      })
-      .catch(error => {if(error.response){console.log(error.response.data);}});
-    }
-  } 
   render() {
     const rightStyle = { position: 'absolute', top: 0, right: 0 };
     return (

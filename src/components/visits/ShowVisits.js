@@ -1,21 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../axiosApi';
 import Table from "antd/lib/table";
-import { Button, Divider, Popconfirm, notification} from 'antd';
-import {PlusCircleOutlined, EditOutlined, DeleteOutlined} from '@ant-design/icons';
+import { Button, Divider, Popconfirm, notification, Tag} from 'antd';
+import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined} from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import { Link } from 'react-router-dom';
+import AddVisitModal from './AddVisitModal';
 
 
 const ShowVisits = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [visits, setVisits] = useState([]);
+  const [visible, setVisible] = useState(false);
+  
+  const onCreate = (values) => {
+    console.log("Received values of form: ", values);
+    setVisible(false);
+  };
 
   const deleteVisit = async (id) => {
     try {
       await axios.delete(`api/visit/${id}`);
       getAllVisit();
       notification.success({ message: 'Sėkmingai ištrinta!' });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const confirmVisit = async (id) => {
+    try {
+      const status = { status: '2' };
+      await axios.patch(`api/visit/${id}`, status);
+      getAllVisit();
+      notification.success({ message: 'Sėkmingai atnaujinta!' });
     } catch (error) {
       console.error(error);
     }
@@ -53,7 +71,7 @@ const ShowVisits = () => {
     },
     {
       title: "Kabinetas",
-      dataIndex: ['room', 'number'],
+      dataIndex: ['doctor', 'room'],
       key: "room_number"
     },
     {
@@ -93,18 +111,48 @@ const ShowVisits = () => {
     },
     {
       title: "Statusas",
-      dataIndex: ['status', 'name'],
-      key: "status"
+      dataIndex: ['status', 'status_id'],
+      key: "status_id",
+      render :(status_id) => {
+        if (status_id==1) {
+          return (
+            <Tag color='yellow' key={status_id}>
+              Laukiama patvirtinimo
+            </Tag>
+          )
+        } else if (status_id==2) {
+          return (
+            <Tag color='green' key={status_id}>
+              Patvirtintas
+            </Tag>
+          )
+        } else {
+          return (
+            <Tag color='volcano' key={status_id}>
+              Atšauktas
+            </Tag>
+          )
+        }
+      }
     },
     {
-      key: "action",
       title: "Veiksmai",
+      key: "action",
       render: (record) => {
-        return (
-          <div>
-            <Link to={`/visit/${record.visit_id}`}>
-              <EditOutlined style={{fontSize: '150%'}}/>
-            </Link>
+        if (record.status.status_id==1) {
+          return (
+            <div>
+              <Link to={`/visit/`} onClick={() => confirmVisit(record.visit_id)}>
+                <CheckOutlined style={{color: "green", fontSize: '150%'}}/>
+              </Link>
+              <Link to={`/visit/${record.visit_id}`}>
+                <CloseOutlined style={{color: "red", fontSize: '150%'}}/>
+              </Link>
+            </div>
+          );
+        }
+        else {
+          return (
             <Popconfirm
               placement='topLeft'
               title='Ar tikrai norite ištrinti?'
@@ -112,13 +160,13 @@ const ShowVisits = () => {
               cancelText='Ne'
               onConfirm={() => confirmHandler(record.visit_id)}
             >
-            <DeleteOutlined
-              style={{ color: "red", marginLeft: 12, fontSize: '150%'}}
-            />
-          </Popconfirm>
-          </div>
-        );
-      },
+              <DeleteOutlined
+                style={{ color: "red", marginLeft: 12, fontSize: '150%'}}
+              />
+            </Popconfirm>
+          );
+        }
+      }
     },
   ];
  
@@ -126,11 +174,18 @@ const ShowVisits = () => {
   return (
     <div>
       <h1>Vizitai</h1>
-      <Button type="primary" style={{ float: 'left', marginBottom: 10 }}>
+      <Button type="primary" onClick={() => {setVisible(true);}} style={{ float: 'left', marginBottom: 10 }}>
         <PlusCircleOutlined style={{fontSize: '125%'}}/>
         Pridėti vizitą
       </Button>
       <Table columns={COLUMNS} dataSource={visits} size="middle" rowKey={record => record.visit_id} />
+      <AddVisitModal
+        visible={visible}
+        onCreate={onCreate}
+        onCancel={() => {
+          setVisible(false);
+        }}
+      />
     </div>
   );
 };

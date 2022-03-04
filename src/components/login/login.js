@@ -10,6 +10,7 @@ import "./login.css";
 
     this.onChangeInput = this.onChangeInput.bind(this);
     this.login = this.login.bind(this);
+    //this.componentDidMount = this.componentDidMount.bind(this);
 
      this.state = {
       errors: '',
@@ -58,11 +59,33 @@ import "./login.css";
 					'JWT ' + localStorage.getItem('access_token');
         
         alert("Sėkmingai prisijungėte!");
+        
+      }
+    }).then(() => {
+      axiosInstance.get('api/info')
+      .then((res) => {
+        const isSuperUser = res.data.is_superuser;
+        const isDoctor = res.data.is_doctor;
+        const isPatient = res.data.is_patient;
+        const userID = res.data.id;
+        const patientID = res.data.patient;
+        const doctorID = res.data.doctor;
+        this.setState({is_superuser: isSuperUser});
+        this.setState({is_doctor: isDoctor});
+        this.setState({is_patient: isPatient});
+        this.setState({user_id: userID});
+        this.setState({patient_id: patientID});
+        this.setState({doctor_id: doctorID});
+        localStorage.setItem('is_superuser', isSuperUser)
+        localStorage.setItem('is_doctor', isDoctor)
+        localStorage.setItem('is_patient', isPatient)
+        localStorage.setItem('user_id', userID)
+        localStorage.setItem('patient_id', patientID)
+        localStorage.setItem('doctor_id', doctorID)
 
         window.location = "/";
-      }
-    })
-    .catch(error => {
+      })
+    }).catch(error => {
       if(error.response) { 
         const errm = "Neteisingas slaptažodis arba el. paštas";
         this.setState({errors: errm});
@@ -70,6 +93,7 @@ import "./login.css";
       }
     });
   }
+
   render() {
     return (
       <div className="background">

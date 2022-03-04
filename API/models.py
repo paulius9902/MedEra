@@ -21,6 +21,7 @@ class Doctors(models.Model):
     termination_date = models.DateField(blank=True, null=True)
     creation_date = models.DateTimeField(auto_now_add=timezone.now)
     last_update_date = models.DateTimeField(auto_now=timezone.now)
+    room = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -31,15 +32,6 @@ class Doctors(models.Model):
 
     def __str__(self):
         return f"Doctor: {self.name} {self.surname}"
-
-class Rooms(models.Model):
-    room_id = models.AutoField(primary_key=True)
-    number = models.IntegerField(unique=True)
-    location = models.CharField(max_length=500, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'rooms'
 
 class VisitStatuses(models.Model):
     status_id = models.AutoField(primary_key=True)
@@ -89,7 +81,6 @@ class Visits(models.Model):
     visit_id = models.AutoField(primary_key=True)
 
     creation_date = models.DateTimeField(auto_now_add=timezone.now)
-    room = models.ForeignKey(Rooms, models.DO_NOTHING)
     health_issue = models.CharField(max_length=500)
     status = models.ForeignKey(VisitStatuses, models.DO_NOTHING)
 

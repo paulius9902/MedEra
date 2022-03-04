@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models import fields
 from rest_framework import serializers
-from API.models import Allergies, Comments, Diagnoses, Doctors, LaboratoryTests, Patients, Prescriptions, Rooms, VisitStatuses, WorkHours, Visits, NewUser, PatientsAllergies
+from API.models import Allergies, Comments, Diagnoses, Doctors, LaboratoryTests, Patients, Prescriptions, VisitStatuses, WorkHours, Visits, NewUser, PatientsAllergies
 
 class PatientSerializer(serializers.ModelSerializer):
     class Meta:
@@ -38,11 +38,6 @@ class VisitSerializerDoctorPatient(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model=Comments
-        fields=('__all__')
-
-class RoomSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=Rooms
         fields=('__all__')
 
 class VisitStatusSerializer(serializers.ModelSerializer):
