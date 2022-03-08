@@ -5,10 +5,12 @@ import { Link } from 'react-router-dom';
 import {
     Grid
 } from '@material-ui/core/';
+import {PlusCircleOutlined, EditOutlined, DeleteOutlined, InfoCircleOutlined} from '@ant-design/icons';
 
 const ShowDoctors = () => {
 
     const [doctors, setDoctors] = useState([])
+    const [visible, setVisible] = useState(false);
 
     const fetchDoctors = async () => {
         const result = await axios.get('api/doctor');
@@ -21,14 +23,13 @@ const ShowDoctors = () => {
         fetchDoctors();
     }, [])
 
-    const goToDetail = () => {
-        alert("detail page")
-    }
-
     return (
         <div>
             <h1>Gydytojai</h1>
-            <Link className="btn btn-primary mr-2" to={`/doctor/create`}>Sukurti naują</Link>
+            <Button type="primary" onClick={() => {setVisible(true);}} style={{ float: 'left', marginBottom: 10 }}>
+                <PlusCircleOutlined style={{fontSize: '125%'}}/>
+                Pridėti gydytoją
+            </Button>
             <div className="main-doctors-show">
             <Grid
                 container
@@ -46,10 +47,8 @@ const ShowDoctors = () => {
 
                     <Card.Body>
                         <Card.Title>{doctor.name} {doctor.surname}</Card.Title>
-                        <Card.Text> {doctor.birth_date} </Card.Text>
-                        <Card.Text> {doctor.phone} </Card.Text>
-                        <Card.Text> {doctor.address} </Card.Text>
-                        <Link className="btn btn-primary mr-2" to={`/doctor/${doctor.doctor_id}`}>Detaliau</Link>
+                        <Card.Text> {doctor.specialization} </Card.Text>
+                        <Link style={{ float: 'right'}} className="btn btn-primary mr-2" to={`/doctor/${doctor.doctor_id}`}><InfoCircleOutlined style={{fontSize: '125%'}}/> Detaliau</Link>
                     </Card.Body>
                     </Card>
                     </Grid>

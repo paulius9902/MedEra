@@ -18,7 +18,6 @@ import DoctorDetail from "./components/doctors/DoctorDetail";
 import UpdateDoctor from "./components/doctors/UpdateDoctor";
 import AddDoctor from "./components/doctors/AddDoctor";
 import ShowVisits from "./components/visits/ShowVisits";
-import AddVisit from "./components/visits/AddVisit";
 import Profile from "./components/profile/Profile";
 import ChangePassword from "./components/profile/ChangePassword";
 import About from "./components/about/About";
@@ -66,7 +65,6 @@ class App extends React.Component {
                                         <Route exact path="/doctor/:id/update" element={<UpdateDoctor/>} />
                                             
                                         <Route exact path={"/visit/"} element={<ShowVisits/>}/>
-                                        <Route exact path={"/visit/create"} element={<AddVisit/>}/>
                                             
                                         <Route exact path={"/settings/"} element={<Profile/>}/>
                                         <Route exact path={"/change_password/"} element={<ChangePassword/>}/>

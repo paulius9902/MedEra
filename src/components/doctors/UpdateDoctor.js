@@ -80,7 +80,6 @@ const UpdateDoctor = () => {
         />
       </div>
       <button onClick={updateSingleDoctor} className="btn btn-primary btn-block">Atnaujinti</button>
-   
   </div>
 </div>
  

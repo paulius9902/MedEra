@@ -1,12 +1,11 @@
 import React from "react";
-import "antd/dist/antd.css";
 //import "./styles.css";
 import axiosInstance from '../../axiosApi';
 import { Layout, Menu, Input, Divider, Avatar } from "antd";
 import { Navbar, Nav, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import SettingsIcon from '@material-ui/icons/Settings';
 import SubMenu from "antd/lib/menu/SubMenu";
-import { LaptopOutlined, CloudUploadOutlined, CalendarOutlined, OrderedListOutlined, PlusCircleOutlined, MedicineBoxOutlined, InfoCircleOutlined} from '@ant-design/icons';
+import { FileDoneOutlined, LineChartOutlined, CarryOutOutlined, AuditOutlined, UserOutlined, IdcardOutlined, ExperimentOutlined, CalendarOutlined, OrderedListOutlined, PlusCircleOutlined, MedicineBoxOutlined, InfoCircleOutlined} from '@ant-design/icons';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { isEqual } from "lodash";
@@ -72,7 +71,7 @@ class SideBar extends React.Component {
         <Menu theme="dark" mode="inline" selectedKeys={selectedKeys} >
           <SubMenu  onClick={() => this.setSelectedKeys(['1'])}
                     key="1"
-                    title={<span><CalendarOutlined style={iconSize}/> <span className="nav-text">Vizitai</span> </span>}>
+                    title={<span><CarryOutOutlined style={iconSize}/> <span className="nav-text">Vizitai</span> </span>}>
             
             <Menu.Item key="2" onClick={() =>  this.setSelectedKeys("2")}>
               <Link to="/visit">
@@ -80,13 +79,14 @@ class SideBar extends React.Component {
                 <span className="nav-text">Visi</span>
               </Link>
             </Menu.Item>
-            
+
             <Menu.Item key="3" onClick={() =>  this.setSelectedKeys("3")}>
-              <Link to="/visit/create">
-                <PlusCircleOutlined style={subIconSize}/>
-                <span className="nav-text">Pridėti</span>
+              <Link to="/visit_statistic">
+                <LineChartOutlined style={subIconSize}/>
+                <span className="nav-text">Statistika</span>
               </Link>
             </Menu.Item>
+
           </SubMenu>
 
           <Menu.Item key="4" onClick={() => { this.setSelectedKeys("4")}}>
@@ -97,6 +97,41 @@ class SideBar extends React.Component {
           </Menu.Item>
 
           <Menu.Item key="5" onClick={() => { this.setSelectedKeys("5")}}>
+            <Link to="/patient">
+              <IdcardOutlined style={iconSize}/>
+              <span className="nav-text">Pacientai</span>
+            </Link>
+          </Menu.Item>
+
+          <Menu.Item key="6" onClick={() => { this.setSelectedKeys("6")}}>
+            <Link to="/diagnosis">
+              <FileDoneOutlined style={iconSize}/>
+              <span className="nav-text">Diagnozės</span>
+            </Link>
+          </Menu.Item>
+
+          <Menu.Item key="7" onClick={() => { this.setSelectedKeys("7")}}>
+            <Link to="/laboratory_test">
+              <ExperimentOutlined style={iconSize}/>
+              <span className="nav-text">Lab. tyrimai</span>
+            </Link>
+          </Menu.Item>
+
+          <Menu.Item key="8" onClick={() => { this.setSelectedKeys("8")}}>
+            <Link to="/laboratory_test">
+              <AuditOutlined style={iconSize}/>
+              <span className="nav-text">Receptai</span>
+            </Link>
+          </Menu.Item>
+
+          <Menu.Item key="9" onClick={() => { this.setSelectedKeys("9")}}>
+            <Link to="/user">
+              <UserOutlined style={iconSize}/>
+              <span className="nav-text">Vartotojai</span>
+            </Link>
+          </Menu.Item>
+
+          <Menu.Item key="10" onClick={() => { this.setSelectedKeys("10")}}>
             <Link to="/about">
               <InfoCircleOutlined style={iconSize}/>
               <span className="nav-text">Apie mus</span>

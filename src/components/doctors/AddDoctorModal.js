@@ -7,7 +7,7 @@ import setMinutes from "date-fns/setMinutes";
 import lt from "date-fns/locale/lt";
 import axios from '../../axiosApi';
 
-const AddVisitModal = ({ visible, onCreate, onCancel }) => {
+const AddDoctorModal = ({ visible, onCreate, onCancel }) => {
 
   const [start_date, setStartDate] = useState(setHours(setMinutes(new Date(), 0), 12))
   
@@ -86,4 +86,4 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
   );
 };
 
-export default AddVisitModal;
+export default AddDoctorModal;

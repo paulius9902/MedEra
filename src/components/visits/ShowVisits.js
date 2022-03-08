@@ -3,18 +3,25 @@ import axios from '../../axiosApi';
 import Table from "antd/lib/table";
 import { Button, Divider, Popconfirm, notification, Tag} from 'antd';
 import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined} from '@ant-design/icons';
-import 'antd/dist/antd.css';
 import { Link } from 'react-router-dom';
 import AddVisitModal from './AddVisitModal';
+import { trackPromise } from 'react-promise-tracker';
 
 
 const ShowVisits = () => {
-  const [isLoading, setIsLoading] = useState(false);
+
   const [visits, setVisits] = useState([]);
   const [visible, setVisible] = useState(false);
-  
-  const onCreate = (values) => {
-    console.log("Received values of form: ", values);
+
+  const onCreate = async(values) => {
+    console.log(values);
+    values.status = 1
+    values.start_date=new Date(Math.floor(values.start_date.getTime() - values.start_date.getTimezoneOffset() * 60000))
+
+    await axios.post(`api/visit`, values).then(response=>{
+      console.log(response.data);
+      getAllVisit();
+    })
     setVisible(false);
   };
 
@@ -40,11 +47,9 @@ const ShowVisits = () => {
   };
 
   const getAllVisit = async () => {
-    setIsLoading(true);
     try {
       const res = await axios.get('api/visit');
       setVisits(res.data);
-      setIsLoading(false);
     } catch (error) {
       console.error(error);
     }
