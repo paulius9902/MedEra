@@ -16,10 +16,8 @@ const ShowDoctors = () => {
 
     const onCreate = async(values) => {
         console.log(values);
-        values.status = 1
-        values.start_date=new Date(Math.floor(values.start_date.getTime() - values.start_date.getTimezoneOffset() * 60000))
     
-        await axios.post(`api/visit`, values).then(response=>{
+        await axios.post(`api/doctor`, values).then(response=>{
           console.log(response.data);
           fetchDoctors();
         })

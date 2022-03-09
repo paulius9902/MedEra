@@ -1,17 +1,18 @@
 import React, { useState, useEffect} from 'react';
 import ReactDOM from "react-dom";
-import { Button, Modal, Form, Input, Radio } from "antd";
+import { Button, Modal, Form, Input, Radio, Select } from "antd";
 import DatePicker from "react-datepicker";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 import lt from "date-fns/locale/lt";
 import axios from '../../axiosApi';
-
+const { Option } = Select;
 const AddDoctorModal = ({ visible, onCreate, onCancel }) => {
 
   const [start_date, setStartDate] = useState(setHours(setMinutes(new Date(), 0), 12))
   const [doctors, setDoctors] = useState([]);
   const [doctor_id, setDoctorID] = useState(null)
+  const [gender, setGender] = useState(null)
   
   const [form] = Form.useForm();
 
@@ -59,7 +60,7 @@ const AddDoctorModal = ({ visible, onCreate, onCancel }) => {
                     ]}>
           <Input/>
         </Form.Item>
-        <Form.Item name="birthday" label="Gimimo data:">
+        <Form.Item name="birthday" label="Gimimo data:" >
         <DatePicker
           selected={start_date}
           className="form-control" 
@@ -69,11 +70,48 @@ const AddDoctorModal = ({ visible, onCreate, onCancel }) => {
           showYearDropdown
           dropdownMode="select"
           placeholder="Pasirinkite gimimo datą:"
-          dateFormat="yyyy-MM-dd"
           locale={lt}
         />
         </Form.Item>
-        
+        <Form.Item name="gender" label="Lytis:"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Pasirinkite lytį!"
+                      }
+                    ]}>
+          <Select onChange={(gender) => setGender(gender)} className="form-control" >
+            <Option value="V">Vyras</Option>
+            <Option value="M">Moteris</Option>
+          </Select>
+        </Form.Item>
+        <Form.Item name="phone_number" label="Telefono nr.:"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Įveskite telefono numerį!"
+                      }
+                    ]}>
+          <Input/>
+        </Form.Item>
+        <Form.Item name="specialization" label="Specializacija:"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Įveskite specializaciją!"
+                      }
+                    ]}>
+          <Input/>
+        </Form.Item>
+        <Form.Item name="room" label="Kabinetas:"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Įveskite kabinetą!"
+                      }
+                    ]}>
+          <Input/>
+        </Form.Item>
       </Form>
     </Modal>
   );
