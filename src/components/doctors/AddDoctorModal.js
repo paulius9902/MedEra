@@ -10,7 +10,6 @@ import axios from '../../axiosApi';
 const AddDoctorModal = ({ visible, onCreate, onCancel }) => {
 
   const [start_date, setStartDate] = useState(setHours(setMinutes(new Date(), 0), 12))
-  
   const [doctors, setDoctors] = useState([]);
   const [doctor_id, setDoctorID] = useState(null)
   
@@ -27,7 +26,7 @@ const AddDoctorModal = ({ visible, onCreate, onCancel }) => {
   };
 
   return (
-    <Modal visible={visible} title="Sukurti vizitą" okText="Sukurti" 
+    <Modal visible={visible} title="Pridėti gydytoją" okText="Sukurti"
             cancelText="Cancel" onCancel={onCancel}
             onOk={() => {
               form
@@ -42,43 +41,37 @@ const AddDoctorModal = ({ visible, onCreate, onCancel }) => {
                 });
             }}>
       <Form form={form} layout="vertical" name="form_in_modal"> 
-        <Form.Item name="start_date" label="Data ir laikas:"
+        <Form.Item name="name" label="Vardas:"
                     rules={[
                       {
                         required: true,
-                        message: "Įveskite vizito datą ir laiką!"
+                        message: "Įveskite gydytojo vardą!"
                       }
                     ]}>
-          <DatePicker
-            className="form-control" 
-            placeholder="Pasirinkite laiką:"
-            selected={start_date}
-            onChange={date => setStartDate(date)}
-            showTimeSelect
-            timeIntervals={30}
-            dateFormat="yyyy-MM-dd HH:mm"
-            timeFormat="HH:mm"
-            timeCaption="Laikas:"
-            locale={lt}/>
+          <Input/>
         </Form.Item>
-
-        <Form.Item name="doctor" label="Gydytojas"
+        <Form.Item name="surname" label="Pavardė:"
                     rules={[
                       {
                         required: true,
-                        message: "Pasirinkite gydytoją"
+                        message: "Įveskite gydytojo pavardę!"
                       }
                     ]}>
-          <select  onChange={(e) => setDoctorID(e.target.value)} name="stateName" className="form-control" placeholder="Pasirinkite gydytoją" defaultValue={'DEFAULT'}>
-            <option value="DEFAULT" disabled>...</option>
-              {doctors.map((doctor, index) => (
-                <option value={doctor.doctor_id}>{doctor.name + " " + doctor.surname}</option>
-              ))}
-            </select>
+          <Input/>
         </Form.Item>
-
-        <Form.Item name="health_issue" label="Sveikatos problema:">
-          <Input type="textarea" />
+        <Form.Item name="birthday" label="Gimimo data:">
+        <DatePicker
+          selected={start_date}
+          className="form-control" 
+          onChange={(date) => setStartDate(date)}
+          peekNextMonth
+          showMonthDropdown
+          showYearDropdown
+          dropdownMode="select"
+          placeholder="Pasirinkite gimimo datą:"
+          dateFormat="yyyy-MM-dd"
+          locale={lt}
+        />
         </Form.Item>
         
       </Form>

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../axiosApi';
 import Table from "antd/lib/table";
-import { Button, Divider, Popconfirm, notification, Tag} from 'antd';
+import {Button, Divider, Popconfirm, notification, Tag} from 'antd';
 import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import AddVisitModal from './AddVisitModal';
 import { trackPromise } from 'react-promise-tracker';
+//import { Button } from 'react-bootstrap';
 
 
 const ShowVisits = () => {
@@ -40,7 +41,18 @@ const ShowVisits = () => {
       const status = { status: '2' };
       await axios.patch(`api/visit/${id}`, status);
       getAllVisit();
-      notification.success({ message: 'Sėkmingai atnaujinta!' });
+      notification.success({ message: 'Vizitas patvirtintas!' });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const cancelVisit = async (id) => {
+    try {
+      const status = { status: '3' };
+      await axios.patch(`api/visit/${id}`, status);
+      getAllVisit();
+      notification.error({ message: 'Vizitas atšauktas!' });
     } catch (error) {
       console.error(error);
     }
@@ -150,7 +162,7 @@ const ShowVisits = () => {
               <Link to={`/visit/`} onClick={() => confirmVisit(record.visit_id)}>
                 <CheckOutlined style={{color: "green", fontSize: '150%'}}/>
               </Link>
-              <Link to={`/visit/${record.visit_id}`}>
+              <Link to={`/visit/`} onClick={() => cancelVisit(record.visit_id)}>
                 <CloseOutlined style={{color: "red", fontSize: '150%'}}/>
               </Link>
             </div>
@@ -177,12 +189,11 @@ const ShowVisits = () => {
  
 
   return (
-    <div>
+    <>
       <h1>Vizitai</h1>
-      <Button type="primary" onClick={() => {setVisible(true);}} style={{ float: 'left', marginBottom: 10 }}>
-        <PlusCircleOutlined style={{fontSize: '125%'}}/>
-        Pridėti vizitą
-      </Button>
+
+      <Button className="mr-2 mb-3" size='large' onClick={() => {setVisible(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti vizitą</Button>
+
       <Table columns={COLUMNS} dataSource={visits} size="middle" rowKey={record => record.visit_id} />
       <AddVisitModal
         visible={visible}
@@ -191,7 +202,7 @@ const ShowVisits = () => {
           setVisible(false);
         }}
       />
-    </div>
+    </>
   );
 };
 
