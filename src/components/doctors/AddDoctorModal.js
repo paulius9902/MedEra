@@ -28,7 +28,7 @@ const AddDoctorModal = ({ visible, onCreate, onCancel }) => {
 
   return (
     <Modal visible={visible} title="Pridėti gydytoją" okText="Sukurti"
-            cancelText="Cancel" onCancel={onCancel}
+            cancelText="Atšaukti" onCancel={onCancel}
             onOk={() => {
               form
                 .validateFields()
@@ -64,14 +64,14 @@ const AddDoctorModal = ({ visible, onCreate, onCancel }) => {
         <DatePicker
           selected={start_date}
           className="form-control" 
-          onChange={(date) => setStartDate(date)}
+          onChange={date => setStartDate(date)}
           peekNextMonth
           showMonthDropdown
           showYearDropdown
+          dateFormat="yyyy-MM-dd"
           dropdownMode="select"
           placeholder="Pasirinkite gimimo datą:"
-          locale={lt}
-        />
+          locale={lt}/>
         </Form.Item>
         <Form.Item name="gender" label="Lytis:"
                     rules={[
