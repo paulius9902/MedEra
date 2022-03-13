@@ -5,27 +5,43 @@ import { Link } from 'react-router-dom';
 import { Card, Row } from 'react-bootstrap';
 import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined} from '@ant-design/icons';
 import {Button, Space, notification} from 'antd';
+import UpdateDoctorModal from './UpdateDoctorModal';
+import AddDoctorVisitModal from './AddDoctorVisitModal';
 
 const DoctorDetail = () => {
 
 const [doctor, setDoctor] = useState([])
-const [doctors, setDoctors] = useState([])
 const [work_hours, setWorkHours] = useState([])
-
 const {id} = useParams();
-const navigate = useNavigate();
-
-const [visits, setVisits] = useState([]);
-const [visible, setVisible] = useState(false);
-
-const isSuperUser = localStorage.getItem('is_superuser');
-
+const [visible_doctor, setVisibleDoctor] = useState(false);
+const [visible_visit, setVisibleVisit] = useState(false);
 
 useEffect(() => {
     getSingleDoctor();
     getWorkHours();
 },[])
 
+const onUpdate = async(values) => {
+    console.log(values);
+    await axios.patch(`api/doctor/${id}`, values).then(response=>{
+      console.log(response.data);
+      getSingleDoctor();
+      notification.success({ message: 'Sėkmingai atnaujinta!' });
+    })
+    setVisibleDoctor(false);
+};
+
+const addVisit = async(values) => {
+    values.status = 1
+    values.doctor=id
+    console.log(values);
+    await axios.post(`api/visit`, values).then(response=>{
+      console.log(response.data);
+      getSingleDoctor();
+      notification.success({ message: 'Vizitas sėkmingai pridėtas!' });
+    })
+    setVisibleVisit(false);
+};
 
 const getSingleDoctor = async () => {
   const  { data } = await axios.get(`api/doctor/${id}`)
@@ -42,8 +58,7 @@ const getWorkHours = async () => {
 const deleteDoctor = async (id) => {
     try {
         await axios.delete(`api/doctor/${id}`)
-        window.location.reload(false);
-        notification.success({ message: 'Sėkmingai ištrinta!' })
+        notification.success({ message: 'Sėkmingai ištrinta!' });
     } catch (error) {
         console.error(error);
     }
@@ -63,12 +78,12 @@ return (
             </div>
             <div class="col-lg-6">
                 <Card>
-                    <Button size='large' onClick={() => {setVisible(true);}} style={{float: 'right', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti vizitą</Button>
+                    <Button size='large' onClick={() => {setVisibleVisit(true);}} style={{float: 'right', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti vizitą</Button>
                     <h1 class="font-weight-light">Gydytojo duomenys:</h1>
                     <div className="doctor-detail">
                             <p>Vardas: {doctor.name}</p>
                             <p>Pavardė: {doctor.surname}</p>
-                            <p>Gimimo data: {doctor.birth_date}</p>
+                            <p>Gimimo data: {doctor.birthday}</p>
                             <h1 class="font-weight-light">Darbo laikas:</h1>
                             <table className="table table-stripped">
                             <thead>
@@ -93,13 +108,26 @@ return (
                             </tbody>
                             </table>
                         </div> 
-                        <Link className="btn btn-primary" to={`/doctor/${doctor.doctor_id}/update`}><EditOutlined style={{fontSize: '125%'}}/> Atnaujinti</Link>
+                        <Link className="btn btn-primary" onClick={() => {setVisibleDoctor(true);}} to="#"><EditOutlined style={{fontSize: '125%'}}/> Atnaujinti</Link>
                         <Link className="btn btn-danger" to="/doctor" onClick={() => deleteDoctor(doctor.doctor_id)}><DeleteOutlined style={{fontSize: '125%'}}/> Ištrinti</Link>
                     </Card>
                 </div>
             </div>
+            <UpdateDoctorModal
+                visible={visible_doctor}
+                onCreate={onUpdate}
+                onCancel={() => {
+                setVisibleDoctor(false);
+                }}
+            />
+            <AddDoctorVisitModal
+                visible={visible_visit}
+                onCreate={addVisit}
+                onCancel={() => {
+                setVisibleVisit(false);
+                }}
+            />
             </div>
-            
             );
 };
 

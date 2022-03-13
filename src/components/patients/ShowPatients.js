@@ -11,178 +11,100 @@ import { trackPromise } from 'react-promise-tracker';
 
 const ShowPatients = () => {
 
-  const [visits, setVisits] = useState([]);
+  const [patients, setPatients] = useState([]);
   const [visible, setVisible] = useState(false);
 
   const onCreate = async(values) => {
+    values.birthday = values.birthday.toISOString().split('T')[0]
     console.log(values);
-    values.status = 1
-    values.start_date=new Date(Math.floor(values.start_date.getTime() - values.start_date.getTimezoneOffset() * 60000))
-
-    await axios.post(`api/visit`, values).then(response=>{
+    await axios.post(`api/patient`, values).then(response=>{
       console.log(response.data);
-      getAllVisit();
+      getAllPatient();
     })
     setVisible(false);
   };
 
-  const deleteVisit = async (id) => {
+  const deletePatient = async (id) => {
     try {
-      await axios.delete(`api/visit/${id}`);
-      getAllVisit();
+      await axios.delete(`api/patient/${id}`);
+      getAllPatient();
       notification.success({ message: 'Sėkmingai ištrinta!' });
     } catch (error) {
       console.error(error);
     }
   };
 
-  const confirmVisit = async (id) => {
+  const getAllPatient = async () => {
     try {
-      const status = { status: '2' };
-      await axios.patch(`api/visit/${id}`, status);
-      getAllVisit();
-      notification.success({ message: 'Vizitas patvirtintas!' });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const cancelVisit = async (id) => {
-    try {
-      const status = { status: '3' };
-      await axios.patch(`api/visit/${id}`, status);
-      getAllVisit();
-      notification.error({ message: 'Vizitas atšauktas!' });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const getAllVisit = async () => {
-    try {
-      const res = await axios.get('api/visit');
-      setVisits(res.data);
+      const res = await axios.get('api/patient');
+      setPatients(res.data);
     } catch (error) {
       console.error(error);
     }
   };
 
   const confirmHandler = id => {
-    deleteVisit(id);
+    deletePatient(id);
   };
 
   useEffect(() => {
-    getAllVisit();
+    getAllPatient();
   }, []);
 
   const COLUMNS = [
     {
       title: "ID",
-      dataIndex: 'visit_id',
-      key: "visit_id"
+      dataIndex: 'patient_id',
+      key: "patient_id"
     },
     {
-      title: "Vizito data",
-      dataIndex: 'start_date',
-      key: "start_date"
+      title: "Vardas",
+      dataIndex: 'name',
+      key: "name"
     },
     {
-      title: "Kabinetas",
-      dataIndex: ['doctor', 'room'],
-      key: "room_number"
+      title: "Pavardė",
+      dataIndex: 'surname',
+      key: "surname"
     },
     {
-      title: 'Gydytojas',
-      children: [
-        {
-          title: "Vardas",
-          dataIndex: ['doctor', 'name'],
-          key: "doctor_name"
-        },
-        {
-          title: "Pavardė",
-          dataIndex: ['doctor', 'surname'],
-          key: "doctor_surname"
-        }
-      ]
+      title: "Gimimo data",
+      dataIndex: 'birthday',
+      key: "birthday"
     },
     {
-      title: 'Pacientas',
-      children: [
-        {
-          title: "Vardas",
-          dataIndex: ['patient', 'name'],
-          key: "patient_name"
-        },
-        {
-          title: "Pavardė",
-          dataIndex: ['patient', 'surname'],
-          key: "patient_surname"
-        }
-      ]
+      title: "Lytis",
+      dataIndex: 'gender',
+      key: "gender"
     },
     {
-      title: "Vizito priežastis",
-      dataIndex: 'health_issue',
-      key: "health_issue"
-    },
-    {
-      title: "Statusas",
-      dataIndex: ['status', 'status_id'],
-      key: "status_id",
-      render :(status_id) => {
-        if (status_id==1) {
-          return (
-            <Tag color='yellow' key={status_id}>
-              Laukiama patvirtinimo
-            </Tag>
-          )
-        } else if (status_id==2) {
-          return (
-            <Tag color='green' key={status_id}>
-              Patvirtintas
-            </Tag>
-          )
-        } else {
-          return (
-            <Tag color='volcano' key={status_id}>
-              Atšauktas
-            </Tag>
-          )
-        }
-      }
+      title: "Telefono nr.",
+      dataIndex: 'phone_number',
+      key: "phone_number"
     },
     {
       title: "Veiksmai",
       key: "action",
       render: (record) => {
-        if (record.status.status_id==1) {
-          return (
-            <div>
-              <Link to={`/visit/`} onClick={() => confirmVisit(record.visit_id)}>
-                <CheckOutlined style={{color: "green", fontSize: '150%'}}/>
-              </Link>
-              <Link to={`/visit/`} onClick={() => cancelVisit(record.visit_id)}>
-                <CloseOutlined style={{color: "red", fontSize: '150%'}}/>
-              </Link>
-            </div>
-          );
-        }
-        else {
-          return (
+        return (
+          <div>
+            
+            <Link to={`/patient/${record.patient_id}`}>
+              <EditOutlined style={{ color: "blue", marginLeft: 5, fontSize: '150%'}}/>
+            </Link>
             <Popconfirm
               placement='topLeft'
               title='Ar tikrai norite ištrinti?'
               okText='Taip'
               cancelText='Ne'
-              onConfirm={() => confirmHandler(record.visit_id)}
+              onConfirm={() => confirmHandler(record.patient_id)}
             >
               <DeleteOutlined
                 style={{ color: "red", marginLeft: 12, fontSize: '150%'}}
               />
             </Popconfirm>
-          );
-        }
+          </div>
+        );
       }
     },
   ];
@@ -190,11 +112,11 @@ const ShowPatients = () => {
 
   return (
     <>
-      <h1>Vizitai</h1>
+      <h1>Pacientai</h1>
 
-      <Button className="mr-2 mb-3" size='large' onClick={() => {setVisible(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti vizitą</Button>
+      <Button className="mr-2 mb-3" size='large' onClick={() => {setVisible(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti pacientą</Button>
 
-      <Table columns={COLUMNS} dataSource={visits} size="middle" rowKey={record => record.visit_id} />
+      <Table columns={COLUMNS} dataSource={patients} size="middle" rowKey={record => record.patient_id} />
       <AddPatientModal
         visible={visible}
         onCreate={onCreate}

@@ -15,8 +15,8 @@ const ShowDoctors = () => {
     const [visible, setVisible] = useState(false);
 
     const onCreate = async(values) => {
+        values.birthday = values.birthday.toISOString().split('T')[0]
         console.log(values);
-    
         await axios.post(`api/doctor`, values).then(response=>{
           console.log(response.data);
           fetchDoctors();
