@@ -9,7 +9,7 @@ import axios from '../../axiosApi';
 const { Option } = Select;
 const AddDoctorModal = ({ visible, onCreate, onCancel }) => {
 
-  const [start_date, setStartDate] = useState(setHours(setMinutes(new Date(), 0), 12))
+  const [start_date, setStartDate] = useState(new Date());
   const [doctors, setDoctors] = useState([]);
   const [doctor_id, setDoctorID] = useState(null)
   const [gender, setGender] = useState(null)
@@ -64,11 +64,11 @@ const AddDoctorModal = ({ visible, onCreate, onCancel }) => {
         <DatePicker
           selected={start_date}
           className="form-control" 
-          onChange={date => setStartDate(date)}
+          onChange={(date) => setStartDate(date)}
           peekNextMonth
           showMonthDropdown
           showYearDropdown
-          dateFormat="yyyy-MM-dd"
+          format="yyyy-MM-dd"
           dropdownMode="select"
           placeholder="Pasirinkite gimimo datą:"
           locale={lt}/>
