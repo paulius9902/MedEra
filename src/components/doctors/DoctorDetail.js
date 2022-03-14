@@ -33,6 +33,7 @@ const onUpdate = async(values) => {
 
 const addVisit = async(values) => {
     values.status = 1
+    values.start_date=new Date(Math.floor(values.start_date.getTime() - values.start_date.getTimezoneOffset() * 60000))
     values.doctor=id
     console.log(values);
     await axios.post(`api/visit`, values).then(response=>{

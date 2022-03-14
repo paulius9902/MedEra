@@ -6,12 +6,13 @@ import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 import lt from "date-fns/locale/lt";
 import axios from '../../axiosApi';
+import moment from 'moment';
 import "react-datepicker/dist/react-datepicker.css";
 const { Option } = Select;
 
 const AddVisitModal = ({ visible, onCreate, onCancel }) => {
 
-  const [start_date, setStartDate] = useState(setHours(setMinutes(new Date(), 0), 12))
+  const [start_date, setStartDate] = useState(null)
   
   const [doctors, setDoctors] = useState([]);
   const [work_hours, setWorkHours] = useState([]);
@@ -67,9 +68,9 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
                         message: "Pasirinkite gydytoją"
                       }
                     ]}>
-          <Select onChange={(e) => setDoctorID(e.target.value)} className="form-control" >
+          <Select onChange={doctor => setDoctorID(doctor)} >
             {doctors.map((doctor, index) => (
-                <Option value={doctor.doctor_id}>{doctor.name + " " + doctor.surname}</Option>
+                <Option value={doctor.doctor_id}>{doctor.name + " " + doctor.surname + "  |  " + doctor.specialization}</Option>
               ))}
           </Select>
         </Form.Item>
@@ -93,7 +94,8 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
             dateFormat="yyyy-MM-dd HH:mm"
             timeFormat="HH:mm"
             timeCaption="Laikas:"
-            locale={lt}/>
+            locale={lt}
+            minDate={setHours(setMinutes(new Date(), 0), 12)}/>
         </Form.Item>
 
         <Form.Item name="health_issue" label="Sveikatos problema:">

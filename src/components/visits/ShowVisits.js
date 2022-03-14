@@ -14,10 +14,6 @@ const ShowVisits = () => {
   const [visits, setVisits] = useState([]);
   const [visible, setVisible] = useState(false);
 
-  function handleMenuClick(e) {
-    console.log('click', e);
-  }
-
   const onCreate = async(values) => {
     console.log(values);
     values.status = 1
@@ -78,14 +74,6 @@ const ShowVisits = () => {
   useEffect(() => {
     getAllVisit();
   }, []);
-
-  const menu = (
-    <Menu onClick={handleMenuClick}>
-      <Menu.Item key="1">1st item</Menu.Item>
-      <Menu.Item key="2">2nd item</Menu.Item>
-      <Menu.Item key="3">3rd item</Menu.Item>
-    </Menu>
-  );
 
   const COLUMNS = [
     {
@@ -194,11 +182,6 @@ const ShowVisits = () => {
                   style={{ color: "red", marginLeft: 12, fontSize: '150%'}}
                 />
               </Popconfirm>
-              <Dropdown overlay={menu}>
-                <Button>
-                  Actions <DownOutlined />
-                </Button>
-              </Dropdown>
             </>
           );
         }

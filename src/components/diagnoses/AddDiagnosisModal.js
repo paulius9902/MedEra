@@ -9,11 +9,21 @@ import axios from '../../axiosApi';
 const { Option } = Select;
 const AddPatientModal = ({ visible, onCreate, onCancel }) => {
 
+  const [patients, setPatients] = useState([]);
+  const [patient_id, setPatientID] = useState(null)
   const [start_date, setStartDate] = useState(new Date());
   const [gender, setGender] = useState(null)
   
   const [form] = Form.useForm();
 
+  useEffect(() => {
+    loadPatients();
+  }, []);
+
+  const loadPatients = async () => {
+    const result = await axios.get("api/patient");
+    setPatients(result.data.reverse());
+  };
   return (
     <Modal visible={visible} title="Pridėti pacientą" okText="Sukurti"
             cancelText="Atšaukti" onCancel={onCancel}
@@ -30,54 +40,24 @@ const AddPatientModal = ({ visible, onCreate, onCancel }) => {
                 });
             }}>
       <Form form={form} layout="vertical" name="form_in_modal"> 
-        <Form.Item name="name" label="Vardas:"
+      <Form.Item name="patient" label="Pacientas"
                     rules={[
                       {
                         required: true,
-                        message: "Įveskite paciento vardą!"
+                        message: "Pasirinkite pacientą"
                       }
                     ]}>
-          <Input/>
-        </Form.Item>
-        <Form.Item name="surname" label="Pavardė:"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Įveskite paciento pavardę!"
-                      }
-                    ]}>
-          <Input/>
-        </Form.Item>
-        <Form.Item name="birthday" label="Gimimo data:" >
-        <DatePicker
-          selected={start_date}
-          className="form-control" 
-          onChange={(date) => setStartDate(date)}
-          peekNextMonth
-          showMonthDropdown
-          showYearDropdown
-          dateFormat="yyyy-MM-dd"
-          dropdownMode="select"
-          placeholder="Pasirinkite gimimo datą:"
-          locale={lt}/>
-        </Form.Item>
-        <Form.Item name="gender" label="Lytis:"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Pasirinkite lytį!"
-                      }
-                    ]}>
-          <Select onChange={(gender) => setGender(gender)} className="form-control" >
-            <Option value="V">Vyras</Option>
-            <Option value="M">Moteris</Option>
+          <Select onChange={patient => setPatientID(patient)} >
+            {patients.map((patient, index) => (
+                <Option value={patient.patient_id}>{patient.name + " " + patient.surname + "  |  " + patient.birthday}</Option>
+              ))}
           </Select>
         </Form.Item>
-        <Form.Item name="phone_number" label="Telefono nr.:"
+        <Form.Item name="description" label="Aprašymas:"
                     rules={[
                       {
                         required: true,
-                        message: "Įveskite telefono numerį!"
+                        message: "Įveskite aprašymą!"
                       }
                     ]}>
           <Input/>
