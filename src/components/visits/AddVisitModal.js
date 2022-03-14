@@ -1,13 +1,13 @@
 import React, { useState, useEffect} from 'react';
 import ReactDOM from "react-dom";
-import { Button, Modal, Form, Input, Radio } from "antd";
+import { Button, Modal, Form, Input, Radio, Select } from "antd";
 import DatePicker from "react-datepicker";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 import lt from "date-fns/locale/lt";
 import axios from '../../axiosApi';
-
 import "react-datepicker/dist/react-datepicker.css";
+const { Option } = Select;
 
 const AddVisitModal = ({ visible, onCreate, onCancel }) => {
 
@@ -58,6 +58,8 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
             }}>
       <Form form={form} layout="vertical" name="form_in_modal"> 
         
+
+
         <Form.Item name="doctor" label="Gydytojas"
                     rules={[
                       {
@@ -65,12 +67,11 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
                         message: "Pasirinkite gydytoją"
                       }
                     ]}>
-          <select  onChange={(e) => setDoctorID(e.target.value)} name="stateName" className="form-control" placeholder="Pasirinkite gydytoją" defaultValue={'DEFAULT'}>
-            <option value="DEFAULT" disabled>...</option>
-              {doctors.map((doctor, index) => (
-                <option value={doctor.doctor_id}>{doctor.name + " " + doctor.surname}</option>
+          <Select onChange={(e) => setDoctorID(e.target.value)} className="form-control" >
+            {doctors.map((doctor, index) => (
+                <Option value={doctor.doctor_id}>{doctor.name + " " + doctor.surname}</Option>
               ))}
-            </select>
+          </Select>
         </Form.Item>
 
         <Form.Item name="start_date" label="Data ir laikas:"

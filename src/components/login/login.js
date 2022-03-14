@@ -3,6 +3,7 @@ import {FormGroup, Label, Input } from "reactstrap";
 import axiosInstance from '../../axiosApi'
 import { Button, Form, Card, Nav } from 'react-bootstrap';
 import "./login.css";
+import {UserOutlined} from '@ant-design/icons';
 
  class Home extends Component {
   constructor(props) {

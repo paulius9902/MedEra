@@ -11,10 +11,10 @@ import Login from "./components/login/login";
 
 import ShowPatients from "./components/patients/ShowPatients";
 import PatientDetail from "./components/patients/PatientDetail";
-import UpdatePatient from "./components/patients/UpdatePatient";
-import AddPatient from "./components/patients/AddPatient";
 import ShowDoctors from "./components/doctors/ShowDoctors";
 import DoctorDetail from "./components/doctors/DoctorDetail";
+import ShowDiagnoses from "./components/diagnoses/ShowDiagnoses";
+import DiagnosisDetail from "./components/diagnoses/DiagnosisDetail";
 import ShowVisits from "./components/visits/ShowVisits";
 import Profile from "./components/profile/Profile";
 import ChangePassword from "./components/profile/ChangePassword";
@@ -53,12 +53,13 @@ class App extends React.Component {
                                         <Route exact path={"/login/"} element={<Login/>}/>
                         
                                         <Route exact path={"/patient/"} element={<ShowPatients/>}/>
-                                        <Route exact path={"/patient/create"} element={<AddPatient/>}/>
                                         <Route exact path="/patient/:id/" element={<PatientDetail/>} />
-                                        <Route exact path="/patient/:id/update" element={<UpdatePatient/>} />
 
                                         <Route exact path={"/doctor/"} element={<ShowDoctors/>}/>
                                         <Route exact path="/doctor/:id/" element={<DoctorDetail/>} />
+
+                                        <Route exact path={"/diagnosis/"} element={<ShowDiagnoses/>}/>
+                                        <Route exact path="/diagnosis/:id/" element={<DiagnosisDetail/>} />
                                             
                                         <Route exact path={"/visit/"} element={<ShowVisits/>}/>
                                             
@@ -76,7 +77,7 @@ class App extends React.Component {
                                     </Routes>
                                 </main>
                             </div>
-                            <Footer style={{ textAlign: 'center' }}>Copyright &copy; MedEra 2021</Footer>
+                            <Footer style={{ textAlign: 'center' }}>Copyright &copy; MedEra 2022</Footer>
                         </Content>
                 </Layout>
             </Layout>

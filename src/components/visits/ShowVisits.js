@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../axiosApi';
 import Table from "antd/lib/table";
-import {Button, Divider, Popconfirm, notification, Tag} from 'antd';
-import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined} from '@ant-design/icons';
+import {Button, Divider, Popconfirm, notification, Tag, Menu, Dropdown} from 'antd';
+import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined, DownOutlined} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import AddVisitModal from './AddVisitModal';
 import { trackPromise } from 'react-promise-tracker';
@@ -13,6 +13,10 @@ const ShowVisits = () => {
 
   const [visits, setVisits] = useState([]);
   const [visible, setVisible] = useState(false);
+
+  function handleMenuClick(e) {
+    console.log('click', e);
+  }
 
   const onCreate = async(values) => {
     console.log(values);
@@ -74,6 +78,14 @@ const ShowVisits = () => {
   useEffect(() => {
     getAllVisit();
   }, []);
+
+  const menu = (
+    <Menu onClick={handleMenuClick}>
+      <Menu.Item key="1">1st item</Menu.Item>
+      <Menu.Item key="2">2nd item</Menu.Item>
+      <Menu.Item key="3">3rd item</Menu.Item>
+    </Menu>
+  );
 
   const COLUMNS = [
     {
@@ -170,23 +182,29 @@ const ShowVisits = () => {
         }
         else {
           return (
-            <Popconfirm
-              placement='topLeft'
-              title='Ar tikrai norite ištrinti?'
-              okText='Taip'
-              cancelText='Ne'
-              onConfirm={() => confirmHandler(record.visit_id)}
-            >
-              <DeleteOutlined
-                style={{ color: "red", marginLeft: 12, fontSize: '150%'}}
-              />
-            </Popconfirm>
+            <>
+              <Popconfirm
+                placement='topLeft'
+                title='Ar tikrai norite ištrinti?'
+                okText='Taip'
+                cancelText='Ne'
+                onConfirm={() => confirmHandler(record.visit_id)}
+              >
+                <DeleteOutlined
+                  style={{ color: "red", marginLeft: 12, fontSize: '150%'}}
+                />
+              </Popconfirm>
+              <Dropdown overlay={menu}>
+                <Button>
+                  Actions <DownOutlined />
+                </Button>
+              </Dropdown>
+            </>
           );
         }
       }
     },
   ];
- 
 
   return (
     <>

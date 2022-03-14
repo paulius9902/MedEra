@@ -59,6 +59,7 @@ class DiagnosisSerializer(serializers.ModelSerializer):
     class Meta:
         model=Diagnoses
         fields=('__all__')
+        depth = 1
 
 class PrescriptionSerializer(serializers.ModelSerializer):
     class Meta:
