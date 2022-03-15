@@ -7,12 +7,10 @@ import setMinutes from "date-fns/setMinutes";
 import lt from "date-fns/locale/lt";
 import axios from '../../axiosApi';
 const { Option } = Select;
-const AddPatientModal = ({ visible, onCreate, onCancel }) => {
+const AddDiagnosisModal = ({ visible, onCreate, onCancel }) => {
 
   const [patients, setPatients] = useState([]);
-  const [patient_id, setPatientID] = useState(null)
-  const [start_date, setStartDate] = useState(new Date());
-  const [gender, setGender] = useState(null)
+  const [patient, setPatientID] = useState(null)
   
   const [form] = Form.useForm();
 
@@ -25,7 +23,7 @@ const AddPatientModal = ({ visible, onCreate, onCancel }) => {
     setPatients(result.data.reverse());
   };
   return (
-    <Modal visible={visible} title="Pridėti pacientą" okText="Sukurti"
+    <Modal visible={visible} title="Pridėti diagnozę" okText="Sukurti"
             cancelText="Atšaukti" onCancel={onCancel}
             onOk={() => {
               form
@@ -49,7 +47,7 @@ const AddPatientModal = ({ visible, onCreate, onCancel }) => {
                     ]}>
           <Select onChange={patient => setPatientID(patient)} >
             {patients.map((patient, index) => (
-                <Option value={patient.patient_id}>{patient.name + " " + patient.surname + "  |  " + patient.birthday}</Option>
+                <Option key={index} value={patient.patient_id}>{patient.name + " " + patient.surname + "  |  " + patient.birthday}</Option>
               ))}
           </Select>
         </Form.Item>
@@ -67,4 +65,4 @@ const AddPatientModal = ({ visible, onCreate, onCancel }) => {
   );
 };
 
-export default AddPatientModal;
+export default AddDiagnosisModal;

@@ -2,22 +2,22 @@ import React, { useState, useEffect} from 'react';
 import { Button, Modal, Form, Input, Radio, Select, InputNumber } from "antd";
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from '../../axiosApi';
-const AddPatientModal = ({ visible, onCreate, onCancel}) => {
+const UpdateDiagnosisModal = ({ visible, onCreate, onCancel, diagnosis_id}) => {
   
   const { id } = useParams();
-  const [patient, setPatient] = useState([]);
+  const [diagnosis, setDiagnosis] = useState([]);
   const [name, setName] = useState(null)
   
   const [form] = Form.useForm();
 
   useEffect(() => {
-    loadPatient();
+    loadDiagnosis();
   }, []);
 
-  const loadPatient = async () => {
-    const result = await axios.get(`api/patient/${id}`);
+  const loadDiagnosis = async () => {
+    const result = await axios.get(`api/diagnosis/${diagnosis_id}`);
     setName(result.data.name);
-    setPatient(result.data);
+    setDiagnosis(result.data);
   };
 
   const handleOk = async (e) => {
@@ -40,13 +40,10 @@ const AddPatientModal = ({ visible, onCreate, onCancel}) => {
             }}>
       <Form form={form} layout="vertical" name="form_in_modal" onFinish={handleOk}
             initialValues={{
-                name: patient.name,
-                surname: patient.surname,
-                phone_number: patient.phone_number,
-                specialization: patient.specialization,
-                room: patient.room,
+                name: diagnosis.description,
+                surname: diagnosis.temerature
             }}> 
-        <Form.Item name="name" label="Vardas:" value={name}
+        <Form.Item name="description" label="Vardas:" value={name}
                     rules={[
                       {
                         required: true,
@@ -55,20 +52,11 @@ const AddPatientModal = ({ visible, onCreate, onCancel}) => {
                     ]}>
           <Input/>
         </Form.Item>
-        <Form.Item name="surname" label="Pavardė:"
+        <Form.Item name="temperature" label="Pavardė:"
                     rules={[
                       {
                         required: true,
                         message: "Įveskite paciento pavardę!"
-                      }
-                    ]}>
-          <Input/>
-        </Form.Item>
-        <Form.Item name="phone_number" label="Telefono nr.:"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Įveskite telefono numerį!"
                       }
                     ]}>
           <Input/>
@@ -78,4 +66,4 @@ const AddPatientModal = ({ visible, onCreate, onCancel}) => {
   );
 };
 
-export default AddPatientModal;
+export default UpdateDiagnosisModal;

@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from API.models import Diagnoses, NewUser
-from API.serializers import DiagnosisSerializer
+from API.serializers import DiagnosisSerializer, DiagnosisSerializerDepth
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
 from API.serializers import CustomUserSerializer
@@ -17,7 +17,7 @@ class DiagnosisGetList(APIView):
             diagnoses = Diagnoses.objects.all()
         else:
             diagnoses = Diagnoses.objects.filter(patient=user_serializer.data["patient"])
-        diagnoses_serializer=DiagnosisSerializer(diagnoses, many=True)
+        diagnoses_serializer=DiagnosisSerializerDepth(diagnoses, many=True)
         return JsonResponse(diagnoses_serializer.data, safe=False)
     def post(self, request):
         user = NewUser.objects.get(id=self.request.user.id)
@@ -33,7 +33,7 @@ class DiagnosisGetList(APIView):
             else:
                 return JsonResponse(diagnosis_serializer.errors, safe=False, status=400)
         else:
-            return HttpResponse('Neturite gydytojo teisių!', status=204)
+            return HttpResponse('Neturite gydytojo teisių!', status=403)
 
 class DiagnosisGet(APIView):
     permission_classes = [IsAuthenticated, ]
@@ -47,7 +47,7 @@ class DiagnosisGet(APIView):
                 diagnosis = Diagnoses.objects.filter(Q(diagnosis_id=diagnosis_id) & Q(patient=user_serializer.data["patient"])).get()
         except Diagnoses.DoesNotExist:
             return HttpResponse('Paciento diagnozė nerasta!', status=404)
-        diagnosis_serializer = DiagnosisSerializer(diagnosis, many=False)
+        diagnosis_serializer = DiagnosisSerializerDepth(diagnosis, many=False)
         return JsonResponse(diagnosis_serializer.data, safe=False)
     def patch(self, request, diagnosis_id):
         user = NewUser.objects.get(id=self.request.user.id)

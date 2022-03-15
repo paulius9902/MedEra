@@ -1,26 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../axiosApi';
+import { useParams, useNavigate } from 'react-router';
 import Table from "antd/lib/table";
 import {Button, Divider, Popconfirm, notification, Tag} from 'antd';
 import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import AddDiagnosisModal from './AddDiagnosisModal';
+import UpdateDiagnosisModal from './UpdateDiagnosisModal';
 import { trackPromise } from 'react-promise-tracker';
 //import { Button } from 'react-bootstrap';
 
-
 const ShowDiagnoses = () => {
-
+  const {id} = useParams();
+  const [diagnosis_id, setDiagnosisID] = useState(null);
   const [diagnoses, setDiagnoses] = useState([]);
-  const [visible, setVisible] = useState(false);
+  const [visible_create, setVisibleCreate] = useState(false);
+  const [visible_update, setVisibleUpdate] = useState(false);
 
   const onCreate = async(values) => {
     console.log(values);
     await axios.post(`api/diagnosis`, values).then(response=>{
       console.log(response.data);
       getAllDiagnosis();
+      notification.success({ message: 'Sėkmingai sukurta!' });
     })
-    setVisible(false);
+    setVisibleCreate(false);
+  };
+
+  const onUpdate = async(values, id) => {
+    console.log(values);
+    await axios.patch(`api/diagnosis/${id}`, values).then(response=>{
+      console.log(response.data);
+      getAllDiagnosis();
+      notification.success({ message: 'Sėkmingai atnaujinta!' });
+    })
+    setVisibleUpdate(false);
   };
 
   const deleteDiagnosis = async (id) => {
@@ -108,7 +122,7 @@ const ShowDiagnoses = () => {
         return (
           <div>
             
-            <Link to={`/diagnosis/${record.diagnosis_id}`}>
+            <Link onClick={() => {setVisibleUpdate(true); setDiagnosisID(record.diagnosis_id);}} to={`#`}>
               <EditOutlined style={{ color: "blue", marginLeft: 5, fontSize: '150%'}}/>
             </Link>
             <Popconfirm
@@ -133,15 +147,23 @@ const ShowDiagnoses = () => {
     <>
       <h1>Diagnozės</h1>
 
-      <Button className="mr-2 mb-3" size='large' onClick={() => {setVisible(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti diagnozę</Button>
+      <Button className="mr-2 mb-3" size='large' onClick={() => {setVisibleCreate(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti diagnozę</Button>
 
       <Table columns={COLUMNS} dataSource={diagnoses} size="middle" rowKey={record => record.diagnosis_id} />
       <AddDiagnosisModal
-        visible={visible}
+        visible={visible_create}
         onCreate={onCreate}
         onCancel={() => {
-          setVisible(false);
+          setVisibleCreate(false);
         }}
+      />
+      <UpdateDiagnosisModal
+        visible={visible_update}
+        onCreate={onUpdate}
+        onCancel={() => {
+          setVisibleUpdate(false);
+        }}
+        diagnosis_id = {diagnosis_id}
       />
     </>
   );

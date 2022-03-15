@@ -108,7 +108,7 @@ class Diagnoses(models.Model):
     heart_rate = models.IntegerField(blank=True, null=True)
     advice = models.CharField(max_length=200, blank=True, null=True)
     patient = models.ForeignKey(Patients, models.DO_NOTHING)
-    visit = models.OneToOneField(Visits, models.DO_NOTHING)
+    visit = models.OneToOneField(Visits, models.DO_NOTHING, blank=True, null=True)
     doctor = models.ForeignKey(Doctors, models.DO_NOTHING)
 
     class Meta:

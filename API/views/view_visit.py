@@ -103,7 +103,7 @@ class VisitStatusGetList(APIView):
                 return JsonResponse("Sėkmingai pridėta!",safe=False)
             return JsonResponse(visit_status_serializer.errors, status=400)
         else:
-            return HttpResponse('Neturite administratoriaus teisių!', status=204)
+            return HttpResponse('Neturite administratoriaus teisių!', status=403)
     
 class VisitStatusGet(APIView):
     permission_classes = [IsAuthenticated,]
@@ -131,7 +131,7 @@ class VisitStatusGet(APIView):
                 return JsonResponse("Sėkmingai atnaujinta!", status=200, safe=False)
             return JsonResponse(visit_status_serializer.errors, status=400, safe=False)
         else:
-            return HttpResponse('Neturite administratoriaus teisių!', status=204)
+            return HttpResponse('Neturite administratoriaus teisių!', status=403)
 
     def delete(self, request, status_id):
         try:
@@ -145,4 +145,4 @@ class VisitStatusGet(APIView):
             visit_status_data.delete()
             return JsonResponse("Sėkmingai ištrinta!", safe=False)
         else:
-            return HttpResponse('Neturite administratoriaus teisių!', status=204)
+            return HttpResponse('Neturite administratoriaus teisių!', status=403)

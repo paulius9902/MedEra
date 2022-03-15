@@ -59,7 +59,7 @@ class App extends React.Component {
                                         <Route exact path="/doctor/:id/" element={<DoctorDetail/>} />
 
                                         <Route exact path={"/diagnosis/"} element={<ShowDiagnoses/>}/>
-                                        <Route exact path="/diagnosis/:id/" element={<DiagnosisDetail/>} />
+                                        <Route exact path={"/diagnosis/:id/"} element={<ShowDiagnoses/>} />
                                             
                                         <Route exact path={"/visit/"} element={<ShowVisits/>}/>
                                             
