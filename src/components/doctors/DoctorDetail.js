@@ -2,9 +2,9 @@ import axios from '../../axiosApi';
 import React, {useState, useEffect, Fragment} from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
-import { Card, Row } from 'react-bootstrap';
+//import { Card, Row } from 'react-bootstrap';
 import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined} from '@ant-design/icons';
-import {Button, Space, notification} from 'antd';
+import {Button, Space, notification, Card} from 'antd';
 import UpdateDoctorModal from './UpdateDoctorModal';
 import AddDoctorVisitModal from './AddDoctorVisitModal';
 
@@ -15,6 +15,22 @@ const [work_hours, setWorkHours] = useState([])
 const {id} = useParams();
 const [visible_doctor, setVisibleDoctor] = useState(false);
 const [visible_visit, setVisibleVisit] = useState(false);
+
+const tabList = [
+    {
+      key: 'tab1',
+      tab: 'tab1',
+    },
+    {
+      key: 'tab2',
+      tab: 'tab2',
+    },
+  ];
+
+const contentList = {
+    tab1: <p>content1</p>,
+    tab2: <p>content2</p>,
+  };
 
 useEffect(() => {
     getSingleDoctor();
@@ -65,19 +81,16 @@ const deleteDoctor = async (id) => {
     }
 }
 return (
-    <div class="container">
-        <div class="row align-items-center my-5">
+    <div>
+        <div class="row align-items-center">
             
-            <div class="col-lg-6">
             <Card>
                 <img
                     class="img-fluid rounded mb-4 mb-lg-0"
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"
+                    src="https://www.shareicon.net/data/256x256/2016/08/18/813849_people_512x512.png"
                     alt=""
                 />
-                </Card>
-            </div>
-            <div class="col-lg-6">
+            </Card>
                 <Card>
                     <Button size='large' onClick={() => {setVisibleVisit(true);}} style={{float: 'right', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti vizitą</Button>
                     <h1 class="font-weight-light">Gydytojo duomenys:</h1>
@@ -112,7 +125,6 @@ return (
                         <Link className="btn btn-primary" onClick={() => {setVisibleDoctor(true);}} to="#"><EditOutlined style={{fontSize: '125%'}}/> Atnaujinti</Link>
                         <Link className="btn btn-danger" to="/doctor" onClick={() => deleteDoctor(doctor.doctor_id)}><DeleteOutlined style={{fontSize: '125%'}}/> Ištrinti</Link>
                     </Card>
-                </div>
             </div>
             <UpdateDoctorModal
                 visible={visible_doctor}

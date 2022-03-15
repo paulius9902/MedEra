@@ -6,7 +6,7 @@ import Breadcrumb from "./components/layout/Breadcrumbs";
 //import Footer from "./components/layout/Footer";
 import Home from "./components/layout/Home";
 import SideBar from "./components/layout/SideBar";
-import './App.css';
+//import './App.css';
 import Login from "./components/login/login";
 
 import ShowPatients from "./components/patients/ShowPatients";
@@ -59,7 +59,7 @@ class App extends React.Component {
                                         <Route exact path="/doctor/:id/" element={<DoctorDetail/>} />
 
                                         <Route exact path={"/diagnosis/"} element={<ShowDiagnoses/>}/>
-                                        <Route exact path={"/diagnosis/:id/"} element={<ShowDiagnoses/>} />
+                                        <Route exact path={"/diagnosis/:id/"} element={<DiagnosisDetail/>} />
                                             
                                         <Route exact path={"/visit/"} element={<ShowVisits/>}/>
                                             

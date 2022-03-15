@@ -27,16 +27,6 @@ const ShowDiagnoses = () => {
     setVisibleCreate(false);
   };
 
-  const onUpdate = async(values, id) => {
-    console.log(values);
-    await axios.patch(`api/diagnosis/${id}`, values).then(response=>{
-      console.log(response.data);
-      getAllDiagnosis();
-      notification.success({ message: 'Sėkmingai atnaujinta!' });
-    })
-    setVisibleUpdate(false);
-  };
-
   const deleteDiagnosis = async (id) => {
     try {
       await axios.delete(`api/diagnosis/${id}`);
@@ -122,7 +112,7 @@ const ShowDiagnoses = () => {
         return (
           <div>
             
-            <Link onClick={() => {setVisibleUpdate(true); setDiagnosisID(record.diagnosis_id);}} to={`#`}>
+            <Link to={`/diagnosis/${record.diagnosis_id}`}>
               <EditOutlined style={{ color: "blue", marginLeft: 5, fontSize: '150%'}}/>
             </Link>
             <Popconfirm
@@ -156,14 +146,6 @@ const ShowDiagnoses = () => {
         onCancel={() => {
           setVisibleCreate(false);
         }}
-      />
-      <UpdateDiagnosisModal
-        visible={visible_update}
-        onCreate={onUpdate}
-        onCancel={() => {
-          setVisibleUpdate(false);
-        }}
-        diagnosis_id = {diagnosis_id}
       />
     </>
   );

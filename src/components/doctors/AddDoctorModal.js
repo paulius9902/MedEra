@@ -80,7 +80,7 @@ const AddDoctorModal = ({ visible, onCreate, onCancel }) => {
                         message: "Pasirinkite lytį!"
                       }
                     ]}>
-          <Select onChange={(gender) => setGender(gender)} className="form-control" >
+          <Select onChange={(gender) => setGender(gender)} >
             <Option value="V">Vyras</Option>
             <Option value="M">Moteris</Option>
           </Select>

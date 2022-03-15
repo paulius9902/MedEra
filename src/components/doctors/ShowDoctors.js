@@ -1,19 +1,18 @@
 import axios from '../../axiosApi';
 import React, {useState, useEffect} from 'react';
-import { Card } from 'react-bootstrap';
-import {Button} from 'antd';
+import {Button, Card, Row, Col, Divider, notification, Popconfirm} from 'antd';
 import { Link } from 'react-router-dom';
-import {
-    Grid
-} from '@material-ui/core/';
-import {PlusCircleOutlined, EditOutlined, DeleteOutlined, InfoCircleOutlined} from '@ant-design/icons';
+import {PlusCircleOutlined, SettingOutlined, InfoCircleOutlined, DeleteOutlined} from '@ant-design/icons';
 import AddDoctorModal from './AddDoctorModal';
 
 const ShowDoctors = () => {
-
+    const { Meta } = Card;
     const [doctors, setDoctors] = useState([])
     const [visible, setVisible] = useState(false);
-
+    var photos = ["https://www.shareicon.net/data/256x256/2016/09/01/822733_user_512x512.png",
+                "https://www.shareicon.net/data/256x256/2016/09/01/822712_user_512x512.png",
+                "https://www.shareicon.net/data/256x256/2016/08/18/813846_people_512x512.png",
+                "https://www.shareicon.net/data/256x256/2016/08/18/813849_people_512x512.png"];
     const onCreate = async(values) => {
         values.birthday = values.birthday.toISOString().split('T')[0]
         console.log(values);
@@ -24,11 +23,25 @@ const ShowDoctors = () => {
         setVisible(false);
     };
 
+    const deleteDoctor = async (id) => {
+        try {
+          await axios.delete(`api/doctor/${id}`);
+          fetchDoctors();
+          notification.success({ message: 'Sėkmingai ištrinta!' });
+        } catch (error) {
+          console.error(error);
+        }
+    };
+    
     const fetchDoctors = async () => {
         const result = await axios.get('api/doctor');
         console.log(result.data)
         setDoctors(result.data)
     }
+
+    const confirmHandler = id => {
+        deleteDoctor(id);
+      };
 
     useEffect(() => {
         fetchDoctors();
@@ -37,33 +50,42 @@ const ShowDoctors = () => {
     return (
         <div>
             <h1>Gydytojai</h1>
+            <Divider></Divider>
             <Button className="mr-2 mb-3" size='large' onClick={() => {setVisible(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti gydytoją</Button>
+            <Divider></Divider>
             <div className="main-doctors-show">
-            <Grid
-                container
-                spacing={2}
-                direction="row"
-                justify="flex-start"
-                alignItems="flex-start"
-            >
+            <Row gutter={[16, 24]} span={4}>
             {
                 doctors.map((doctor, index) => (
-                    <Grid item xs={12} sm={6} md={3} key={doctors.indexOf(index)}>
-                    <Card>
-
-                    <Card.Img variant="top" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png" />
-
-                    <Card.Body>
-                        <Card.Title>{doctor.name} {doctor.surname}</Card.Title>
-                        <Card.Text> {doctor.specialization} </Card.Text>
-                        <Link style={{ float: 'right'}} className="btn btn-primary mr-2" to={`/doctor/${doctor.doctor_id}`}><InfoCircleOutlined style={{fontSize: '125%'}}/> Detaliau</Link>
-                    </Card.Body>
+                    <Col>
+                    
+                    <Card
+                        cover={
+                        <img
+                            alt="example"
+                            src={photos[Math.floor(Math.random()*photos.length)]}
+                        />
+                        }
+                        actions={[
+                        <Link to={`/doctor/${doctor.doctor_id}`}><InfoCircleOutlined key="info" style={{fontSize: '175%', color: '#08c'}}/></Link>,
+                        <Popconfirm
+                            placement='topLeft'
+                            title='Ar tikrai norite ištrinti?'
+                            okText='Taip'
+                            cancelText='Ne'
+                            onConfirm={() => confirmHandler(doctor.doctor_id)}
+                            >
+                            <DeleteOutlined key="delete" style={{fontSize: '175%', color: '#ff4d4f'}}/>
+                        </Popconfirm>,
+                        ]}
+                    >
+                        <h4>{doctor.name} {doctor.surname}</h4>
+                        <p style={{fontSize:18}}>{doctor.specialization}</p>
                     </Card>
-                    </Grid>
+                    </Col>
                 ))
-
             }
-            </Grid>
+            </Row>
             </div>
             <AddDoctorModal
                 visible={visible}

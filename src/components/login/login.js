@@ -100,7 +100,7 @@ import {UserOutlined} from '@ant-design/icons';
       <div className="background">
         <div className="login-box">
           <div className="container">
-            <div class="row app-des">
+            <div class="row">
               <div class="col left-background ">
                 <h1 class="white-text">MedEra</h1>
                 <p>Prisijunkite prie savo asmeninės MedEra paskyros</p>

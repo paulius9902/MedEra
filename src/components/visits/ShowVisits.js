@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../axiosApi';
 import Table from "antd/lib/table";
-import {Button, Divider, Popconfirm, notification, Tag, Menu, Dropdown} from 'antd';
-import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined, DownOutlined} from '@ant-design/icons';
+import {Button, Popconfirm, notification, Tag} from 'antd';
+import {PlusCircleOutlined, DeleteOutlined, CheckOutlined, CloseOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import AddVisitModal from './AddVisitModal';
-import { trackPromise } from 'react-promise-tracker';
-//import { Button } from 'react-bootstrap';
 
 
 const ShowVisits = () => {
@@ -131,21 +129,21 @@ const ShowVisits = () => {
       dataIndex: ['status', 'status_id'],
       key: "status_id",
       render :(status_id) => {
-        if (status_id==1) {
+        if (status_id===1) {
           return (
-            <Tag color='yellow' key={status_id}>
+            <Tag icon={<SyncOutlined spin />} color="processing" key={status_id}>
               Laukiama patvirtinimo
             </Tag>
           )
-        } else if (status_id==2) {
+        } else if (status_id===2) {
           return (
-            <Tag color='green' key={status_id}>
+            <Tag icon={<CheckCircleOutlined />} color="success">
               Patvirtintas
             </Tag>
           )
         } else {
           return (
-            <Tag color='volcano' key={status_id}>
+            <Tag icon={<CloseCircleOutlined />} color="error" key={status_id}>
               Atšauktas
             </Tag>
           )
@@ -156,7 +154,7 @@ const ShowVisits = () => {
       title: "Veiksmai",
       key: "action",
       render: (record) => {
-        if (record.status.status_id==1) {
+        if (record.status.status_id===1) {
           return (
             <div>
               <Link to={`/visit/`} onClick={() => confirmVisit(record.visit_id)}>

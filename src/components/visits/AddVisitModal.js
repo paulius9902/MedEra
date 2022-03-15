@@ -1,12 +1,10 @@
 import React, { useState, useEffect} from 'react';
-import ReactDOM from "react-dom";
-import { Button, Modal, Form, Input, Radio, Select } from "antd";
+import { Modal, Form, Input, Select } from "antd";
 import DatePicker from "react-datepicker";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 import lt from "date-fns/locale/lt";
 import axios from '../../axiosApi';
-import moment from 'moment';
 import "react-datepicker/dist/react-datepicker.css";
 const { Option } = Select;
 
@@ -15,7 +13,6 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
   const [start_date, setStartDate] = useState(null)
   
   const [doctors, setDoctors] = useState([]);
-  const [work_hours, setWorkHours] = useState([]);
   const [doctor_id, setDoctorID] = useState(null)
   
   const [form] = Form.useForm();
@@ -29,17 +26,11 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
 
   useEffect(() => {
     loadDoctors();
-    loadWorkHours();
   }, []);
 
   const loadDoctors = async () => {
     const result = await axios.get("api/doctor");
     setDoctors(result.data.reverse());
-  };
-
-  const loadWorkHours = async () => {
-    const result = await axios.get(`api/doctor/${doctor_id}/work_hours`);
-    setWorkHours(result.data.reverse());
   };
 
   return (
