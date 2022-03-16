@@ -2,10 +2,11 @@ import axios from '../../axiosApi';
 import React, {useState, useEffect, Fragment} from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
-import { Card, Row } from 'react-bootstrap';
+//import { Card, Row } from 'react-bootstrap';
 import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined} from '@ant-design/icons';
-import {Button, Space, notification} from 'antd';
+import {Button, Space, notification, Card, Form, Row, Col} from 'antd';
 import UpdatePatientModal from './UpdatePatientModal';
+import { CardColumns } from 'reactstrap';
 
 const PatientDetail = () => {
 
@@ -44,35 +45,38 @@ const deletePatient = async (id) => {
     }
 }
 return (
-    <div class="container">
-        <div class="row align-items-center my-5">
-            
-            <div class="col-lg-6">
-            <Card>
-                <img
-                    class="img-fluid rounded mb-4 mb-lg-0"
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"
-                    alt=""
-                />
-                </Card>
-            </div>
-            <div class="col-lg-6">
-                <Card>
-                    <h1 class="font-weight-light">Paciento duomenys:</h1>
-                    <div className="patient-detail">
+    <Card bordered={false} size="small" style={{ padding: 15 }}>
+        <Form layout="vertical">
+            <Row>
+                <Col span={8}>
+                    <Card
+                    cover={
+                        <img
+                            class="img-fluid rounded mb-4 mb-lg-0"
+                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"
+                            alt=""
+                        />
+                        }
+                    actions={[
+                        <Link onClick={() => {setVisiblePatient(true);}} to="#"><EditOutlined style={{fontSize: '150%', color: "#2db7f5"}}/> Atnaujinti</Link>,
+                        <Link to="/patient" onClick={() => deletePatient(patient.patient_id)}><DeleteOutlined style={{fontSize: '150%', color: "#f50"}}/> Ištrinti</Link>,
+                        ]}>
+                    </Card>
+                
+                </Col>
+                <Col span={16}>
+                    <Card
+                    actions={[
+                        <Link to={'#'} onClick={() => {setVisibleVisit(true);}} ><PlusCircleOutlined style={{fontSize: '150%', color: "#87d068" }}/> Pridėti diagnozę</Link>,
+                        <Link to={'#'} onClick={() => {setVisibleVisit(true);}} ><PlusCircleOutlined style={{fontSize: '150%', color: "#87d068" }}/> Pridėti lab. tyrimą</Link>,
+                        <Link to={'#'} onClick={() => {setVisibleVisit(true);}} ><PlusCircleOutlined style={{fontSize: '150%', color: "#87d068" }}/> Pridėti receptą</Link>,
+                        ]}>
+                    <h1>Paciento duomenys:</h1>
                             <p>Vardas: {patient.name}</p>
                             <p>Pavardė: {patient.surname}</p>
                             <p>Gimimo data: {patient.birthday}</p>
-                        </div> 
-                        <Button size='large' onClick={() => {setVisibleVisit(true);}} style={{float: 'right', background: '#6c757d', color: 'white', borderColor: 'white'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti diagnozę</Button>
-                        <Button size='large' onClick={() => {setVisibleVisit(true);}} style={{float: 'right', background: '#6c757d', color: 'white', borderColor: 'white'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti lab. tyrimą</Button>
-                        <Button size='large' onClick={() => {setVisibleVisit(true);}} style={{float: 'right', background: '#6c757d', color: 'white', borderColor: 'white'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti receptą</Button>
-                        <br/>
-                        <Link className="btn btn-primary" onClick={() => {setVisiblePatient(true);}} to="#"><EditOutlined style={{fontSize: '125%'}}/> Atnaujinti</Link>
-                        <Link className="btn btn-danger" to="/patient" onClick={() => deletePatient(patient.patient_id)}><DeleteOutlined style={{fontSize: '125%'}}/> Ištrinti</Link>
                     </Card>
-                </div>
-            </div>
+                </Col>
             <UpdatePatientModal
                 visible={visible_patient}
                 onCreate={onUpdate}
@@ -80,7 +84,9 @@ return (
                 setVisiblePatient(false);
                 }}
             />
-            </div>
+            </Row>
+            </Form>
+            </Card>
             );
 };
 

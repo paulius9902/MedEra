@@ -1,0 +1,131 @@
+.ant-card-small > .ant-card-body {
+  padding-bottom: 5px;
+}
+
+.ant-form-item-label > label {
+  font-weight: bold;
+}
+.ant-tabs-tab:hover {
+  color: #5bbdab;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #2780e3;
+  text-shadow: 0 0 0.25px currentColor;
+}
+
+.ant-tabs-content-holder {
+  overflow: hidden auto;
+}
+.ant-tabs-top .ant-tabs-nav {
+  background-color: rgba(248, 248, 248, 0.507);
+  margin: 0;
+  border-left: 12px solid #2780e3;
+}
+.ant-tabs-nav-wrap {
+  justify-content: right;
+  padding-right: 25px;
+}
+
+.ant-modal-header {
+  padding-bottom: 5;
+  border-bottom: 0;
+  background-color: rgba(248, 248, 248, 0.507);
+  border-left: 12px solid #2780e3;
+}
+
+.ant-modal-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-title {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+}
+
+.modal-title h3 {
+  margin: 10;
+  font-weight: 500;
+}
+
+.modal-title p {
+  margin: 0;
+}
+
+.ant-collapse-header {
+  border-bottom: 1px solid #f0f0f0 !important;
+}
+
+.ant-card-small .ant-card-head .ant-card-head-wrapper .ant-card-head-title {
+  padding: 12px 0;
+  font-weight: bold;
+}
+
+/* .ant-modal-footer {
+  display: none;
+} */
+
+.site-page-header-ghost-wrapper {
+  /* padding: 2px; */
+  background-color: #f5f5f5;
+}
+
+.ant-btn-primary {
+  color: #fff;
+  border-color: #2780e3;
+  background: #2780e3;
+}
+
+.ant-btn-group .ant-btn-primary:last-child:not(:first-child),
+.ant-btn-group .ant-btn-primary + .ant-btn-primary {
+  border-left-color: #2780e3;
+}
+
+.ant-dropdown-open {
+  border-left-color: #2780e3;
+}
+
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #2780e3;
+  border-color: #2780e3;
+}
+
+.ant-radio-button-wrapper-checked:not([class*=" ant-radio-button-wrapper-disabled"]).ant-radio-button-wrapper:first-child {
+  border-right-color: #2780e3;
+}
+
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):first-child {
+  border-color: #2780e3;
+}
+
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+  color: #2780e3;
+  border-color: #2780e3;
+}
+
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before {
+  background-color: #2780e3;
+}
+
+.ant-pagination-item-active {
+  border-color: #2780e3;
+}
+
+.ant-pagination-item-active a {
+  color: #2780e3;
+}
+
+[data-theme="compact"] p,
+p {
+  margin: 0;
+}
+
+.ant-descriptions-item-label {
+  font-weight: bold;
+}
+
+.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+  font-weight: bold;
+}

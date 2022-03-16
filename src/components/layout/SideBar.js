@@ -69,25 +69,16 @@ class SideBar extends React.Component {
         }}
       >
         <Menu theme="dark" mode="inline" selectedKeys={selectedKeys} >
-          <SubMenu  onClick={() => this.setSelectedKeys(['1'])}
+          <Menu.Item  onClick={() => this.setSelectedKeys(['1'])}
                     key="1"
-                    title={<span><CarryOutOutlined style={iconSize}/> <span className="nav-text">Vizitai</span> </span>}>
+                    title={<span><OrderedListOutlined style={iconSize}/> <span className="nav-text">Vizitai</span> </span>}>
             
-            <Menu.Item key="2" onClick={() =>  this.setSelectedKeys("2")}>
               <Link to="/visit">
                 <OrderedListOutlined style={subIconSize}/>
-                <span className="nav-text">Visi</span>
+                <span className="nav-text">Vizitai</span>
               </Link>
-            </Menu.Item>
 
-            <Menu.Item key="3" onClick={() =>  this.setSelectedKeys("3")}>
-              <Link to="/visit_statistic">
-                <LineChartOutlined style={subIconSize}/>
-                <span className="nav-text">Statistika</span>
-              </Link>
-            </Menu.Item>
-
-          </SubMenu>
+          </Menu.Item>
 
           <Menu.Item key="4" onClick={() => { this.setSelectedKeys("4")}}>
             <Link to="/doctor">

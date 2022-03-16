@@ -1,69 +1,57 @@
-import React, { useState, useEffect} from 'react';
-import { Button, Modal, Form, Input, Radio, Select, InputNumber } from "antd";
-import { useNavigate, useParams } from 'react-router-dom';
-import axios from '../../axiosApi';
-const UpdateDiagnosisModal = ({ visible, onCreate, onCancel, diagnosis_id}) => {
-  
-  const { id } = useParams();
-  const [diagnosis, setDiagnosis] = useState([]);
-  const [name, setName] = useState(null)
-  
-  const [form] = Form.useForm();
+import React from "react";
+import "antd/dist/antd.css";
+import { Modal, Typography } from "antd";
+import { EditOutlined } from "@ant-design/icons";
 
-  useEffect(() => {
-    loadDiagnosis();
-  }, []);
+import "./custom.css";
+import InternalUser from "./Diagnosis";
 
-  const loadDiagnosis = async () => {
-    const result = await axios.get(`api/diagnosis/${diagnosis_id}`);
-    setName(result.data.name);
-    setDiagnosis(result.data);
+const { Title } = Typography;
+
+const UpdateUser = (record) => {
+  const [visible, setVisible] = React.useState(false);
+  const [confirmLoading, setConfirmLoading] = React.useState(false);
+
+  const showModal = () => {
+    setVisible(true);
   };
 
-  const handleOk = async (e) => {
-    form.resetFields();
-};
+  const handleCancel = () => {
+    setVisible(false);
+  };
+
+  const handleOk = () => {
+    setConfirmLoading(true);
+    setTimeout(() => {
+      setVisible(false);
+      setConfirmLoading(false);
+    }, 2000);
+  };
 
   return (
-    <Modal visible={visible} title="Atnaujinti paciento duomenis" okText="Atnaujinti"
-            cancelText="Atšaukti" onCancel={onCancel}
-            onOk={() => {
-              form
-                .validateFields()
-                .then((values) => {
-                  console.log(values)
-                  onCreate(values);
-                })
-                .catch((info) => {
-                  console.log("Validate Failed:", info);
-                });
-            }}>
-      <Form form={form} layout="vertical" name="form_in_modal" onFinish={handleOk}
-            initialValues={{
-                name: diagnosis.description,
-                surname: diagnosis.temerature
-            }}> 
-        <Form.Item name="description" label="Vardas:" value={name}
-                    rules={[
-                      {
-                        required: true,
-                        message: "Įveskite paciento vardą!"
-                      }
-                    ]}>
-          <Input/>
-        </Form.Item>
-        <Form.Item name="temperature" label="Pavardė:"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Įveskite paciento pavardę!"
-                      }
-                    ]}>
-          <Input/>
-        </Form.Item>
-      </Form>
-    </Modal>
+    <>
+      <EditOutlined onClick={showModal} style={{ fontSize: "18px" }} />
+
+      <Modal
+        centered
+        style={{ height: "80%" }}
+        bodyStyle={{ height: "100%", overflowY: "auto", padding: 0 }}
+        width={800}
+        visible={visible}
+        onCancel={handleCancel}
+        onOk={handleOk}
+        confirmLoading={confirmLoading}
+        cancelText="Cancel"
+        okText="Submit"
+        mask={true}
+        maskClosable={false}
+        destroyOnClose={true}
+        title={<Title level={4}>Atnaujinti diagnozę</Title>}
+      >
+        <InternalUser {...record} />
+      </Modal>
+    </>
   );
 };
 
-export default UpdateDiagnosisModal;
+export default UpdateUser;

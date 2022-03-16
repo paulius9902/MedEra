@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../axiosApi';
 import Table from "antd/lib/table";
-import {Button, Popconfirm, notification, Tag} from 'antd';
+import {Button, Popconfirm, notification, Tag, Divider, Skeleton, Empty } from 'antd';
 import {PlusCircleOutlined, DeleteOutlined, CheckOutlined, CloseOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import AddVisitModal from './AddVisitModal';
-
+import moment from 'moment';
 
 const ShowVisits = () => {
 
   const [visits, setVisits] = useState([]);
   const [visible, setVisible] = useState(false);
-
+  const [loading, setLoading] = useState(true);
+  
   const onCreate = async(values) => {
     console.log(values);
     values.status = 1
@@ -36,6 +37,7 @@ const ShowVisits = () => {
 
   const confirmVisit = async (id) => {
     try {
+      setLoading(true);
       const status = { status: '2' };
       await axios.patch(`api/visit/${id}`, status);
       getAllVisit();
@@ -47,6 +49,7 @@ const ShowVisits = () => {
 
   const cancelVisit = async (id) => {
     try {
+      setLoading(true);
       const status = { status: '3' };
       await axios.patch(`api/visit/${id}`, status);
       getAllVisit();
@@ -60,12 +63,14 @@ const ShowVisits = () => {
     try {
       const res = await axios.get('api/visit');
       setVisits(res.data);
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
   };
 
   const confirmHandler = id => {
+    setLoading(true);
     deleteVisit(id);
   };
 
@@ -77,12 +82,15 @@ const ShowVisits = () => {
     {
       title: "ID",
       dataIndex: 'visit_id',
-      key: "visit_id"
+      key: "visit_id",
+      sorter: (a, b) => a.visit_id - b.visit_id,
     },
     {
       title: "Vizito data",
       dataIndex: 'start_date',
-      key: "start_date"
+      key: "start_date",
+      defaultSortOrder: 'ascend',
+      sorter: (a, b) => moment(a.start_date).unix() - moment(b.start_date).unix()
     },
     {
       title: "Kabinetas",
@@ -95,12 +103,14 @@ const ShowVisits = () => {
         {
           title: "Vardas",
           dataIndex: ['doctor', 'name'],
-          key: "doctor_name"
+          key: "doctor_name",
+          render: (text, record) => <Link to={'/doctor/' + record.doctor.doctor_id}>{text}</Link>
         },
         {
           title: "Pavardė",
           dataIndex: ['doctor', 'surname'],
-          key: "doctor_surname"
+          key: "doctor_surname",
+          render: (text, record) => <Link to={'/doctor/' + record.doctor.doctor_id}>{text}</Link>
         }
       ]
     },
@@ -110,12 +120,14 @@ const ShowVisits = () => {
         {
           title: "Vardas",
           dataIndex: ['patient', 'name'],
-          key: "patient_name"
+          key: "patient_name",
+          render: (text, record) => <Link to={'/patient/' + record.patient.patient_id}>{text}</Link>
         },
         {
           title: "Pavardė",
           dataIndex: ['patient', 'surname'],
-          key: "patient_surname"
+          key: "patient_surname",
+          render: (text, record) => <Link to={'/patient/' + record.patient.patient_id}>{text}</Link>
         }
       ]
     },
@@ -158,10 +170,10 @@ const ShowVisits = () => {
           return (
             <div>
               <Link to={`/visit/`} onClick={() => confirmVisit(record.visit_id)}>
-                <CheckOutlined style={{color: "green", fontSize: '150%'}}/>
+                <CheckOutlined style={{color: "#87d068", fontSize: '150%'}}/>
               </Link>
               <Link to={`/visit/`} onClick={() => cancelVisit(record.visit_id)}>
-                <CloseOutlined style={{color: "red", fontSize: '150%'}}/>
+                <CloseOutlined style={{color: "#f50", fontSize: '150%'}}/>
               </Link>
             </div>
           );
@@ -177,7 +189,7 @@ const ShowVisits = () => {
                 onConfirm={() => confirmHandler(record.visit_id)}
               >
                 <DeleteOutlined
-                  style={{ color: "red", marginLeft: 12, fontSize: '150%'}}
+                  style={{ color: "#f50", marginLeft: 12, fontSize: '150%'}}
                 />
               </Popconfirm>
             </>
@@ -190,10 +202,16 @@ const ShowVisits = () => {
   return (
     <>
       <h1>Vizitai</h1>
-
+      <Divider></Divider>
       <Button className="mr-2 mb-3" size='large' onClick={() => {setVisible(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti vizitą</Button>
-
-      <Table columns={COLUMNS} dataSource={visits} size="middle" rowKey={record => record.visit_id} />
+      <Table  columns={COLUMNS} 
+              //dataSource={visits} 
+              dataSource={loading? [] : visits}
+                locale={{
+                emptyText: loading ? <Skeleton active={true} /> : <Empty />
+              }}
+              size="middle" 
+              rowKey={record => record.visit_id} />
       <AddVisitModal
         visible={visible}
         onCreate={onCreate}

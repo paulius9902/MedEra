@@ -36,6 +36,7 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
   return (
     <Modal visible={visible} title="Sukurti vizitą" okText="Sukurti" 
             cancelText="Atšaukti" onCancel={onCancel}
+            mask={true}
             onOk={() => {
               form
                 .validateFields()

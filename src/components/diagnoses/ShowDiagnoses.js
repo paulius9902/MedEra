@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import AddDiagnosisModal from './AddDiagnosisModal';
 import UpdateDiagnosisModal from './UpdateDiagnosisModal';
 import { trackPromise } from 'react-promise-tracker';
+import "./custom.css";
 //import { Button } from 'react-bootstrap';
 
 const ShowDiagnoses = () => {
@@ -112,9 +113,8 @@ const ShowDiagnoses = () => {
         return (
           <div>
             
-            <Link to={`/diagnosis/${record.diagnosis_id}`}>
-              <EditOutlined style={{ color: "blue", marginLeft: 5, fontSize: '150%'}}/>
-            </Link>
+            
+            <UpdateDiagnosisModal {...record} />
             <Popconfirm
               placement='topLeft'
               title='Ar tikrai norite ištrinti?'

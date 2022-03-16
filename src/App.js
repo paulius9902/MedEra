@@ -14,7 +14,6 @@ import PatientDetail from "./components/patients/PatientDetail";
 import ShowDoctors from "./components/doctors/ShowDoctors";
 import DoctorDetail from "./components/doctors/DoctorDetail";
 import ShowDiagnoses from "./components/diagnoses/ShowDiagnoses";
-import DiagnosisDetail from "./components/diagnoses/DiagnosisDetail";
 import ShowVisits from "./components/visits/ShowVisits";
 import Profile from "./components/profile/Profile";
 import ChangePassword from "./components/profile/ChangePassword";
@@ -59,7 +58,6 @@ class App extends React.Component {
                                         <Route exact path="/doctor/:id/" element={<DoctorDetail/>} />
 
                                         <Route exact path={"/diagnosis/"} element={<ShowDiagnoses/>}/>
-                                        <Route exact path={"/diagnosis/:id/"} element={<DiagnosisDetail/>} />
                                             
                                         <Route exact path={"/visit/"} element={<ShowVisits/>}/>
                                             
