@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../axiosApi';
 import Table from "antd/lib/table";
-import {Button, Popconfirm, notification, Tag, Divider, Skeleton, Empty } from 'antd';
+import {Button, Popconfirm, notification, Tag, Divider, Skeleton, Empty, Tooltip } from 'antd';
 import {PlusCircleOutlined, DeleteOutlined, CheckOutlined, CloseOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import AddVisitModal from './AddVisitModal';
@@ -19,8 +19,10 @@ const ShowVisits = () => {
     values.start_date=new Date(Math.floor(values.start_date.getTime() - values.start_date.getTimezoneOffset() * 60000))
 
     await axios.post(`api/visit`, values).then(response=>{
+      setLoading(true);
       console.log(response.data);
       getAllVisit();
+      notification.success({ message: 'Vizitas sukurtas!' });
     })
     setVisible(false);
   };
@@ -134,7 +136,20 @@ const ShowVisits = () => {
     {
       title: "Vizito priežastis",
       dataIndex: 'health_issue',
-      key: "health_issue"
+      key: "health_issue",
+      onCell: () => {
+        return {
+           style: {
+              whiteSpace: 'nowrap',
+              maxWidth: 150,
+           }
+        }
+     },
+     render: (text) => (
+        <Tooltip title={text}>
+           <div style={{textOverflow: 'ellipsis', overflow: 'hidden'}}>{text}</div>
+        </Tooltip>
+     )
     },
     {
       title: "Statusas",
@@ -143,19 +158,19 @@ const ShowVisits = () => {
       render :(status_id) => {
         if (status_id===1) {
           return (
-            <Tag icon={<SyncOutlined spin />} color="processing" key={status_id}>
+            <Tag style={{ fontSize: '100%'}} icon={<SyncOutlined spin />} color="processing" key={status_id}>
               Laukiama patvirtinimo
             </Tag>
           )
         } else if (status_id===2) {
           return (
-            <Tag icon={<CheckCircleOutlined />} color="success">
+            <Tag style={{ fontSize: '100%'}}icon={<CheckCircleOutlined />} color="success">
               Patvirtintas
             </Tag>
           )
         } else {
           return (
-            <Tag icon={<CloseCircleOutlined />} color="error" key={status_id}>
+            <Tag style={{ fontSize: '100%'}}icon={<CloseCircleOutlined />} color="error" key={status_id}>
               Atšauktas
             </Tag>
           )
@@ -203,15 +218,15 @@ const ShowVisits = () => {
     <>
       <h1>Vizitai</h1>
       <Divider></Divider>
-      <Button className="mr-2 mb-3" size='large' onClick={() => {setVisible(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti vizitą</Button>
+      <Button className="mr-2 mb-3" size='large' onClick={() => {setVisible(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745', fontSize: '125%'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti vizitą</Button>
       <Table  columns={COLUMNS} 
-              //dataSource={visits} 
               dataSource={loading? [] : visits}
                 locale={{
                 emptyText: loading ? <Skeleton active={true} /> : <Empty />
               }}
               size="middle" 
-              rowKey={record => record.visit_id} />
+              rowKey={record => record.visit_id} 
+              style={{ whiteSpace: 'pre'}}/>
       <AddVisitModal
         visible={visible}
         onCreate={onCreate}

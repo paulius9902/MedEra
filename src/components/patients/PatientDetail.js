@@ -4,10 +4,10 @@ import { useParams, useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 //import { Card, Row } from 'react-bootstrap';
 import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined} from '@ant-design/icons';
-import {Button, Space, notification, Card, Form, Row, Col} from 'antd';
+import {Button, Space, notification, Card, Form, Row, Col, Typography} from 'antd';
 import UpdatePatientModal from './UpdatePatientModal';
 import { CardColumns } from 'reactstrap';
-
+const { Title, Text} = Typography;
 const PatientDetail = () => {
 
 const [patient, setPatient] = useState([])
@@ -48,7 +48,7 @@ return (
     <Card bordered={false} size="small" style={{ padding: 15 }}>
         <Form layout="vertical">
             <Row>
-                <Col span={8}>
+                <Col span={6}>
                     <Card
                     cover={
                         <img
@@ -58,21 +58,21 @@ return (
                         />
                         }
                     actions={[
-                        <Link onClick={() => {setVisiblePatient(true);}} to="#"><EditOutlined style={{fontSize: '150%', color: "#2db7f5"}}/> Atnaujinti</Link>,
-                        <Link to="/patient" onClick={() => deletePatient(patient.patient_id)}><DeleteOutlined style={{fontSize: '150%', color: "#f50"}}/> Ištrinti</Link>,
+                        <Link style={{fontSize: '150%' }} onClick={() => {setVisiblePatient(true);}} to="#"><EditOutlined style={{color: "#2db7f5"}}/> Atnaujinti</Link>,
+                        <Link style={{fontSize: '150%' }} to="/patient" onClick={() => deletePatient(patient.patient_id)}><DeleteOutlined style={{color: "#f50"}}/> Ištrinti</Link>,
                         ]}>
                     </Card>
                 
                 </Col>
-                <Col span={16}>
+                <Col span={18}>
                     <Card
                     actions={[
-                        <Link to={'#'} onClick={() => {setVisibleVisit(true);}} ><PlusCircleOutlined style={{fontSize: '150%', color: "#87d068" }}/> Pridėti diagnozę</Link>,
-                        <Link to={'#'} onClick={() => {setVisibleVisit(true);}} ><PlusCircleOutlined style={{fontSize: '150%', color: "#87d068" }}/> Pridėti lab. tyrimą</Link>,
-                        <Link to={'#'} onClick={() => {setVisibleVisit(true);}} ><PlusCircleOutlined style={{fontSize: '150%', color: "#87d068" }}/> Pridėti receptą</Link>,
+                        <Link style={{fontSize: '175%' }} to={'#'} onClick={() => {setVisibleVisit(true);}} ><PlusCircleOutlined style={{ color: "#87d068" }}/> Pridėti diagnozę</Link>,
+                        <Link style={{fontSize: '175%' }} to={'#'} onClick={() => {setVisibleVisit(true);}} ><PlusCircleOutlined style={{ color: "#87d068" }}/> Pridėti lab. tyrimą</Link>,
+                        <Link style={{fontSize: '175%' }} to={'#'} onClick={() => {setVisibleVisit(true);}} ><PlusCircleOutlined style={{ color: "#87d068" }}/> Pridėti receptą</Link>,
                         ]}>
-                    <h1>Paciento duomenys:</h1>
-                            <p>Vardas: {patient.name}</p>
+                    <Title>Paciento duomenys</Title>
+                            <Title level={4} type='secondary'>Vardas: {patient.name}</Title>
                             <p>Pavardė: {patient.surname}</p>
                             <p>Gimimo data: {patient.birthday}</p>
                     </Card>

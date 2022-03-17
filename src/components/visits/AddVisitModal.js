@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { Modal, Form, Input, Select } from "antd";
+import { Modal, Form, Input, Select, Card} from "antd";
 import DatePicker from "react-datepicker";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
@@ -9,6 +9,7 @@ import axios from '../../axiosApi';
 import getDay from "date-fns/getDay";
 import "react-datepicker/dist/react-datepicker.css";
 const { Option } = Select;
+const { TextArea } = Input;
 
 const AddVisitModal = ({ visible, onCreate, onCancel }) => {
 
@@ -75,17 +76,14 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
                   console.log("Validate Failed:", info);
                 })}}>
       <Form form={form} layout="vertical" name="form_in_modal"> 
-        
-
-
-        <Form.Item name="doctor" label="Gydytojas"
+        <Form.Item name="doctor" label="Pasirinkite gydytoją"
                     rules={[
                       {
                         required: true,
-                        message: "Pasirinkite gydytoją"
+                        message: "Pasirinkite gydytoją!"
                       }
                     ]}>
-          <Select onChange={doctor => {setDoctorID(doctor); setStartDate(null)}} >
+          <Select onChange={doctor => {setDoctorID(doctor); setStartDate(null)}} placeholder="Gydytojas">
             {doctors.map((doctor, index) => (
                 <Option value={doctor.doctor_id}>{doctor.name + " " + doctor.surname + "  |  " + doctor.specialization}</Option>
               ))}
@@ -102,7 +100,7 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
           <DatePicker
             disabled={!doctor_id}
             className="form-control" 
-            placeholder="Pasirinkite laiką:"
+            placeholderText="Pasirinkite vizito datą ir laiką"
             selected={start_date}
             filterTime={filterTime}
             onChange={(date) => {
@@ -115,17 +113,25 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
             timeFormat="HH:mm"
             timeCaption="Laikas:"
             locale={lt}
-            //minDate={setHours(setMinutes(new Date(), 0), 12)}
             minDate={addDays(new Date(), 1)}
             maxDate={addMonths(new Date(), 1)}
             minTime={setHours(setMinutes(new Date(), 0), 8)}
             maxTime={setHours(setMinutes(new Date(), 0), 18)}
             filterDate={isWeekday}
-            excludeTimes={excludeTimes}/>
+            excludeTimes={excludeTimes}
+            onKeyDown={(e) => {
+              e.preventDefault();
+           }}/>
         </Form.Item>
 
-        <Form.Item name="health_issue" label="Sveikatos problema:">
-          <Input type="textarea" />
+        <Form.Item name="health_issue" label="Vizito priežastis:"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Įveskite vizito priežastį!"
+                      }
+                    ]}>
+          <TextArea placeholder="Vizito priežasties aprašymas"/>
         </Form.Item>
       </Form>
     </Modal>
