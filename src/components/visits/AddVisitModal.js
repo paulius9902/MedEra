@@ -3,6 +3,7 @@ import { Modal, Form, Input, Select } from "antd";
 import DatePicker from "react-datepicker";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
+import { addDays, isSameDay, parseISO, addMonths } from "date-fns";
 import lt from "date-fns/locale/lt";
 import axios from '../../axiosApi';
 import getDay from "date-fns/getDay";
@@ -12,12 +13,13 @@ const { Option } = Select;
 const AddVisitModal = ({ visible, onCreate, onCancel }) => {
 
   const [start_date, setStartDate] = useState(null)
-  
+  const [visits, setVisits] = useState([])
+  const [visits_dates, setVisitsDates] = useState([])
   const [doctors, setDoctors] = useState([]);
   const [doctor_id, setDoctorID] = useState(null)
   
   const [form] = Form.useForm();
-
+  
   const filterTime = (time) => {
     const currentDate = new Date();
     const selectedDate = new Date(time);
@@ -30,14 +32,32 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
     return day !== 0 && day !== 6;
   };
 
+  const getVisits = async () => {
+    const  { data } = await axios.get(`api/visit`)
+    console.log(data);
+    setVisits(data);
+  }
+
   useEffect(() => {
     loadDoctors();
+    getVisits();
   }, []);
 
   const loadDoctors = async () => {
     const result = await axios.get("api/doctor");
     setDoctors(result.data.reverse());
   };
+
+  let results = visits.filter((visit) => visit.doctor.doctor_id === doctor_id).map(
+    (visit) => new Date(parseISO(visit.start_date))
+  );
+
+  const getExcludeTimesForDate = (date) =>
+    results.filter((time) => isSameDay(date, time));
+
+  const [excludeTimes, setExcludeTimes] = useState(
+    getExcludeTimesForDate(start_date)
+  );
 
   return (
     <Modal visible={visible} title="Sukurti vizitą" okText="Sukurti" 
@@ -53,8 +73,7 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
                 })
                 .catch((info) => {
                   console.log("Validate Failed:", info);
-                });
-            }}>
+                })}}>
       <Form form={form} layout="vertical" name="form_in_modal"> 
         
 
@@ -66,7 +85,7 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
                         message: "Pasirinkite gydytoją"
                       }
                     ]}>
-          <Select onChange={doctor => setDoctorID(doctor)} >
+          <Select onChange={doctor => {setDoctorID(doctor); setStartDate(null)}} >
             {doctors.map((doctor, index) => (
                 <Option value={doctor.doctor_id}>{doctor.name + " " + doctor.surname + "  |  " + doctor.specialization}</Option>
               ))}
@@ -86,21 +105,28 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
             placeholder="Pasirinkite laiką:"
             selected={start_date}
             filterTime={filterTime}
-            onChange={date => setStartDate(date)} 
+            onChange={(date) => {
+              setStartDate(date);
+              setExcludeTimes(getExcludeTimesForDate(date));
+            }}
             showTimeSelect
             timeIntervals={30}
             dateFormat="yyyy-MM-dd HH:mm"
             timeFormat="HH:mm"
             timeCaption="Laikas:"
             locale={lt}
-            minDate={setHours(setMinutes(new Date(), 0), 12)}
-            filterDate={isWeekday}/>
+            //minDate={setHours(setMinutes(new Date(), 0), 12)}
+            minDate={addDays(new Date(), 1)}
+            maxDate={addMonths(new Date(), 1)}
+            minTime={setHours(setMinutes(new Date(), 0), 8)}
+            maxTime={setHours(setMinutes(new Date(), 0), 18)}
+            filterDate={isWeekday}
+            excludeTimes={excludeTimes}/>
         </Form.Item>
 
         <Form.Item name="health_issue" label="Sveikatos problema:">
           <Input type="textarea" />
         </Form.Item>
-        
       </Form>
     </Modal>
   );
