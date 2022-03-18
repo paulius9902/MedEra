@@ -1,56 +1,15 @@
-import React, { Component } from "react";
-import {FormGroup, Label, Input } from "reactstrap";
+import React from "react";
+import "antd/dist/antd.css";
 import axiosInstance from '../../axiosApi'
-import { Button, Form, Card, Nav } from 'react-bootstrap';
 import "./login.css";
-import {UserOutlined} from '@ant-design/icons';
-
- class Home extends Component {
-  constructor(props) {
-    super(props)
-
-    this.onChangeInput = this.onChangeInput.bind(this);
-    this.login = this.login.bind(this);
-    //this.componentDidMount = this.componentDidMount.bind(this);
-
-     this.state = {
-      errors: '',
-      is_instructor: '',
-      
-      /**
-       * User data (/api/token)
-       */
-      credentials: {
-        email: '',
-        password: '',
-      }
-    }
-  }
-
-  /**
-   * Function for detecting input changes in the form
-   *
-   * @method
-   * @param {Object} e event handler
-   */
-  onChangeInput(e) {
-    const cred = this.state.credentials;
-    cred[e.target.name] = e.target.value;
-    this.setState({credentials: cred});
-    // console.log(cred);
-  }
-
-  /**
-   * Login function that handles posting the data
-   *
-   * @method
-   * @param {Object} e event handler
-   */
-  login(e) {
-    e.preventDefault();
-    const loginUser = this.state.credentials;
-
-    axiosInstance.post('api/token', loginUser, {crossDomain: true})
+import { Form, Input, Button, Checkbox } from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
+//import poto from "./poto.png";
+//import logo from "./logo.png";
+const NormalLoginForm = () => {
+  const onFinish = (values) => {
+    console.log("Received values of form: ", values);
+    axiosInstance.post('api/token', values, {crossDomain: true})
     .then((res) => {
       console.log(res);
       if (res.status === 200) {
@@ -71,12 +30,6 @@ import {UserOutlined} from '@ant-design/icons';
         const userID = res.data.id;
         const patientID = res.data.patient;
         const doctorID = res.data.doctor;
-        this.setState({is_superuser: isSuperUser});
-        this.setState({is_doctor: isDoctor});
-        this.setState({is_patient: isPatient});
-        this.setState({user_id: userID});
-        this.setState({patient_id: patientID});
-        this.setState({doctor_id: doctorID});
         localStorage.setItem('is_superuser', isSuperUser)
         localStorage.setItem('is_doctor', isDoctor)
         localStorage.setItem('is_patient', isPatient)
@@ -89,65 +42,78 @@ import {UserOutlined} from '@ant-design/icons';
     }).catch(error => {
       if(error.response) { 
         const errm = "Neteisingas slaptažodis arba el. paštas";
-        this.setState({errors: errm});
         console.log(error.response.data)
       }
     });
-  }
+  };
 
-  render() {
-    return (
-      <div className="background">
-        <div className="login-box">
-          <div className="container">
-            <div class="row">
-              <div class="col left-background ">
-                <h1 class="white-text">MedEra</h1>
-                <p>Prisijunkite prie savo asmeninės MedEra paskyros</p>
-              </div>
-              <div class="col login-form">
-                <form id="userCredentials" onSubmit={this.login}>
-                  <h2 className="font-weight-bold mb-4">Prisijungimas</h2>
-                  <FormGroup>
-                    <Label className="font-weight-bold mb-2">El.paštas</Label>
-                    <Form.Control 
-                      className="mb-3" 
-                      type="email" 
-                      placeholder="Įveskite el. paštą"
-                      required
-                      id="email"
-                      name="email"
-                      value={this.state.credentials.email}
-                      onChange={this.onChangeInput}/>
-                    <Label className="font-weight-bold mb-2">Slaptažodis</Label>
-                    <Form.Control 
-                      className="mb-3" 
-                      type="password" 
-                      required
-                      id="password"
-                      name="password"
-                      value={this.state.credentials.password}
-                      onChange={this.onChangeInput}
-                      placeholder="Įveskite slaptažodį" />
-                  </FormGroup>
-                  <div style={{color:'red', paddingBottom:'10px'}}>{this.state.errors}</div>
-                  <Button variant="primary" type="submit" id="userSubmit" className="btn btn-primary mb-3">
-                      Prisijungti
-                    </Button>
-                  <div style={{ marginTop: 8 }}>
+  return (
+    <div className="background">
+    <div className="container">
+      <Form
+        name="normal_login"
+        className="login-form"
+        initialValues={{
+          remember: true
+        }}
+        onFinish={onFinish}
+      >
+        <div className="login-sider">
+            <h1 class="white-text">MedEra</h1>
+            <p class="white-text">Prisijunkite prie savo asmeninės MedEra paskyros</p>
+        </div>
+        <div className="login-form-container">
+          <h1>Prisijungimas</h1>
+          <Form.Item
+            name="email"
+            rules={[
+              {
+                required: true,
+                message: "Įveskite elektroninį paštą!"
+              }
+            ]}
+          >
+            <Input
+              prefix={<UserOutlined className="site-form-item-icon" />}
+              placeholder="El. paštas"
+            />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: "Įveskite slaptažodį!"
+              }
+            ]}
+          >
+            <Input
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              type="password"
+              placeholder="Slaptažodis"
+            />
+          </Form.Item>
+
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
+            >
+              Prisijungti
+            </Button>
+          </Form.Item>
+          <div style={{ marginTop: 8 }}>
                     <a href="/">Užmiršote slaptažodį?</a>
                   </div>
                   <div style={{ marginTop: 8 }}>
                   <a href="/">Neturite paskyros?</a>
-                  </div>
-                </form>
-              </div>
-            </div>
           </div>
         </div>
-      </div>
-    );
-  }
-}
+      </Form>
+    </div>
+    </div>
+  );
+};
 
-export default Home;
+export default NormalLoginForm;
