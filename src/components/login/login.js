@@ -1,12 +1,13 @@
-import React from "react";
+import React, {useState, useEffect, Fragment} from 'react';
 import "antd/dist/antd.css";
 import axiosInstance from '../../axiosApi'
 import "./login.css";
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button, Checkbox, Badge } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 //import poto from "./poto.png";
 //import logo from "./logo.png";
 const NormalLoginForm = () => {
+  const [error, setError] = useState('');
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
     axiosInstance.post('api/token', values, {crossDomain: true})
@@ -42,6 +43,7 @@ const NormalLoginForm = () => {
     }).catch(error => {
       if(error.response) { 
         const errm = "Neteisingas slaptažodis arba el. paštas";
+        setError(errm)
         console.log(error.response.data)
       }
     });
@@ -58,9 +60,9 @@ const NormalLoginForm = () => {
         }}
         onFinish={onFinish}
       >
-        <div className="login-sider">
-            <h1 class="white-text">MedEra</h1>
-            <p class="white-text">Prisijunkite prie savo asmeninės MedEra paskyros</p>
+        <div class="left-background ">
+                <h1 class="white-text">MedEra</h1>
+                <p>Prisijunkite prie savo asmeninės MedEra paskyros</p>
         </div>
         <div className="login-form-container">
           <h1>Prisijungimas</h1>
@@ -93,7 +95,7 @@ const NormalLoginForm = () => {
               placeholder="Slaptažodis"
             />
           </Form.Item>
-
+          <div style={{color:'red', paddingBottom:'10px'}}>{error}</div>
           <Form.Item>
             <Button
               type="primary"
