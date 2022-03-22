@@ -109,7 +109,7 @@ class SideBar extends React.Component {
           </Menu.Item>
 
           <Menu.Item key="8" onClick={() => { this.setSelectedKeys("8")}}>
-            <Link to="/laboratory_test">
+            <Link to="/prescription">
               <AuditOutlined style={iconSize}/>
               <span className="nav-text">Receptai</span>
             </Link>

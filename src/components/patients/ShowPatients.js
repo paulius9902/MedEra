@@ -113,7 +113,7 @@ const ShowPatients = () => {
   return (
     <>
       <h1>Pacientai</h1>
-
+      <Divider></Divider>
       <Button className="mr-2 mb-3" size='large' onClick={() => {setVisible(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti pacientą</Button>
 
       <Table columns={COLUMNS} dataSource={patients} size="middle" rowKey={record => record.patient_id} />

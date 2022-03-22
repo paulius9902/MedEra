@@ -72,9 +72,13 @@ return (
                         <Link style={{fontSize: '175%' }} to={'#'} onClick={() => {setVisibleVisit(true);}} ><PlusCircleOutlined style={{ color: "#87d068" }}/> Pridėti receptą</Link>,
                         ]}>
                     <Title>Paciento duomenys</Title>
-                            <Title level={4} type='secondary'>Vardas: {patient.name}</Title>
-                            <p>Pavardė: {patient.surname}</p>
-                            <p>Gimimo data: {patient.birthday}</p>
+                            <p style={{fontSize: '125%' }}>Vardas: <b>{patient.name}</b></p>
+                            <p style={{fontSize: '125%' }}>Pavardė: <b>{patient.surname}</b></p>
+                            <p style={{fontSize: '125%' }}>Gimimo data:  <b>{patient.birthday}</b></p>
+                            <p style={{fontSize: '125%' }}>Telefono nr.:  <b>{patient.phone_number}</b></p>
+                            <p style={{fontSize: '125%' }}>Ūgis(cm.):  <b>{patient.height}</b></p>
+                            <p style={{fontSize: '125%' }}>Svoris(kg.):  <b>{patient.weight}</b></p>
+                            <p style={{fontSize: '125%' }}>Gydosi iki:  <b>{patient.termination_date}</b></p>
                     </Card>
                 </Col>
             <UpdatePatientModal

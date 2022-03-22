@@ -5,61 +5,61 @@ import Table from "antd/lib/table";
 import {Button, Divider, Popconfirm, notification, Tag} from 'antd';
 import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-import AddDiagnosisModal from './AddDiagnosisModal';
-import UpdateDiagnosisModal from './UpdateDiagnosisModal';
+import AddLabTestModal from './AddLabTestModal';
+import UpdateLabTestModal from './UpdateLabTestModal';
 import { trackPromise } from 'react-promise-tracker';
-import "./custom.css";
+//import "./custom.css";
 //import { Button } from 'react-bootstrap';
 
-const ShowDiagnoses = () => {
+const ShowLabTests = () => {
   const {id} = useParams();
-  const [diagnosis_id, setDiagnosisID] = useState(null);
-  const [diagnoses, setDiagnoses] = useState([]);
+  const [lab_test_id, setLabTestID] = useState(null);
+  const [lab_tests, setLabTests] = useState([]);
   const [visible_create, setVisibleCreate] = useState(false);
   const [visible_update, setVisibleUpdate] = useState(false);
 
   useEffect(() => {
-    getAllDiagnosis();
+    getAllLabTests();
   }, []);
 
   const onCreate = async(values) => {
     console.log(values);
-    await axios.post(`api/diagnosis`, values).then(response=>{
+    await axios.post(`api/laboratory_test`, values).then(response=>{
       console.log(response.data);
-      getAllDiagnosis();
+      getAllLabTests();
       notification.success({ message: 'Sėkmingai sukurta!' });
     })
     setVisibleCreate(false);
   };
 
-  const deleteDiagnosis = async (id) => {
+  const deleteLabTest = async (id) => {
     try {
-      await axios.delete(`api/diagnosis/${id}`);
-      getAllDiagnosis();
+      await axios.delete(`api/laboratory_test/${id}`);
+      getAllLabTests();
       notification.success({ message: 'Sėkmingai ištrinta!' });
     } catch (error) {
       console.error(error);
     }
   };
 
-  const getAllDiagnosis = async () => {
+  const getAllLabTests = async () => {
     try {
-      const res = await axios.get('api/diagnosis');
-      setDiagnoses(res.data);
+      const res = await axios.get('api/laboratory_test');
+      setLabTests(res.data);
     } catch (error) {
       console.error(error);
     }
   };
 
   const confirmHandler = id => {
-    deleteDiagnosis(id);
+    deleteLabTest(id);
   };
 
   const COLUMNS = [
     {
       title: "ID",
-      dataIndex: 'diagnosis_id',
-      key: "diagnosis_id"
+      dataIndex: 'test_id',
+      key: "test_id"
     },
     {
         title: "Data",
@@ -97,32 +97,37 @@ const ShowDiagnoses = () => {
         ]
     },
     {
-        title: "Vizito priežastis",
-        dataIndex: ['visit', 'health_issue'],
-        key: "visit_health_issue"
+        title: "Pavadinimas",
+        dataIndex: 'name',
+        key: "name"
     },
     {
-        title: "Diagnozė",
-        dataIndex: 'description',
-        key: "description"
+        title: "Rodiklis",
+        dataIndex: 'value_text',
+        key: "value_text"
     },
     {
-      title: "Veiksmai",
+      title: "Reikšmė",
+      dataIndex: 'value_numeric',
+      key: "value_numeric"
+  },
+    {
+      title: "Veiksmas",
       key: "action",
       render: (record) => {
         return (
           <div>
             
             
-            <UpdateDiagnosisModal {...record} onUpdateRefresh={() => {
-                                    getAllDiagnosis();
+            <UpdateLabTestModal {...record} onUpdateRefresh={() => {
+                                    getAllLabTests();
                                   }}/>
             <Popconfirm
               placement='topLeft'
               title='Ar tikrai norite ištrinti?'
               okText='Taip'
               cancelText='Ne'
-              onConfirm={() => confirmHandler(record.diagnosis_id)}
+              onConfirm={() => confirmHandler(record.test_id)}
             >
               <DeleteOutlined
                 style={{ color: "#ff4d4f", marginLeft: 12, fontSize: '150%'}}
@@ -137,12 +142,12 @@ const ShowDiagnoses = () => {
 
   return (
     <>
-      <h1>Diagnozės</h1>
+      <h1>Laboratoriniai tyrimai</h1>
       <Divider></Divider>
-      <Button className="mr-2 mb-3" size='large' onClick={() => {setVisibleCreate(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti diagnozę</Button>
+      <Button className="mr-2 mb-3" size='large' onClick={() => {setVisibleCreate(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti lab. tyrimą</Button>
 
-      <Table columns={COLUMNS} dataSource={diagnoses} size="middle" rowKey={record => record.diagnosis_id} />
-      <AddDiagnosisModal
+      <Table columns={COLUMNS} dataSource={lab_tests} size="middle" rowKey={record => record.test_id} />
+      <AddLabTestModal
         visible={visible_create}
         onCreate={onCreate}
         onCancel={() => {
@@ -153,4 +158,4 @@ const ShowDiagnoses = () => {
   );
 };
 
-export default ShowDiagnoses;
+export default ShowLabTests;

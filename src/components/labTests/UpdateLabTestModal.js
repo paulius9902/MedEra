@@ -1,27 +1,27 @@
 import React, {useCallback} from "react";
 import "antd/dist/antd.css";
-import { Modal, Typography, notification, Form, Card, Row, Col, Avatar, Input} from "antd";
+import { Modal, Typography, notification, Form, Card, Row, Col, Avatar, Input, InputNumber} from "antd";
 import { EditOutlined, UserOutlined} from "@ant-design/icons";
 import axios from '../../axiosApi';
 //import { ShowDiagnoses} from './ShowDiagnoses';
 
-import "./custom.css";
+//import "./custom.css";
 
 const { Title } = Typography;
 
-function UpdateUser(record, onUpdateRefresh) {
+function UpdateLabTest(record, onUpdateRefresh) {
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
 
-  const onUpdate = async(values) => {
+  const onUpdate = async(values, id) => {
     console.log(values);
-    await axios.patch(`api/diagnosis/${record.diagnosis_id}`, values).then(response=>{
+    await axios.patch(`api/laboratory_test/${id}`, values).then(response=>{
       console.log(response.data);
       
       notification.success({ message: 'Sėkmingai atnaujinta!' });
     })
-    setVisible(false);
+    
   };
 
   const showModal = () => {
@@ -34,12 +34,13 @@ function UpdateUser(record, onUpdateRefresh) {
 
   
 
-  const handleOk = (values) => {
+  const handleOk = (values, id) => {
     setConfirmLoading(true);
     setTimeout(() => {
-      onUpdate(values);
+      onUpdate(values, id);
+      setVisible(false);
+      setConfirmLoading(false);
     }, 2000);
-    setConfirmLoading(false);
   };
 
   return (
@@ -57,10 +58,8 @@ function UpdateUser(record, onUpdateRefresh) {
           form
             .validateFields()
             .then((values) => {
-              console.log('reiksmes')
               console.log(values)
-              console.log('reiksmes')
-              handleOk(values);
+              handleOk(values, record.test_id);
               //onUpdateRefresh();
               //getAllDiagnosis();
               //ShowDiagnoses.getAllDiagnosis();
@@ -76,12 +75,14 @@ function UpdateUser(record, onUpdateRefresh) {
         mask={true}
         maskClosable={false}
         destroyOnClose={true}
-        title={<Title level={4}>Atnaujinti diagnozę</Title>}
+        title={<Title level={4}>Atnaujinti lab. tyrimą</Title>}
       >
         <Card bordered={false} size="small" style={{ padding: 15 }}>
         <Form form={form} layout="vertical"
           initialValues={{
-            description: record.description,
+            name: record.name,
+            value_text: record.value_text,
+            value_numeric: record.value_numeric,
         }}>
           
           <Row>
@@ -90,12 +91,33 @@ function UpdateUser(record, onUpdateRefresh) {
             </Col>
             <Col span={18}>
               <Form.Item
-                label="Diagnozė:"
+                label="Pavadinimas:"
                 rules={[{ required: true }]}
                 style={{ width: "70%" }}
-                name="description"
+                name="name"
               >
-                <Input placeholder="Diagnozė" />
+                <Input placeholder="Pavadinimas" />
+              </Form.Item>
+              <Form.Item
+                label="Rodiklis:"
+                rules={[{ required: true }]}
+                style={{ width: "70%" }}
+                name="value_text"
+              >
+                <Input placeholder="Rodiklis" />
+              </Form.Item>
+              <Form.Item
+                label="Reikšmė:"
+                rules={[{ required: true }]}
+                style={{ width: "70%" }}
+                name="value_numeric"
+              >
+                <InputNumber
+                  min="0"
+                  step="0.01"
+                  stringMode
+                  style={{width: '100%',}}
+                />
               </Form.Item>
             </Col>
           </Row>
@@ -106,4 +128,4 @@ function UpdateUser(record, onUpdateRefresh) {
   );
 };
 
-export default UpdateUser;
+export default UpdateLabTest;

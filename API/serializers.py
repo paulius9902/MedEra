@@ -71,10 +71,22 @@ class PrescriptionSerializer(serializers.ModelSerializer):
         model=Prescriptions
         fields=('__all__')
 
+class PrescriptionSerializerDepth(serializers.ModelSerializer):
+    class Meta:
+        model=Prescriptions
+        fields=('__all__')
+        depth = 1
+
 class LaboratoryTestSerializer(serializers.ModelSerializer):
     class Meta:
         model=LaboratoryTests
         fields=('__all__')
+
+class LaboratoryTestSerializerDepth(serializers.ModelSerializer):
+    class Meta:
+        model=LaboratoryTests
+        fields=('__all__')
+        depth = 1
 
 class CustomUserSerializer(serializers.ModelSerializer):
     """

@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from API.models import NewUser, Prescriptions
-from API.serializers import PrescriptionSerializer
+from API.serializers import PrescriptionSerializer, PrescriptionSerializerDepth
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
 from API.serializers import CustomUserSerializer
@@ -17,7 +17,7 @@ class PrescriptionGetList(APIView):
             prescriptions = Prescriptions.objects.all()
         else:
             prescriptions = Prescriptions.objects.filter(patient=user_serializer.data["patient"])
-        prescriptions_serializer=PrescriptionSerializer(prescriptions, many=True)
+        prescriptions_serializer=PrescriptionSerializerDepth(prescriptions, many=True)
         return JsonResponse(prescriptions_serializer.data, safe=False)
     def post(self, request):
         user = NewUser.objects.get(id=self.request.user.id)
@@ -47,7 +47,7 @@ class PrescriptionGet(APIView):
                 prescription = Prescriptions.objects.filter(Q(prescription_id=prescription_id) & Q(patient=user_serializer.data["patient"])).get()
         except Prescriptions.DoesNotExist:
             return HttpResponse('Receptas nerastas!', status=404)
-        prescription_serializer = PrescriptionSerializer(prescription, many=False)
+        prescription_serializer = PrescriptionSerializerDepth(prescription, many=False)
         return JsonResponse(prescription_serializer.data, safe=False)
     def patch(self, request, prescription_id):
         user = NewUser.objects.get(id=self.request.user.id)

@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from API.models import LaboratoryTests, NewUser
-from API.serializers import LaboratoryTestSerializer
+from API.serializers import LaboratoryTestSerializer, LaboratoryTestSerializerDepth
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
 from API.serializers import CustomUserSerializer
@@ -17,7 +17,7 @@ class LaboratoryTestGetList(APIView):
             laboratory_tests = LaboratoryTests.objects.all()
         else:
             laboratory_tests = LaboratoryTests.objects.filter(patient=user_serializer.data["patient"])
-        laboratory_tests_serializer=LaboratoryTestSerializer(laboratory_tests, many=True)
+        laboratory_tests_serializer=LaboratoryTestSerializerDepth(laboratory_tests, many=True)
         return JsonResponse(laboratory_tests_serializer.data, safe=False)
     def post(self, request):
         user = NewUser.objects.get(id=self.request.user.id)
@@ -47,7 +47,7 @@ class LaboratoryTestGet(APIView):
                 laboratory_test = LaboratoryTests.objects.filter(Q(test_id=test_id) & Q(patient=user_serializer.data["patient"])).get()
         except LaboratoryTests.DoesNotExist:
             return HttpResponse('Paciento tyrimas nerastas!', status=404)
-        laboratory_test_serializer = LaboratoryTestSerializer(laboratory_test, many=False)
+        laboratory_test_serializer = LaboratoryTestSerializerDepth(laboratory_test, many=False)
         return JsonResponse(laboratory_test_serializer.data, safe=False)
     def patch(self, request, test_id):
         user = NewUser.objects.get(id=self.request.user.id)

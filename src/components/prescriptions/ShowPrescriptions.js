@@ -5,66 +5,61 @@ import Table from "antd/lib/table";
 import {Button, Divider, Popconfirm, notification, Tag} from 'antd';
 import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-import AddDiagnosisModal from './AddDiagnosisModal';
-import UpdateDiagnosisModal from './UpdateDiagnosisModal';
+import AddPrescriptionModal from './AddPrescriptionModal';
+import UpdatePrescriptionModal from './UpdatePrescriptionModal';
 import { trackPromise } from 'react-promise-tracker';
-import "./custom.css";
+//import "./custom.css";
 //import { Button } from 'react-bootstrap';
 
-const ShowDiagnoses = () => {
+const ShowPrescriptions = () => {
   const {id} = useParams();
-  const [diagnosis_id, setDiagnosisID] = useState(null);
-  const [diagnoses, setDiagnoses] = useState([]);
+  const [prescription_id, setPrescriptionID] = useState(null);
+  const [prescriptions, setPrescriptions] = useState([]);
   const [visible_create, setVisibleCreate] = useState(false);
   const [visible_update, setVisibleUpdate] = useState(false);
 
   useEffect(() => {
-    getAllDiagnosis();
+    getAllPrescriptions();
   }, []);
 
   const onCreate = async(values) => {
     console.log(values);
-    await axios.post(`api/diagnosis`, values).then(response=>{
+    await axios.post(`api/prescription`, values).then(response=>{
       console.log(response.data);
-      getAllDiagnosis();
+      getAllPrescriptions();
       notification.success({ message: 'Sėkmingai sukurta!' });
     })
     setVisibleCreate(false);
   };
 
-  const deleteDiagnosis = async (id) => {
+  const deletePrescription = async (id) => {
     try {
-      await axios.delete(`api/diagnosis/${id}`);
-      getAllDiagnosis();
+      await axios.delete(`api/prescription/${id}`);
+      getAllPrescriptions();
       notification.success({ message: 'Sėkmingai ištrinta!' });
     } catch (error) {
       console.error(error);
     }
   };
 
-  const getAllDiagnosis = async () => {
+  const getAllPrescriptions = async () => {
     try {
-      const res = await axios.get('api/diagnosis');
-      setDiagnoses(res.data);
+      const res = await axios.get('api/prescription');
+      setPrescriptions(res.data);
     } catch (error) {
       console.error(error);
     }
   };
 
   const confirmHandler = id => {
-    deleteDiagnosis(id);
+    deletePrescription(id);
   };
 
   const COLUMNS = [
     {
       title: "ID",
-      dataIndex: 'diagnosis_id',
-      key: "diagnosis_id"
-    },
-    {
-        title: "Data",
-        dataIndex: 'creation_date',
-        key: "creation_date"
+      dataIndex: 'prescription_id',
+      key: "prescription_id"
     },
     {
         title: 'Pacientas',
@@ -97,32 +92,42 @@ const ShowDiagnoses = () => {
         ]
     },
     {
-        title: "Vizito priežastis",
-        dataIndex: ['visit', 'health_issue'],
-        key: "visit_health_issue"
+        title: "Vaistas",
+        dataIndex: 'medicine',
+        key: "medicine"
     },
     {
-        title: "Diagnozė",
-        dataIndex: 'description',
-        key: "description"
+        title: "Kiekis",
+        dataIndex: 'quantity',
+        key: "quantity"
     },
     {
-      title: "Veiksmai",
+      title: "Vartojimas",
+      dataIndex: 'usage',
+      key: "usage"
+    },
+    {
+      title: "Diagnozė",
+      dataIndex: ['diagnosis', 'description'],
+      key: "doctor_surname"
+    },
+    {
+      title: "Veiksmas",
       key: "action",
       render: (record) => {
         return (
           <div>
             
             
-            <UpdateDiagnosisModal {...record} onUpdateRefresh={() => {
-                                    getAllDiagnosis();
+            <UpdatePrescriptionModal {...record} onUpdateRefresh={() => {
+                                    getAllPrescriptions();
                                   }}/>
             <Popconfirm
               placement='topLeft'
               title='Ar tikrai norite ištrinti?'
               okText='Taip'
               cancelText='Ne'
-              onConfirm={() => confirmHandler(record.diagnosis_id)}
+              onConfirm={() => confirmHandler(record.test_id)}
             >
               <DeleteOutlined
                 style={{ color: "#ff4d4f", marginLeft: 12, fontSize: '150%'}}
@@ -137,12 +142,12 @@ const ShowDiagnoses = () => {
 
   return (
     <>
-      <h1>Diagnozės</h1>
+      <h1>Receptai</h1>
       <Divider></Divider>
-      <Button className="mr-2 mb-3" size='large' onClick={() => {setVisibleCreate(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti diagnozę</Button>
+      <Button className="mr-2 mb-3" size='large' onClick={() => {setVisibleCreate(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti receptą</Button>
 
-      <Table columns={COLUMNS} dataSource={diagnoses} size="middle" rowKey={record => record.diagnosis_id} />
-      <AddDiagnosisModal
+      <Table columns={COLUMNS} dataSource={prescriptions} size="middle" rowKey={record => record.test_id} />
+      <AddPrescriptionModal
         visible={visible_create}
         onCreate={onCreate}
         onCancel={() => {
@@ -153,4 +158,4 @@ const ShowDiagnoses = () => {
   );
 };
 
-export default ShowDiagnoses;
+export default ShowPrescriptions;
