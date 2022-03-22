@@ -1,16 +1,28 @@
-import React from "react";
+import React, {useCallback} from "react";
 import "antd/dist/antd.css";
-import { Modal, Typography } from "antd";
-import { EditOutlined } from "@ant-design/icons";
+import { Modal, Typography, notification, Form, Card, Row, Col, Avatar, Input} from "antd";
+import { EditOutlined, UserOutlined} from "@ant-design/icons";
+import axios from '../../axiosApi';
+//import { ShowDiagnoses} from './ShowDiagnoses';
 
 import "./custom.css";
-import InternalUser from "./Diagnosis";
 
 const { Title } = Typography;
 
-const UpdateUser = (record) => {
+function UpdateUser(record, onUpdateRefresh) {
+  const [form] = Form.useForm();
   const [visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
+
+  const onUpdate = async(values, id) => {
+    console.log(values);
+    await axios.patch(`api/diagnosis/${id}`, values).then(response=>{
+      console.log(response.data);
+      
+      notification.success({ message: 'Sėkmingai atnaujinta!' });
+    })
+    
+  };
 
   const showModal = () => {
     setVisible(true);
@@ -20,9 +32,12 @@ const UpdateUser = (record) => {
     setVisible(false);
   };
 
-  const handleOk = () => {
+  
+
+  const handleOk = (values, id) => {
     setConfirmLoading(true);
     setTimeout(() => {
+      onUpdate(values, id);
       setVisible(false);
       setConfirmLoading(false);
     }, 2000);
@@ -30,7 +45,7 @@ const UpdateUser = (record) => {
 
   return (
     <>
-      <EditOutlined onClick={showModal} style={{ fontSize: "18px" }} />
+      <EditOutlined onClick={showModal} style={{ color: "#08c",  fontSize: '150%'}}/>
 
       <Modal
         centered
@@ -39,7 +54,21 @@ const UpdateUser = (record) => {
         width={800}
         visible={visible}
         onCancel={handleCancel}
-        onOk={handleOk}
+        onOk={() => {
+          form
+            .validateFields()
+            .then((values) => {
+              console.log(values)
+              handleOk(values, record.diagnosis_id);
+              //onUpdateRefresh();
+              //getAllDiagnosis();
+              //ShowDiagnoses.getAllDiagnosis();
+            })
+            .catch((info) => {
+              console.log("Validate Failed:", info);
+            });
+            window.location.reload()
+        }}
         confirmLoading={confirmLoading}
         cancelText="Cancel"
         okText="Submit"
@@ -48,7 +77,29 @@ const UpdateUser = (record) => {
         destroyOnClose={true}
         title={<Title level={4}>Atnaujinti diagnozę</Title>}
       >
-        <InternalUser {...record} />
+        <Card bordered={false} size="small" style={{ padding: 15 }}>
+        <Form form={form} layout="vertical"
+          initialValues={{
+            description: record.description,
+        }}>
+          
+          <Row>
+            <Col span={6}>
+              <Avatar shape="square" size={100} icon={<UserOutlined />} />
+            </Col>
+            <Col span={18}>
+              <Form.Item
+                label="Diagnozė:"
+                rules={[{ required: true }]}
+                style={{ width: "70%" }}
+                name="description"
+              >
+                <Input placeholder="Diagnozė" />
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
+      </Card>
       </Modal>
     </>
   );

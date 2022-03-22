@@ -16,22 +16,6 @@ const {id} = useParams();
 const [visible_doctor, setVisibleDoctor] = useState(false);
 const [visible_visit, setVisibleVisit] = useState(false);
 
-const tabList = [
-    {
-      key: 'tab1',
-      tab: 'tab1',
-    },
-    {
-      key: 'tab2',
-      tab: 'tab2',
-    },
-  ];
-
-const contentList = {
-    tab1: <p>content1</p>,
-    tab2: <p>content2</p>,
-  };
-
 useEffect(() => {
     getSingleDoctor();
     getWorkHours();

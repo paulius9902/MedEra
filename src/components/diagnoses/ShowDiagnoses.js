@@ -18,6 +18,10 @@ const ShowDiagnoses = () => {
   const [visible_create, setVisibleCreate] = useState(false);
   const [visible_update, setVisibleUpdate] = useState(false);
 
+  useEffect(() => {
+    getAllDiagnosis();
+  }, []);
+
   const onCreate = async(values) => {
     console.log(values);
     await axios.post(`api/diagnosis`, values).then(response=>{
@@ -50,10 +54,6 @@ const ShowDiagnoses = () => {
   const confirmHandler = id => {
     deleteDiagnosis(id);
   };
-
-  useEffect(() => {
-    getAllDiagnosis();
-  }, []);
 
   const COLUMNS = [
     {
@@ -114,7 +114,9 @@ const ShowDiagnoses = () => {
           <div>
             
             
-            <UpdateDiagnosisModal {...record} />
+            <UpdateDiagnosisModal {...record} onUpdateRefresh={() => {
+                                    getAllDiagnosis();
+                                  }}/>
             <Popconfirm
               placement='topLeft'
               title='Ar tikrai norite ištrinti?'
@@ -123,7 +125,7 @@ const ShowDiagnoses = () => {
               onConfirm={() => confirmHandler(record.diagnosis_id)}
             >
               <DeleteOutlined
-                style={{ color: "red", marginLeft: 12, fontSize: '150%'}}
+                style={{ color: "#ff4d4f", marginLeft: 12, fontSize: '150%'}}
               />
             </Popconfirm>
           </div>

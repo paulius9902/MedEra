@@ -90,7 +90,7 @@ const ShowPatients = () => {
           <div>
             
             <Link to={`/patient/${record.patient_id}`}>
-              <EditOutlined style={{ color: "blue", marginLeft: 5, fontSize: '150%'}}/>
+              <EditOutlined style={{ color: "#08c", marginLeft: 5, fontSize: '150%'}}/>
             </Link>
             <Popconfirm
               placement='topLeft'
@@ -100,7 +100,7 @@ const ShowPatients = () => {
               onConfirm={() => confirmHandler(record.patient_id)}
             >
               <DeleteOutlined
-                style={{ color: "red", marginLeft: 12, fontSize: '150%'}}
+                style={{ color: "#ff4d4f", marginLeft: 12, fontSize: '150%'}}
               />
             </Popconfirm>
           </div>

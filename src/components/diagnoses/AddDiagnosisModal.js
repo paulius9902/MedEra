@@ -55,7 +55,7 @@ const AddDiagnosisModal = ({ visible, onCreate, onCancel }) => {
             destroyOnClose={true}>
               <Card bordered={false} size="small" style={{ padding: 15 }}>
       <Form form={form} layout="vertical"> 
-      <Form.Item name="patient" label="Pacientas"
+      <Form.Item name="patient" label="Pacientas:"
                     rules={[
                       {
                         required: true,
