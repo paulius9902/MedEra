@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from API.models import NewUser
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
-from API.serializers import CustomUserSerializer
+from API.serializers import CustomUserSerializer, CustomUserSerializerDepth
 from django.http import HttpResponse
 
 class UserGetList(APIView):
@@ -18,7 +18,7 @@ class UserGetList(APIView):
         user_serializer = CustomUserSerializer(user)
         if(user_serializer.data["is_superuser"]):
             users = NewUser.objects.all()
-            users_serializer = CustomUserSerializer(users, many=True)
+            users_serializer = CustomUserSerializerDepth(users, many=True)
             return JsonResponse(users_serializer.data, safe=False)
         else:
             return HttpResponse('Neturite administratoriaus teisių!', status=204)
@@ -43,7 +43,7 @@ class UserGet(APIView):
                 user = NewUser.objects.get(id=user_id)
             except NewUser.DoesNotExist:
                 return HttpResponse('Vartotojas nerastas!', status=404)
-            user_serializer = CustomUserSerializer(user, many=False)
+            user_serializer = CustomUserSerializerDepth(user, many=False)
             return JsonResponse(user_serializer.data, safe=False)
         else:
             return HttpResponse('Neturite administratoriaus teisių!', status=204)

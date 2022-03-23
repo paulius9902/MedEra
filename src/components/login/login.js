@@ -4,6 +4,7 @@ import axiosInstance from '../../axiosApi'
 import "./login.css";
 import { Form, Input, Button, Checkbox, Badge } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import 'antd/dist/antd.css'; 
 //import poto from "./poto.png";
 //import logo from "./logo.png";
 const NormalLoginForm = () => {
@@ -78,6 +79,7 @@ const NormalLoginForm = () => {
             <Input
               prefix={<UserOutlined className="site-form-item-icon" />}
               placeholder="El. paštas"
+              size="large"
             />
           </Form.Item>
           <Form.Item
@@ -93,6 +95,7 @@ const NormalLoginForm = () => {
               prefix={<LockOutlined className="site-form-item-icon" />}
               type="password"
               placeholder="Slaptažodis"
+              size="large"
             />
           </Form.Item>
           <div style={{color:'red', paddingBottom:'10px'}}>{error}</div>
@@ -100,7 +103,7 @@ const NormalLoginForm = () => {
             <Button
               type="primary"
               htmlType="submit"
-              className="login-form-button"
+              block
             >
               Prisijungti
             </Button>

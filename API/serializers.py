@@ -89,9 +89,6 @@ class LaboratoryTestSerializerDepth(serializers.ModelSerializer):
         depth = 1
 
 class CustomUserSerializer(serializers.ModelSerializer):
-    """
-    Currently unused in preference of the below.
-    """
     email = serializers.EmailField(required=True)
     password = serializers.CharField(min_length=8, write_only=True)
 
@@ -109,6 +106,12 @@ class CustomUserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+
+class CustomUserSerializerDepth(serializers.ModelSerializer):
+    class Meta:
+        model = NewUser
+        fields=('__all__')
+        depth = 1
 
 class ChangePasswordSerializer(serializers.Serializer):
     model = NewUser

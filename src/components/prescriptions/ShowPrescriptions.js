@@ -103,8 +103,8 @@ const ShowPrescriptions = () => {
     },
     {
       title: "Vartojimas",
-      dataIndex: 'usage',
-      key: "usage"
+      dataIndex: 'custom_usage',
+      key: "custom_usage"
     },
     {
       title: "Diagnozė",

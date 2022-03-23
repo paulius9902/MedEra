@@ -19,9 +19,7 @@ import ShowLabTests from "./components/labTests/ShowLabTests";
 import ShowVisits from "./components/visits/ShowVisits";
 import Profile from "./components/profile/Profile";
 import ChangePassword from "./components/profile/ChangePassword";
-import About from "./components/about/About";
 import ShowUsers from "./components/users/ShowUsers";
-import AddUsers from "./components/users/AddUser";
 
 const { SubMenu } = Menu;
 const { Content, Sider, Footer } = Layout;
@@ -71,9 +69,6 @@ class App extends React.Component {
                                         <Route exact path={"/change_password/"} element={<ChangePassword/>}/>
 
                                         <Route exact path={"/user/"} element={<ShowUsers/>}/>
-                                        <Route exact path={"/user/create"} element={<AddUsers/>}/>
-
-                                        <Route exact path={"/about/"} element={<About/>}/>
 
                                         <Route exact path="/" element={<Home/>} />
 
@@ -94,8 +89,6 @@ class App extends React.Component {
                     <main>
                         <Routes>
                         <Route exact path={"/login/"} element={<Login/>}/>
-    
-                        <Route exact path={"/about/"} element={<About/>}/>
 
                         <Route exact path="/" element={<Login/>} />
 

@@ -4,10 +4,10 @@ import { useParams, useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 //import { Card, Row } from 'react-bootstrap';
 import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined} from '@ant-design/icons';
-import {Button, Space, notification, Card} from 'antd';
+import {Button, Space, notification, Card, Form, Row, Col, Typography} from 'antd';
 import UpdateDoctorModal from './UpdateDoctorModal';
 import AddDoctorVisitModal from './AddDoctorVisitModal';
-
+const { Title, Text} = Typography;
 const DoctorDetail = () => {
 
 const [doctor, setDoctor] = useState([])
@@ -65,66 +65,54 @@ const deleteDoctor = async (id) => {
     }
 }
 return (
-    <div>
-        <div class="row align-items-center">
+    <Card bordered={false} size="small" style={{ padding: 15 }}>
+    <Form layout="vertical">
+        <Row>
+            <Col span={6}>
+                <Card
+                cover={
+                    <img
+                        class="img-fluid rounded mb-4 mb-lg-0"
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"
+                        alt=""
+                    />
+                    }
+                actions={[
+                    <Link style={{fontSize: '150%' }} onClick={() => {setVisibleDoctor(true);}} to="#"><EditOutlined style={{color: "#2db7f5"}}/> Atnaujinti</Link>,
+                    <Link style={{fontSize: '150%' }} to="/doctor" onClick={() => deleteDoctor(doctor.doctor_id)}><DeleteOutlined style={{color: "#f50"}}/> Ištrinti</Link>,
+                    ]}>
+                </Card>
             
-            <Card>
-                <img
-                    class="img-fluid rounded mb-4 mb-lg-0"
-                    src="https://www.shareicon.net/data/256x256/2016/08/18/813849_people_512x512.png"
-                    alt=""
-                />
-            </Card>
-                <Card>
-                    <Button size='large' onClick={() => {setVisibleVisit(true);}} style={{float: 'right', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti vizitą</Button>
-                    <h1 class="font-weight-light">Gydytojo duomenys:</h1>
-                    <div className="doctor-detail">
-                            <p>Vardas: {doctor.name}</p>
-                            <p>Pavardė: {doctor.surname}</p>
-                            <p>Gimimo data: {doctor.birthday}</p>
-                            <h1 class="font-weight-light">Darbo laikas:</h1>
-                            <table className="table table-stripped">
-                            <thead>
-                                <tr>
-                                <th>Savaitės diena</th>
-                                <th>Pradžia</th>
-                                <th>Pabaiga</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            {work_hours.sort((first, second) => {
-                            return first.week_day > second.week_day ? 1 : -1;
-                            }).map((day, index) => {   
-                                    return (
-                                    <tr key="">
-                                        <th scope="row">{day.week_day}</th>
-                                        <td> {day.start_time}</td>
-                                        <td>{day.end_time}</td>
-                                    </tr>
-                                    );
-                                })}
-                            </tbody>
-                            </table>
-                        </div> 
-                        <Link className="btn btn-primary" onClick={() => {setVisibleDoctor(true);}} to="#"><EditOutlined style={{fontSize: '125%'}}/> Atnaujinti</Link>
-                        <Link className="btn btn-danger" to="/doctor" onClick={() => deleteDoctor(doctor.doctor_id)}><DeleteOutlined style={{fontSize: '125%'}}/> Ištrinti</Link>
-                    </Card>
-            </div>
-            <UpdateDoctorModal
-                visible={visible_doctor}
-                onCreate={onUpdate}
-                onCancel={() => {
-                setVisibleDoctor(false);
-                }}
-            />
-            <AddDoctorVisitModal
-                visible={visible_visit}
-                onCreate={addVisit}
-                onCancel={() => {
-                setVisibleVisit(false);
-                }}
-            />
-            </div>
+            </Col>
+            <Col span={18}>
+                <Card
+                actions={[
+                    <Link style={{fontSize: '175%' }} to={'#'} onClick={() => {setVisibleVisit(true);}} ><PlusCircleOutlined style={{ color: "#87d068" }}/> Pridėti vizitą</Link>,
+                    ]}>
+                <Title>Gydytojo duomenys</Title>
+                        <p style={{fontSize: '125%' }}>Vardas: <b>{doctor.name}</b></p>
+                        <p style={{fontSize: '125%' }}>Pavardė: <b>{doctor.surname}</b></p>
+                        <p style={{fontSize: '125%' }}>Gimimo data:  <b>{doctor.birthday}</b></p>
+                        <p style={{fontSize: '125%' }}>Telefono nr.:  <b>{doctor.phone_number}</b></p>
+                </Card>
+            </Col>
+        <UpdateDoctorModal
+            visible={visible_doctor}
+            onCreate={onUpdate}
+            onCancel={() => {
+            setVisibleDoctor(false);
+            }}
+        />
+        <AddDoctorVisitModal
+            visible={visible_visit}
+            onCreate={addVisit}
+            onCancel={() => {
+            setVisibleVisit(false);
+            }}
+        />
+        </Row>
+        </Form>
+        </Card>
             );
 };
 

@@ -1,27 +1,25 @@
 import React, {useCallback} from "react";
 import "antd/dist/antd.css";
-import { Modal, Typography, notification, Form, Card, Row, Col, Avatar, Input, InputNumber} from "antd";
+import { Modal, Typography, notification, Form, Card, Row, Col, Avatar, Input} from "antd";
 import { EditOutlined, UserOutlined} from "@ant-design/icons";
 import axios from '../../axiosApi';
 //import { ShowDiagnoses} from './ShowDiagnoses';
 
-//import "./custom.css";
-
 const { Title } = Typography;
 
-function UpdateLabTest(record, onUpdateRefresh) {
+function UpdateUser(record, onUpdateRefresh) {
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
 
-  const onUpdate = async(values, id) => {
+  const onUpdate = async(values) => {
     console.log(values);
-    await axios.patch(`api/laboratory_test/${id}`, values).then(response=>{
+    await axios.patch(`api/diagnosis/${record.diagnosis_id}`, values).then(response=>{
       console.log(response.data);
       
       notification.success({ message: 'Sėkmingai atnaujinta!' });
     })
-    
+    setVisible(false);
   };
 
   const showModal = () => {
@@ -34,13 +32,12 @@ function UpdateLabTest(record, onUpdateRefresh) {
 
   
 
-  const handleOk = (values, id) => {
+  const handleOk = (values) => {
     setConfirmLoading(true);
     setTimeout(() => {
-      onUpdate(values, id);
-      setVisible(false);
-      setConfirmLoading(false);
+      onUpdate(values);
     }, 2000);
+    setConfirmLoading(false);
   };
 
   return (
@@ -58,8 +55,10 @@ function UpdateLabTest(record, onUpdateRefresh) {
           form
             .validateFields()
             .then((values) => {
+              console.log('reiksmes')
               console.log(values)
-              handleOk(values, record.test_id);
+              console.log('reiksmes')
+              handleOk(values);
               //onUpdateRefresh();
               //getAllDiagnosis();
               //ShowDiagnoses.getAllDiagnosis();
@@ -75,13 +74,12 @@ function UpdateLabTest(record, onUpdateRefresh) {
         mask={true}
         maskClosable={false}
         destroyOnClose={true}
-        title={<Title level={4}>Atnaujinti lab. tyrimą</Title>}
+        title={<Title level={4}>Atnaujinti diagnozę</Title>}
       >
         <Card bordered={false} size="small" style={{ padding: 15 }}>
         <Form form={form} layout="vertical"
           initialValues={{
-            medicine: record.medicine,
-            custom_usage: record.custom_usage,
+            description: record.description,
         }}>
           
           <Row>
@@ -89,21 +87,13 @@ function UpdateLabTest(record, onUpdateRefresh) {
               <Avatar shape="square" size={100} icon={<UserOutlined />} />
             </Col>
             <Col span={18}>
-            <Form.Item
-                label="Vaistas:"
-                rules={[{ required: true }]}
-                style={{ width: "70%" }}
-                name="medicine"
-              >
-                <Input placeholder="Vaistas" />
-              </Form.Item>
               <Form.Item
-                label="Vartojimas:"
+                label="Diagnozė:"
                 rules={[{ required: true }]}
                 style={{ width: "70%" }}
-                name="custom_usage"
+                name="description"
               >
-                <Input placeholder="Vartojimas" />
+                <Input placeholder="Diagnozė" />
               </Form.Item>
             </Col>
           </Row>
@@ -114,4 +104,4 @@ function UpdateLabTest(record, onUpdateRefresh) {
   );
 };
 
-export default UpdateLabTest;
+export default UpdateUser;

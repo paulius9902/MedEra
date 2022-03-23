@@ -121,13 +121,6 @@ class SideBar extends React.Component {
               <span className="nav-text">Vartotojai</span>
             </Link>
           </Menu.Item>
-
-          <Menu.Item key="10" onClick={() => { this.setSelectedKeys("10")}}>
-            <Link to="/about">
-              <InfoCircleOutlined style={iconSize}/>
-              <span className="nav-text">Apie mus</span>
-            </Link>
-          </Menu.Item>
         </Menu>
       </Sider>
     );

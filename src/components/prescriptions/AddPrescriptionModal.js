@@ -68,37 +68,17 @@ const AddPrescriptionModal = ({ visible, onCreate, onCancel }) => {
               ))}
           </Select>
         </Form.Item>
-        <Form.Item name="name" label="Pavadinimas:"
+        <Form.Item name="medicine" label="Vaistas:"
                     rules={[
                       {
                         required: true,
-                        message: "Įveskite pavadinimą!"
+                        message: "Įveskite vaisto pavadinimą!"
                       }
                     ]}>
           <Input/>
         </Form.Item>
-        <Form.Item name="value_text" label="Tyrimas:"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Įveskite tyrimą!"
-                      }
-                    ]}>
+        <Form.Item name="custom_usage" label="Vartojimas:">
           <Input/>
-        </Form.Item>
-        <Form.Item name="value_numeric" label="Tyrimo reikšmė:"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Įveskite tyrimo reikšmę!"
-                      }
-                    ]}>
-          <InputNumber
-            min="0"
-            step="0.01"
-            stringMode
-            style={{width: '100%',}}
-          />
         </Form.Item>
       </Form>
       </Card>
