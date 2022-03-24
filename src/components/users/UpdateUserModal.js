@@ -1,25 +1,24 @@
-import React, {useCallback} from "react";
+import React, { useState, useEffect, useCallback} from 'react';
 import "antd/dist/antd.css";
-import { Modal, Typography, notification, Form, Card, Row, Col, Avatar, Input} from "antd";
+import { Modal, Typography, notification, Form, Card, Row, Col, Avatar, Input, Select} from "antd";
 import { EditOutlined, UserOutlined} from "@ant-design/icons";
 import axios from '../../axiosApi';
-//import { ShowDiagnoses} from './ShowDiagnoses';
-
+const { Option } = Select;
 const { Title } = Typography;
 
-function UpdateUser(record, onUpdateRefresh) {
+const UpdateUser = ({getAllUsers, ...record}) => {
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
 
   const onUpdate = async(values) => {
     console.log(values);
-    await axios.patch(`api/diagnosis/${record.diagnosis_id}`, values).then(response=>{
+    await axios.patch(`api/user/${record.id}`, values).then(response=>{
       console.log(response.data);
-      
-      notification.success({ message: 'Sėkmingai atnaujinta!' });
     })
+    notification.success({ message: 'Sėkmingai atnaujinta!' });
     setVisible(false);
+    getAllUsers();
   };
 
   const showModal = () => {
@@ -29,8 +28,6 @@ function UpdateUser(record, onUpdateRefresh) {
   const handleCancel = () => {
     setVisible(false);
   };
-
-  
 
   const handleOk = (values) => {
     setConfirmLoading(true);
@@ -43,31 +40,23 @@ function UpdateUser(record, onUpdateRefresh) {
   return (
     <>
       <EditOutlined onClick={showModal} style={{ color: "#08c",  fontSize: '150%'}}/>
-
       <Modal
         centered
         style={{ height: "80%" }}
         bodyStyle={{ height: "100%", overflowY: "auto", padding: 0 }}
-        width={800}
         visible={visible}
         onCancel={handleCancel}
         onOk={() => {
           form
             .validateFields()
             .then((values) => {
-              console.log('reiksmes')
               console.log(values)
-              console.log('reiksmes')
               handleOk(values);
-              //onUpdateRefresh();
-              //getAllDiagnosis();
-              //ShowDiagnoses.getAllDiagnosis();
             })
             .catch((info) => {
               console.log("Validate Failed:", info);
-            });
-            //window.location.reload()
-        }}
+            })
+          }}
         confirmLoading={confirmLoading}
         cancelText="Atšaukti"
         okText="Atnaujinti"
@@ -79,7 +68,8 @@ function UpdateUser(record, onUpdateRefresh) {
         <Card bordered={false} size="small" style={{ padding: 15 }}>
         <Form form={form} layout="vertical"
           initialValues={{
-            description: record.description,
+            email: record.email,
+            is_active: record.is_active,
         }}>
           
           <Row>
@@ -88,12 +78,23 @@ function UpdateUser(record, onUpdateRefresh) {
             </Col>
             <Col span={18}>
               <Form.Item
-                label="Diagnozė:"
+                label="El. paštas:"
                 rules={[{ required: true }]}
-                style={{ width: "70%" }}
-                name="description"
+                style={{ width: "100%" }}
+                name="email"
               >
-                <Input placeholder="Diagnozė" />
+                <Input/>
+              </Form.Item>
+              <Form.Item
+                label="Aktyvus:"
+                rules={[{ required: true }]}
+                style={{ width: "100%" }}
+                name="is_active"
+              >
+                <Select >
+                  <Option value={true}>Taip</Option>
+                  <Option value={false}>Ne</Option>
+                </Select>
               </Form.Item>
             </Col>
           </Row>

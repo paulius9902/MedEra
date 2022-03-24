@@ -16,6 +16,24 @@ const ShowDoctors = () => {
     const onCreate = async(values) => {
         values.birthday = values.birthday.toISOString().split('T')[0]
         console.log(values);
+        console.log(new Date(values.birthday))
+        console.log(new Date(new Date().setFullYear(new Date().getFullYear() + 50)))
+        if (values.gender==='V' && new Date(values.birthday) > new Date(new Date().setFullYear(new Date().getFullYear() - 50)))
+        {
+            values.image="https://www.shareicon.net/data/256x256/2016/08/18/813850_people_512x512.png"
+        }
+        else if (values.gender==='V' && new Date(values.birthday) <= new Date(new Date().setFullYear(new Date().getFullYear() - 50)))
+        {
+            values.image="https://www.shareicon.net/data/256x256/2016/08/18/813844_people_512x512.png"
+        }
+        else if (values.gender==='M' && new Date(values.birthday) > new Date(new Date().setFullYear(new Date().getFullYear() - 50)))
+        {
+            values.image="https://www.shareicon.net/data/256x256/2016/09/01/822733_user_512x512.png"
+        }
+        else if (values.gender==='M' && new Date(values.birthday) <= new Date(new Date().setFullYear(new Date().getFullYear() - 50)))
+        {
+            values.image="https://www.shareicon.net/data/256x256/2016/08/18/813847_people_512x512.png"
+        }
         await axios.post(`api/doctor`, values).then(response=>{
           console.log(response.data);
           fetchDoctors();
@@ -62,8 +80,7 @@ const ShowDoctors = () => {
                     <Card
                         cover={
                         <img
-                            alt="example"
-                            src={photos[Math.floor(Math.random()*photos.length)]}
+                            src={doctor.image}
                         />
                         }
                         actions={[
@@ -79,8 +96,8 @@ const ShowDoctors = () => {
                         </Popconfirm>,
                         ]}
                     >
-                        <h4>{doctor.name} {doctor.surname}</h4>
-                        <p style={{fontSize:18}}>{doctor.specialization}</p>
+                        <h2>{doctor.name} {doctor.surname}</h2>
+                        <p style={{fontSize:14}}>{doctor.specialization}</p>
                     </Card>
                     </Col>
                 ))

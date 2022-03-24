@@ -11,12 +11,8 @@ import { trackPromise } from 'react-promise-tracker';
 //import { Button } from 'react-bootstrap';
 
 const ShowUsers = () => {
-  const [id, setUserID] = useState(null);
   const [users, setUsers] = useState([]);
   const [visible_create_admin, setVisibleCreateAdmin] = useState(false);
-  const [visible_create_doctor, setVisibleCreateDoctor] = useState(false);
-  const [visible_create_patient, setVisibleCreatePatient] = useState(false);
-  const [visible_update, setVisibleUpdate] = useState(false);
 
   useEffect(() => {
     getAllUsers();
@@ -175,11 +171,7 @@ const ShowUsers = () => {
       render: (record) => {
         return (
           <div>
-            
-            
-            <UpdateUserModal {...record} onUpdateRefresh={() => {
-                                    getAllUsers();
-                                  }}/>
+            <UpdateUserModal getAllUsers={getAllUsers} {...record}/>
             <Popconfirm
               placement='topLeft'
               title='Ar tikrai norite ištrinti?'

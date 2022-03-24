@@ -22,6 +22,7 @@ class Doctors(models.Model):
     creation_date = models.DateTimeField(auto_now_add=timezone.now)
     last_update_date = models.DateTimeField(auto_now=timezone.now)
     room = models.IntegerField(blank=True, null=True)
+    image = models.CharField(max_length=100)
 
     class Meta:
         managed = False
@@ -63,6 +64,7 @@ class Patients(models.Model):
     creation_date = models.DateTimeField(auto_now_add=timezone.now)
     last_update_date = models.DateTimeField(auto_now=timezone.now)
     allergies = models.ManyToManyField(Allergies, through="PatientsAllergies")
+    image = models.CharField(max_length=100)
 
     class Meta:
         managed = False

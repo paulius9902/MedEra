@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 //import { Card, Row } from 'react-bootstrap';
 import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined} from '@ant-design/icons';
-import {Button, Space, notification, Card, Form, Row, Col, Typography} from 'antd';
+import {Button, Space, notification, Card, Form, Row, Col, Typography, Descriptions} from 'antd';
 import UpdatePatientModal from './UpdatePatientModal';
 import { CardColumns } from 'reactstrap';
 const { Title, Text} = Typography;
@@ -53,13 +53,13 @@ return (
                     cover={
                         <img
                             class="img-fluid rounded mb-4 mb-lg-0"
-                            src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"
+                            src={patient.image}
                             alt=""
                         />
                         }
                     actions={[
-                        <Link style={{fontSize: '150%' }} onClick={() => {setVisiblePatient(true);}} to="#"><EditOutlined style={{color: "#2db7f5"}}/> Atnaujinti</Link>,
-                        <Link style={{fontSize: '150%' }} to="/patient" onClick={() => deletePatient(patient.patient_id)}><DeleteOutlined style={{color: "#f50"}}/> Ištrinti</Link>,
+                        <Link style={{fontSize: '125%' }} onClick={() => {setVisiblePatient(true);}} to="#"><EditOutlined style={{color: "#2db7f5"}}/> Atnaujinti</Link>,
+                        <Link style={{fontSize: '125%' }} to="/patient" onClick={() => deletePatient(patient.patient_id)}><DeleteOutlined style={{color: "#f50"}}/> Ištrinti</Link>,
                         ]}>
                     </Card>
                 
@@ -67,18 +67,19 @@ return (
                 <Col span={18}>
                     <Card
                     actions={[
-                        <Link style={{fontSize: '175%' }} to={'#'} onClick={() => {setVisibleVisit(true);}} ><PlusCircleOutlined style={{ color: "#87d068" }}/> Pridėti diagnozę</Link>,
-                        <Link style={{fontSize: '175%' }} to={'#'} onClick={() => {setVisibleVisit(true);}} ><PlusCircleOutlined style={{ color: "#87d068" }}/> Pridėti lab. tyrimą</Link>,
-                        <Link style={{fontSize: '175%' }} to={'#'} onClick={() => {setVisibleVisit(true);}} ><PlusCircleOutlined style={{ color: "#87d068" }}/> Pridėti receptą</Link>,
+                        <Link style={{fontSize: '125%' }} to={'#'} onClick={() => {setVisibleVisit(true);}} ><PlusCircleOutlined style={{ color: "#87d068" }}/> Pridėti diagnozę</Link>,
+                        <Link style={{fontSize: '125%' }} to={'#'} onClick={() => {setVisibleVisit(true);}} ><PlusCircleOutlined style={{ color: "#87d068" }}/> Pridėti lab. tyrimą</Link>,
+                        <Link style={{fontSize: '125%' }} to={'#'} onClick={() => {setVisibleVisit(true);}} ><PlusCircleOutlined style={{ color: "#87d068" }}/> Pridėti receptą</Link>,
                         ]}>
-                    <Title>Paciento duomenys</Title>
-                            <p style={{fontSize: '125%' }}>Vardas: <b>{patient.name}</b></p>
-                            <p style={{fontSize: '125%' }}>Pavardė: <b>{patient.surname}</b></p>
-                            <p style={{fontSize: '125%' }}>Gimimo data:  <b>{patient.birthday}</b></p>
-                            <p style={{fontSize: '125%' }}>Telefono nr.:  <b>{patient.phone_number}</b></p>
-                            <p style={{fontSize: '125%' }}>Ūgis(cm.):  <b>{patient.height}</b></p>
-                            <p style={{fontSize: '125%' }}>Svoris(kg.):  <b>{patient.weight}</b></p>
-                            <p style={{fontSize: '125%' }}>Gydosi iki:  <b>{patient.termination_date}</b></p>
+                    <Descriptions title="Paciento duomenys" bordered>
+                        <Descriptions.Item label="Vardas" span={3}>{patient.name}</Descriptions.Item>
+                        <Descriptions.Item label="Pavardė" span={3}>{patient.surname}</Descriptions.Item>
+                        <Descriptions.Item label="Gimimo data" span={2}>{patient.birthday ? patient.birthday : '-'}</Descriptions.Item>
+                        <Descriptions.Item label="Telefono nr." span={2}>{patient.phone_number}</Descriptions.Item>
+                        <Descriptions.Item label="Ūgis(cm)">{patient.height ? patient.height : '-'}</Descriptions.Item>
+                        <Descriptions.Item label="Svoris(kg)">{patient.weight ? patient.weight : '-'}</Descriptions.Item>
+                        <Descriptions.Item label="Gydosi iki">{patient.termination_date ? patient.termination_date : '-'}</Descriptions.Item>
+                    </Descriptions>
                     </Card>
                 </Col>
             <UpdatePatientModal

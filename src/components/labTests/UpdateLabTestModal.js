@@ -1,7 +1,7 @@
 import React, {useCallback} from "react";
 import "antd/dist/antd.css";
 import { Modal, Typography, notification, Form, Card, Row, Col, Avatar, Input, InputNumber} from "antd";
-import { EditOutlined, UserOutlined} from "@ant-design/icons";
+import { EditOutlined, ExperimentOutlined} from "@ant-design/icons";
 import axios from '../../axiosApi';
 //import { ShowDiagnoses} from './ShowDiagnoses';
 
@@ -87,7 +87,7 @@ function UpdateLabTest(record, onUpdateRefresh) {
           
           <Row>
             <Col span={6}>
-              <Avatar shape="square" size={100} icon={<UserOutlined />} />
+              <Avatar shape="square" size={100} icon={<ExperimentOutlined />} />
             </Col>
             <Col span={18}>
               <Form.Item

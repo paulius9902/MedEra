@@ -1,7 +1,8 @@
 import React, { useState, useEffect} from 'react';
 import ReactDOM from "react-dom";
-import { Button, Modal, Form, Input, Radio, Select, Card, Typography, InputNumber, Row, Col } from "antd";
+import { Button, Modal, Form, Input, Radio, Select, Card, Typography, InputNumber, Row, Col, Avatar} from "antd";
 import DatePicker from "react-datepicker";
+import { EditOutlined, ExperimentOutlined} from "@ant-design/icons";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 import lt from "date-fns/locale/lt";
@@ -54,7 +55,12 @@ const AddLaboratoryTestModal = ({ visible, onCreate, onCancel }) => {
             maskClosable={false}
             destroyOnClose={true}>
               <Card bordered={false} size="small" style={{ padding: 15 }}>
-      <Form form={form} layout="vertical"> 
+      <Form form={form} layout="vertical">
+      <Row>
+            <Col span={6}>
+              <Avatar shape="square" size={100} icon={<ExperimentOutlined />} />
+            </Col>
+            <Col span={18}>
       <Form.Item name="patient" label="Pacientas:"
                     rules={[
                       {
@@ -100,6 +106,8 @@ const AddLaboratoryTestModal = ({ visible, onCreate, onCancel }) => {
             style={{width: '100%',}}
           />
         </Form.Item>
+        </Col>
+          </Row>
       </Form>
       </Card>
     </Modal>

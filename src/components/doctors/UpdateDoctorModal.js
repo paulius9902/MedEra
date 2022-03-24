@@ -1,5 +1,6 @@
 import React, { useState, useEffect} from 'react';
-import { Button, Modal, Form, Input, Radio, Select, InputNumber } from "antd";
+import { MedicineBoxOutlined} from "@ant-design/icons";
+import { Button, Modal, Form, Input, Radio, Select, InputNumber, Row, Col, Avatar} from "antd";
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from '../../axiosApi';
 const AddDoctorModal = ({ visible, onCreate, onCancel}) => {
@@ -46,6 +47,11 @@ const AddDoctorModal = ({ visible, onCreate, onCancel}) => {
                 specialization: doctor.specialization,
                 room: doctor.room,
             }}> 
+        <Row>
+      <Col span={6}>
+              <Avatar shape="square" size={100} icon={<MedicineBoxOutlined />} />
+            </Col>
+            <Col span={18}>
         <Form.Item name="name" label="Vardas:" value={name}
                     rules={[
                       {
@@ -91,6 +97,8 @@ const AddDoctorModal = ({ visible, onCreate, onCancel}) => {
                     ]}>
           <InputNumber className="form-control" style={{width: '100%',}}/>
         </Form.Item>
+        </Col>
+        </Row>
       </Form>
     </Modal>
   );

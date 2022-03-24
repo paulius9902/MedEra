@@ -1,10 +1,11 @@
 import React, { useState, useEffect} from 'react';
 import ReactDOM from "react-dom";
-import { Button, Modal, Form, Input, Radio } from "antd";
+import { Button, Modal, Form, Input, Radio, Row, Col, Avatar} from "antd";
 import DatePicker from "react-datepicker";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 import lt from "date-fns/locale/lt";
+import { CalendarOutlined} from "@ant-design/icons";
 import axios from '../../axiosApi';
 
 import "react-datepicker/dist/react-datepicker.css";
@@ -57,7 +58,11 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
                 });
             }}>
       <Form form={form} layout="vertical" name="form_in_modal"> 
-
+      <Row>
+      <Col span={6}>
+              <Avatar shape="square" size={100} icon={<CalendarOutlined />} />
+            </Col>
+            <Col span={18}>
         <Form.Item name="start_date" label="Data ir laikas:"
                     rules={[
                       {
@@ -82,7 +87,8 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
         <Form.Item name="health_issue" label="Sveikatos problema:">
           <Input type="textarea" />
         </Form.Item>
-        
+        </Col>
+        </Row>
       </Form>
     </Modal>
   );

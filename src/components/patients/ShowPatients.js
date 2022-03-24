@@ -15,6 +15,14 @@ const ShowPatients = () => {
   const [visible, setVisible] = useState(false);
 
   const onCreate = async(values) => {
+    if (values.gender==='V')
+    {
+      values.image="https://www.shareicon.net/data/512x512/2016/09/01/822711_user_512x512.png"
+    }
+    else if (values.gender==='M')
+    {
+      values.image="https://www.shareicon.net/data/512x512/2016/09/01/822726_user_512x512.png"
+    }
     values.birthday = values.birthday.toISOString().split('T')[0]
     console.log(values);
     await axios.post(`api/patient`, values).then(response=>{

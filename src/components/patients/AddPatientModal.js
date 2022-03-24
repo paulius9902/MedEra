@@ -1,10 +1,11 @@
 import React, { useState, useEffect} from 'react';
 import ReactDOM from "react-dom";
-import { Button, Modal, Form, Input, Radio, Select, InputNumber } from "antd";
+import { Button, Modal, Form, Input, Radio, Select, InputNumber, Row, Col, Avatar} from "antd";
 import DatePicker from "react-datepicker";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 import lt from "date-fns/locale/lt";
+import { IdcardOutlined} from "@ant-design/icons";
 import axios from '../../axiosApi';
 const { Option } = Select;
 const AddPatientModal = ({ visible, onCreate, onCancel }) => {
@@ -30,6 +31,11 @@ const AddPatientModal = ({ visible, onCreate, onCancel }) => {
                 });
             }}>
       <Form form={form} layout="vertical" name="form_in_modal"> 
+      <Row>
+      <Col span={6}>
+              <Avatar shape="square" size={100} icon={<IdcardOutlined />} />
+            </Col>
+            <Col span={18}>
         <Form.Item name="name" label="Vardas:"
                     rules={[
                       {
@@ -82,6 +88,8 @@ const AddPatientModal = ({ visible, onCreate, onCancel }) => {
                     ]}>
           <Input/>
         </Form.Item>
+        </Col>
+        </Row>
       </Form>
     </Modal>
   );

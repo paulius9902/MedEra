@@ -53,9 +53,6 @@ class SideBar extends React.Component {
     const iconSize = {
       fontSize: '200%'
     };
-    const subIconSize = {
-      fontSize: '150%'
-    };
     return (
       <Sider
         collapsible
@@ -69,12 +66,9 @@ class SideBar extends React.Component {
         }}
       >
         <Menu theme="dark" mode="inline" selectedKeys={selectedKeys} >
-          <Menu.Item  onClick={() => this.setSelectedKeys(['1'])}
-                    key="1"
-                    title={<span><OrderedListOutlined style={iconSize}/> <span className="nav-text">Vizitai</span> </span>}>
-            
+          <Menu.Item  onClick={() => this.setSelectedKeys(['1'])} key="1">
               <Link to="/visit">
-                <OrderedListOutlined style={subIconSize}/>
+                <CalendarOutlined style={iconSize}/>
                 <span className="nav-text">Vizitai</span>
               </Link>
 

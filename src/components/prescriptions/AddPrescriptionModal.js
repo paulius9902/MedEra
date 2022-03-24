@@ -1,7 +1,8 @@
 import React, { useState, useEffect} from 'react';
 import ReactDOM from "react-dom";
-import { Button, Modal, Form, Input, Radio, Select, Card, Typography, InputNumber, Row, Col } from "antd";
+import { Button, Modal, Form, Input, Radio, Select, Card, Typography, InputNumber, Row, Col, Avatar} from "antd";
 import DatePicker from "react-datepicker";
+import { EditOutlined, AuditOutlined} from "@ant-design/icons";
 import setHours from "date-fns/setHours";
 import setMinutes from "date-fns/setMinutes";
 import lt from "date-fns/locale/lt";
@@ -55,6 +56,11 @@ const AddPrescriptionModal = ({ visible, onCreate, onCancel }) => {
             destroyOnClose={true}>
               <Card bordered={false} size="small" style={{ padding: 15 }}>
       <Form form={form} layout="vertical"> 
+      <Row>
+            <Col span={6}>
+              <Avatar shape="square" size={100} icon={<AuditOutlined />} />
+            </Col>
+            <Col span={18}>
       <Form.Item name="patient" label="Pacientas:"
                     rules={[
                       {
@@ -80,6 +86,8 @@ const AddPrescriptionModal = ({ visible, onCreate, onCancel }) => {
         <Form.Item name="custom_usage" label="Vartojimas:">
           <Input/>
         </Form.Item>
+        </Col>
+          </Row>
       </Form>
       </Card>
     </Modal>

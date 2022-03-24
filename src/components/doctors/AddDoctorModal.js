@@ -1,8 +1,9 @@
 import React, { useState, useEffect} from 'react';
 import ReactDOM from "react-dom";
-import { Button, Modal, Form, Input, Radio, Select, InputNumber } from "antd";
+import { Button, Modal, Form, Input, Radio, Select, InputNumber, Row, Col, Avatar} from "antd";
 import DatePicker from "react-datepicker";
 import setHours from "date-fns/setHours";
+import { MedicineBoxOutlined} from "@ant-design/icons";
 import setMinutes from "date-fns/setMinutes";
 import lt from "date-fns/locale/lt";
 import axios from '../../axiosApi';
@@ -42,6 +43,11 @@ const AddDoctorModal = ({ visible, onCreate, onCancel }) => {
                 });
             }}>
       <Form form={form} layout="vertical" name="form_in_modal"> 
+      <Row>
+      <Col span={6}>
+              <Avatar shape="square" size={100} icon={<MedicineBoxOutlined />} />
+            </Col>
+            <Col span={18}>
         <Form.Item name="name" label="Vardas:"
                     rules={[
                       {
@@ -112,6 +118,8 @@ const AddDoctorModal = ({ visible, onCreate, onCancel }) => {
                     ]}>
           <InputNumber className="form-control" style={{width: '100%',}}/>
         </Form.Item>
+        </Col>
+        </Row>
       </Form>
     </Modal>
   );

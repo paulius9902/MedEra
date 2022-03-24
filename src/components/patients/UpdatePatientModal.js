@@ -1,7 +1,8 @@
 import React, { useState, useEffect} from 'react';
-import { Button, Modal, Form, Input, Radio, Select, InputNumber } from "antd";
+import { Button, Modal, Form, Input, Radio, Select, InputNumber, Row, Col, Avatar} from "antd";
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from '../../axiosApi';
+import { IdcardOutlined} from "@ant-design/icons";
 const AddPatientModal = ({ visible, onCreate, onCancel}) => {
   
   const { id } = useParams();
@@ -46,6 +47,11 @@ const AddPatientModal = ({ visible, onCreate, onCancel}) => {
                 specialization: patient.specialization,
                 room: patient.room,
             }}> 
+            <Row>
+      <Col span={6}>
+              <Avatar shape="square" size={100} icon={<IdcardOutlined />} />
+            </Col>
+            <Col span={18}>
         <Form.Item name="name" label="Vardas:" value={name}
                     rules={[
                       {
@@ -73,6 +79,8 @@ const AddPatientModal = ({ visible, onCreate, onCancel}) => {
                     ]}>
           <Input/>
         </Form.Item>
+        </Col>
+        </Row>
       </Form>
     </Modal>
   );

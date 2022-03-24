@@ -218,7 +218,7 @@ const ShowVisits = () => {
     <>
       <h1>Vizitai</h1>
       <Divider></Divider>
-      <Button className="mr-2 mb-3" size='large' onClick={() => {setVisible(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745', fontSize: '125%'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti vizitą</Button>
+      <Button className="mr-2 mb-3" size='large' onClick={() => {setVisible(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti vizitą</Button>
       <Table  columns={COLUMNS} 
               dataSource={loading? [] : visits}
                 locale={{

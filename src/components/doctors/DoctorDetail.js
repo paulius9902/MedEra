@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 //import { Card, Row } from 'react-bootstrap';
 import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined} from '@ant-design/icons';
-import {Button, Space, notification, Card, Form, Row, Col, Typography} from 'antd';
+import {Button, Space, notification, Card, Form, Row, Col, Typography, Badge, Descriptions} from 'antd';
 import UpdateDoctorModal from './UpdateDoctorModal';
 import AddDoctorVisitModal from './AddDoctorVisitModal';
 const { Title, Text} = Typography;
@@ -72,14 +72,12 @@ return (
                 <Card
                 cover={
                     <img
-                        class="img-fluid rounded mb-4 mb-lg-0"
-                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/2048px-User_font_awesome.svg.png"
-                        alt=""
+                        src="https://www.shareicon.net/data/512x512/2016/08/18/813849_people_512x512.png"
                     />
                     }
                 actions={[
-                    <Link style={{fontSize: '150%' }} onClick={() => {setVisibleDoctor(true);}} to="#"><EditOutlined style={{color: "#2db7f5"}}/> Atnaujinti</Link>,
-                    <Link style={{fontSize: '150%' }} to="/doctor" onClick={() => deleteDoctor(doctor.doctor_id)}><DeleteOutlined style={{color: "#f50"}}/> Ištrinti</Link>,
+                    <Link style={{fontSize: '125%' }} onClick={() => {setVisibleDoctor(true);}} to="#"><EditOutlined style={{color: "#2db7f5"}}/> Atnaujinti</Link>,
+                    <Link style={{fontSize: '125%' }} to="/doctor" onClick={() => deleteDoctor(doctor.doctor_id)}><DeleteOutlined style={{color: "#f50"}}/> Ištrinti</Link>,
                     ]}>
                 </Card>
             
@@ -87,13 +85,14 @@ return (
             <Col span={18}>
                 <Card
                 actions={[
-                    <Link style={{fontSize: '175%' }} to={'#'} onClick={() => {setVisibleVisit(true);}} ><PlusCircleOutlined style={{ color: "#87d068" }}/> Pridėti vizitą</Link>,
+                    <Link style={{fontSize: '150%'}} to={'#'} onClick={() => {setVisibleVisit(true);}} ><PlusCircleOutlined style={{ color: "#87d068" }}/> Pridėti vizitą</Link>,
                     ]}>
-                <Title>Gydytojo duomenys</Title>
-                        <p style={{fontSize: '125%' }}>Vardas: <b>{doctor.name}</b></p>
-                        <p style={{fontSize: '125%' }}>Pavardė: <b>{doctor.surname}</b></p>
-                        <p style={{fontSize: '125%' }}>Gimimo data:  <b>{doctor.birthday}</b></p>
-                        <p style={{fontSize: '125%' }}>Telefono nr.:  <b>{doctor.phone_number}</b></p>
+                        <Descriptions title="Gydytojo duomenys" bordered>
+                            <Descriptions.Item label="Vardas" span={3}>{doctor.name}</Descriptions.Item>
+                            <Descriptions.Item label="Pavardė" span={3}>{doctor.surname}</Descriptions.Item>
+                            <Descriptions.Item label="Gimimo data" span={2}>{doctor.birthday ? doctor.birthday : '-'}</Descriptions.Item>
+                            <Descriptions.Item label="Telefono nr." span={2}>{doctor.phone_number}</Descriptions.Item>
+                        </Descriptions>
                 </Card>
             </Col>
         <UpdateDoctorModal

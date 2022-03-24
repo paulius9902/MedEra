@@ -1,7 +1,8 @@
 import React, { useState, useEffect} from 'react';
-import { Modal, Form, Input, Select, Card} from "antd";
+import { Modal, Form, Input, Select, Card, Row, Col, Avatar} from "antd";
 import DatePicker from "react-datepicker";
 import setHours from "date-fns/setHours";
+import { EditOutlined, UserOutlined, FileDoneOutlined, OrderedListOutlined, CalendarOutlined} from "@ant-design/icons";
 import setMinutes from "date-fns/setMinutes";
 import { addDays, isSameDay, parseISO, addMonths } from "date-fns";
 import lt from "date-fns/locale/lt";
@@ -76,6 +77,11 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
                   console.log("Validate Failed:", info);
                 })}}>
       <Form form={form} layout="vertical" name="form_in_modal"> 
+      <Row>
+      <Col span={6}>
+              <Avatar shape="square" size={100} icon={<CalendarOutlined />} />
+            </Col>
+            <Col span={18}>
         <Form.Item name="doctor" label="Pasirinkite gydytoją"
                     rules={[
                       {
@@ -133,6 +139,8 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
                     ]}>
           <TextArea placeholder="Vizito priežasties aprašymas"/>
         </Form.Item>
+        </Col>
+        </Row>
       </Form>
     </Modal>
   );

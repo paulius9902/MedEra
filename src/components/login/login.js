@@ -19,9 +19,6 @@ const NormalLoginForm = () => {
 				localStorage.setItem('refresh_token', res.data.refresh);
 				axiosInstance.defaults.headers['Authorization'] =
 					'JWT ' + localStorage.getItem('access_token');
-        
-        alert("Sėkmingai prisijungėte!");
-        
       }
     }).then(() => {
       axiosInstance.get('api/info')

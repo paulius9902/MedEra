@@ -1,7 +1,7 @@
 import React, {useCallback} from "react";
 import "antd/dist/antd.css";
 import { Modal, Typography, notification, Form, Card, Row, Col, Avatar, Input} from "antd";
-import { EditOutlined, UserOutlined} from "@ant-design/icons";
+import { EditOutlined, UserOutlined, FileDoneOutlined, OrderedListOutlined} from "@ant-design/icons";
 import axios from '../../axiosApi';
 //import { ShowDiagnoses} from './ShowDiagnoses';
 
@@ -50,7 +50,7 @@ function UpdateUser(record, onUpdateRefresh) {
         centered
         style={{ height: "80%" }}
         bodyStyle={{ height: "100%", overflowY: "auto", padding: 0 }}
-        width={800}
+        width={600}
         visible={visible}
         onCancel={handleCancel}
         onOk={() => {
@@ -86,13 +86,13 @@ function UpdateUser(record, onUpdateRefresh) {
           
           <Row>
             <Col span={6}>
-              <Avatar shape="square" size={100} icon={<UserOutlined />} />
+              <Avatar shape="square" size={100} icon={<FileDoneOutlined />} />
             </Col>
             <Col span={18}>
               <Form.Item
                 label="Diagnozė:"
                 rules={[{ required: true }]}
-                style={{ width: "70%" }}
+                style={{ width: "100%" }}
                 name="description"
               >
                 <Input placeholder="Diagnozė" />

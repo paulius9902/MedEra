@@ -1,7 +1,7 @@
 import React, {useCallback} from "react";
 import "antd/dist/antd.css";
 import { Modal, Typography, notification, Form, Card, Row, Col, Avatar, Input, InputNumber} from "antd";
-import { EditOutlined, UserOutlined} from "@ant-design/icons";
+import { EditOutlined, AuditOutlined} from "@ant-design/icons";
 import axios from '../../axiosApi';
 //import { ShowDiagnoses} from './ShowDiagnoses';
 
@@ -9,14 +9,14 @@ import axios from '../../axiosApi';
 
 const { Title } = Typography;
 
-function UpdateLabTest(record, onUpdateRefresh) {
+function UpdatePrescription(record, onUpdateRefresh) {
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
 
   const onUpdate = async(values, id) => {
     console.log(values);
-    await axios.patch(`api/laboratory_test/${id}`, values).then(response=>{
+    await axios.patch(`api/prescription/${id}`, values).then(response=>{
       console.log(response.data);
       
       notification.success({ message: 'Sėkmingai atnaujinta!' });
@@ -51,7 +51,6 @@ function UpdateLabTest(record, onUpdateRefresh) {
         centered
         style={{ height: "80%" }}
         bodyStyle={{ height: "100%", overflowY: "auto", padding: 0 }}
-        width={800}
         visible={visible}
         onCancel={handleCancel}
         onOk={() => {
@@ -59,7 +58,7 @@ function UpdateLabTest(record, onUpdateRefresh) {
             .validateFields()
             .then((values) => {
               console.log(values)
-              handleOk(values, record.test_id);
+              handleOk(values, record.prescription_id);
               //onUpdateRefresh();
               //getAllDiagnosis();
               //ShowDiagnoses.getAllDiagnosis();
@@ -75,7 +74,7 @@ function UpdateLabTest(record, onUpdateRefresh) {
         mask={true}
         maskClosable={false}
         destroyOnClose={true}
-        title={<Title level={4}>Atnaujinti lab. tyrimą</Title>}
+        title={<Title level={4}>Atnaujinti receptą</Title>}
       >
         <Card bordered={false} size="small" style={{ padding: 15 }}>
         <Form form={form} layout="vertical"
@@ -86,13 +85,13 @@ function UpdateLabTest(record, onUpdateRefresh) {
           
           <Row>
             <Col span={6}>
-              <Avatar shape="square" size={100} icon={<UserOutlined />} />
+              <Avatar shape="square" size={100} icon={<AuditOutlined />} />
             </Col>
             <Col span={18}>
             <Form.Item
                 label="Vaistas:"
                 rules={[{ required: true }]}
-                style={{ width: "70%" }}
+                style={{ width: "100%" }}
                 name="medicine"
               >
                 <Input placeholder="Vaistas" />
@@ -100,7 +99,7 @@ function UpdateLabTest(record, onUpdateRefresh) {
               <Form.Item
                 label="Vartojimas:"
                 rules={[{ required: true }]}
-                style={{ width: "70%" }}
+                style={{ width: "100%" }}
                 name="custom_usage"
               >
                 <Input placeholder="Vartojimas" />
@@ -114,4 +113,4 @@ function UpdateLabTest(record, onUpdateRefresh) {
   );
 };
 
-export default UpdateLabTest;
+export default UpdatePrescription;
