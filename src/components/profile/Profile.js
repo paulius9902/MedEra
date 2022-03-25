@@ -2,11 +2,15 @@ import axios from '../../axiosApi';
 import React, {useState, useEffect} from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
+import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined, CheckCircleOutlined, CloseCircleOutlined} from '@ant-design/icons';
+import {Button, Space, notification, Card, Form, Row, Col, Typography, Badge, Descriptions} from 'antd';
+import UpdateUserModal from './UpdateUserModal';
 
 const UserDetail = () => {
 
 const [user, setUser] = useState([])
 const is_superuser = localStorage.getItem('is_superuser') === 'true';
+const [visible_user, setVisibleUser] = useState(false);
 
 const {id} = useParams();
 const navigate = useNavigate();
@@ -15,6 +19,15 @@ useEffect(() => {
     getUser();
 },[])
 
+const onUpdate = async(values) => {
+    console.log(values);
+    await axios.patch(`api/user/${id}`, values).then(response=>{
+      console.log(response.data);
+      getUser();
+      notification.success({ message: 'Sėkmingai atnaujinta!' });
+    })
+    setVisibleUser(false);
+};
 
 const getUser = async () => {
   const  { data } = await axios.get(`api/info`)
@@ -22,37 +35,55 @@ const getUser = async () => {
   console.log(data);
 }
     return (
-        <div className="full-user-detail">
-        <div class="container">
-        <div class="row align-items-center my-5">
-            <div class="col-lg-7">
-            <img
-                class="img-fluid rounded mb-4 mb-lg-0"
-                src="https://d29fhpw069ctt2.cloudfront.net/icon/image/37746/preview.svg"
-                alt=""
+        <Card bordered={false} size="small" style={{ padding: 15 }}>
+        <Form layout="vertical">
+            <Row>
+                <Col span={6}>
+                    <Card
+                    cover={
+                        <img
+                            src="https://www.shareicon.net/data/512x512/2017/02/15/878685_user_512x512.png"
+                        />
+                        }
+                    actions={[
+                        <Link style={{fontSize: '125%' }} onClick={() => {setVisibleUser(true);}} to="#"><EditOutlined style={{color: "#2db7f5"}}/> Atnaujinti</Link>,
+                        ]}>
+                    </Card>
+                
+                </Col>
+                <Col span={18}>
+                    <Card>
+                            <Descriptions title="Vartotojo duomenys" bordered>
+                                <Descriptions.Item label="El. paštas" span={3}>{user.email}</Descriptions.Item>
+                                <Descriptions.Item label="Aktyvus" span={3}>{user.is_active ? 
+                                    <CheckCircleOutlined style={{ fontSize: '125%', color:"#52c41a"}}/> : 
+                                    <CloseCircleOutlined style={{ fontSize: '125%', color:"#f5222d"}}/>}
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Administratorius">{user.is_superuser ? 
+                                    <CheckCircleOutlined style={{ fontSize: '125%', color:"#52c41a"}}/> : 
+                                    <CloseCircleOutlined style={{ fontSize: '125%', color:"#f5222d"}}/>}
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Gydytojas">{user.is_doctor ? 
+                                    <CheckCircleOutlined style={{ fontSize: '125%', color:"#52c41a"}}/> : 
+                                    <CloseCircleOutlined style={{ fontSize: '125%', color:"#f5222d"}}/>}
+                                </Descriptions.Item>
+                                <Descriptions.Item label="Pacientas">{user.is_patient ? 
+                                    <CheckCircleOutlined style={{ fontSize: '125%', color:"#52c41a"}}/> : 
+                                    <CloseCircleOutlined style={{ fontSize: '125%', color:"#f5222d"}}/>}
+                                </Descriptions.Item>
+                            </Descriptions>
+                    </Card>
+                </Col>
+            <UpdateUserModal
+                visible={visible_user}
+                onCreate={onUpdate}
+                onCancel={() => {
+                setVisibleUser(false);
+                }}
             />
-            </div>
-            <div class="col-lg-5">
-            <h1 class="font-weight-light">Prisijungęs vartotojas:</h1>
-            <div className="user-detail">
-                    <p>Vardas: {user.first_name}</p>
-                    <p>El. paštas: {user.email}</p>
-                    <p>Administratorius: {String(user.is_superuser)}</p>
-                    <p>Gydytojas: {String(user.is_doctor)}</p>
-                    <p>Pacientas: {String(user.is_patient)}</p>
-                </div> 
-            </div>
-            <Link className="btn btn-outline-primary mr-2" to={`/change_password/`}>Keisti slaptažodį</Link>
-            
-            {is_superuser &&
-                <>
-                    <Link className="btn btn-outline-primary mr-2" to={`/user/`}>Visi vartotojai</Link>
-                    <Link className="btn btn-outline-primary mr-2" to={`/patient/`}>Pacientai</Link>
-                </>
-            }
-        </div>
-        </div>
-        </div>
+            </Row>
+            </Form>
+            </Card>
     );
 };
 

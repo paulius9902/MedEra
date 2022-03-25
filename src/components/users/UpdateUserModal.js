@@ -10,6 +10,8 @@ const UpdateUser = ({getAllUsers, ...record}) => {
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
+  const [error, setError] = useState('');
+  const [email, setEmail] = useState('');
 
   const onUpdate = async(values) => {
     console.log(values);
@@ -36,6 +38,24 @@ const UpdateUser = ({getAllUsers, ...record}) => {
     }, 2000);
     setConfirmLoading(false);
   };
+
+  const onNumberChange = (value) => {
+    setEmail({ ...validatePrimeNumber(value), value });
+  };
+
+  function validatePrimeNumber(number) {
+    if (number === record.email) {
+      return {
+        validateStatus: 'success',
+        errorMsg: null,
+      };
+    }
+  
+    return {
+      validateStatus: 'error',
+      errorMsg: 'The prime between 8 and 12 is 11!',
+    };
+  }
 
   return (
     <>
@@ -82,8 +102,10 @@ const UpdateUser = ({getAllUsers, ...record}) => {
                 rules={[{ required: true }]}
                 style={{ width: "100%" }}
                 name="email"
+                validateStatus={email.validateStatus}
+                help={email.errorMsg}
               >
-                <Input/>
+                <Input onChange={onNumberChange}/>
               </Form.Item>
               <Form.Item
                 label="Aktyvus:"

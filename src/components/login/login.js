@@ -40,7 +40,7 @@ const NormalLoginForm = () => {
       })
     }).catch(error => {
       if(error.response) { 
-        const errm = "Neteisingas slaptažodis arba el. paštas";
+        const errm = "Neteisingas el. paštas arba slaptažodis";
         setError(errm)
         console.log(error.response.data)
       }
