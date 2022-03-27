@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from '../../axiosApi';
 import { useParams, useNavigate } from 'react-router';
 import Table from "antd/lib/table";
-import {Button, Divider, Popconfirm, notification, Tag, Menu, Dropdown} from 'antd';
+import {Button, Divider, Popconfirm, notification, Tag, Menu, Dropdown, Skeleton, Empty} from 'antd';
 import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined, SyncOutlined, CheckCircleOutlined, CloseCircleOutlined, UserOutlined, DownOutlined} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import AddUserAdminModal from './AddUserModal';
@@ -13,6 +13,7 @@ import { trackPromise } from 'react-promise-tracker';
 const ShowUsers = () => {
   const [users, setUsers] = useState([]);
   const [visible_create_admin, setVisibleCreateAdmin] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getAllUsers();
@@ -30,6 +31,7 @@ const ShowUsers = () => {
       values.is_patient=true
     }
     await axios.post(`api/user`, values).then(response=>{
+      setLoading(true);
       console.log(response.data);
       getAllUsers();
       notification.success({ message: 'Sėkmingai sukurta!' });
@@ -51,6 +53,7 @@ const ShowUsers = () => {
     try {
       const res = await axios.get('api/user');
       setUsers(res.data);
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -171,7 +174,7 @@ const ShowUsers = () => {
       render: (record) => {
         return (
           <div>
-            <UpdateUserModal getAllUsers={getAllUsers} {...record}/>
+            <UpdateUserModal getAllUsers={getAllUsers} setLoading={setLoading} {...record}/>
             <Popconfirm
               placement='topLeft'
               title='Ar tikrai norite ištrinti?'
@@ -192,7 +195,14 @@ const ShowUsers = () => {
       <h1>Vartotojai</h1>
       <Divider></Divider>
       <Button className="mr-2 mb-3" size='large' onClick={() => {setVisibleCreateAdmin(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Sukurti vartotoją</Button>
-      <Table columns={COLUMNS} dataSource={users} size="middle" rowKey={record => record.id} />
+      <Table 
+        columns={COLUMNS} 
+        dataSource={loading? [] : users}
+                locale={{
+                emptyText: loading ? <Skeleton active={true} /> : <Empty />
+              }} 
+        size="middle" 
+        rowKey={record => record.id} />
       <AddUserAdminModal
         visible={visible_create_admin}
         onCreate={onCreate}

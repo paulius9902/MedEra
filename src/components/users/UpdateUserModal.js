@@ -6,16 +6,16 @@ import axios from '../../axiosApi';
 const { Option } = Select;
 const { Title } = Typography;
 
-const UpdateUser = ({getAllUsers, ...record}) => {
+const UpdateUser = ({getAllUsers, setLoading, ...record}) => {
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
-  const [error, setError] = useState('');
   const [email, setEmail] = useState('');
 
   const onUpdate = async(values) => {
     console.log(values);
     await axios.patch(`api/user/${record.id}`, values).then(response=>{
+      setLoading(true);
       console.log(response.data);
     })
     notification.success({ message: 'Sėkmingai atnaujinta!' });
@@ -38,24 +38,6 @@ const UpdateUser = ({getAllUsers, ...record}) => {
     }, 2000);
     setConfirmLoading(false);
   };
-
-  const onNumberChange = (value) => {
-    setEmail({ ...validatePrimeNumber(value), value });
-  };
-
-  function validatePrimeNumber(number) {
-    if (number === record.email) {
-      return {
-        validateStatus: 'success',
-        errorMsg: null,
-      };
-    }
-  
-    return {
-      validateStatus: 'error',
-      errorMsg: 'The prime between 8 and 12 is 11!',
-    };
-  }
 
   return (
     <>
@@ -83,7 +65,7 @@ const UpdateUser = ({getAllUsers, ...record}) => {
         mask={true}
         maskClosable={false}
         destroyOnClose={true}
-        title={<Title level={4}>Atnaujinti diagnozę</Title>}
+        title={<Title level={4}>Atnaujinti vartotoją</Title>}
       >
         <Card bordered={false} size="small" style={{ padding: 15 }}>
         <Form form={form} layout="vertical"
@@ -105,7 +87,7 @@ const UpdateUser = ({getAllUsers, ...record}) => {
                 validateStatus={email.validateStatus}
                 help={email.errorMsg}
               >
-                <Input onChange={onNumberChange}/>
+                <Input/>
               </Form.Item>
               <Form.Item
                 label="Aktyvus:"

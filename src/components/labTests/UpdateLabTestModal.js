@@ -9,7 +9,7 @@ import axios from '../../axiosApi';
 
 const { Title } = Typography;
 
-function UpdateLabTest(record, onUpdateRefresh) {
+function UpdateLabTest({getAllLabTests, setLoading, ...record}) {
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
@@ -17,9 +17,12 @@ function UpdateLabTest(record, onUpdateRefresh) {
   const onUpdate = async(values, id) => {
     console.log(values);
     await axios.patch(`api/laboratory_test/${id}`, values).then(response=>{
+      setLoading(true);
       console.log(response.data);
       
       notification.success({ message: 'Sėkmingai atnaujinta!' });
+      setVisible(false);
+      getAllLabTests();
     })
     
   };

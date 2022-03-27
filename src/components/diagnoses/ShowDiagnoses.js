@@ -1,22 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../axiosApi';
-import { useParams, useNavigate } from 'react-router';
 import Table from "antd/lib/table";
-import {Button, Divider, Popconfirm, notification, Tag} from 'antd';
-import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined} from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import {Button, Divider, Popconfirm, notification, Skeleton, Empty} from 'antd';
+import {PlusCircleOutlined, DeleteOutlined} from '@ant-design/icons';
 import AddDiagnosisModal from './AddDiagnosisModal';
 import UpdateDiagnosisModal from './UpdateDiagnosisModal';
-import { trackPromise } from 'react-promise-tracker';
 import "./custom.css";
 //import { Button } from 'react-bootstrap';
 
 const ShowDiagnoses = () => {
-  const {id} = useParams();
-  const [diagnosis_id, setDiagnosisID] = useState(null);
   const [diagnoses, setDiagnoses] = useState([]);
   const [visible_create, setVisibleCreate] = useState(false);
-  const [visible_update, setVisibleUpdate] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getAllDiagnosis();
@@ -25,6 +20,7 @@ const ShowDiagnoses = () => {
   const onCreate = async(values) => {
     console.log(values);
     await axios.post(`api/diagnosis`, values).then(response=>{
+      setLoading(true);
       console.log(response.data);
       getAllDiagnosis();
       notification.success({ message: 'Sėkmingai sukurta!' });
@@ -46,12 +42,14 @@ const ShowDiagnoses = () => {
     try {
       const res = await axios.get('api/diagnosis');
       setDiagnoses(res.data);
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
   };
 
   const confirmHandler = id => {
+    setLoading(true);
     deleteDiagnosis(id);
   };
 
@@ -114,9 +112,7 @@ const ShowDiagnoses = () => {
           <div>
             
             
-            <UpdateDiagnosisModal {...record} onUpdateRefresh={() => {
-                                    getAllDiagnosis();
-                                  }}/>
+            <UpdateDiagnosisModal getAllDiagnosis={getAllDiagnosis} setLoading={setLoading} {...record}/>
             <Popconfirm
               placement='topLeft'
               title='Ar tikrai norite ištrinti?'
@@ -141,7 +137,13 @@ const ShowDiagnoses = () => {
       <Divider></Divider>
       <Button className="mr-2 mb-3" size='large' onClick={() => {setVisibleCreate(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti diagnozę</Button>
 
-      <Table columns={COLUMNS} dataSource={diagnoses} size="middle" rowKey={record => record.diagnosis_id} />
+      <Table columns={COLUMNS} 
+             dataSource={loading? [] : diagnoses}
+              locale={{
+              emptyText: loading ? <Skeleton active={true} /> : <Empty />
+             }}
+             size="middle" 
+             rowKey={record => record.diagnosis_id} />
       <AddDiagnosisModal
         visible={visible_create}
         onCreate={onCreate}

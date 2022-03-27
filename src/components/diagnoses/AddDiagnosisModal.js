@@ -1,17 +1,11 @@
 import React, { useState, useEffect} from 'react';
-import ReactDOM from "react-dom";
-import { Button, Modal, Form, Input, Radio, Select, Card, Typography, InputNumber, Row, Col, Avatar} from "antd";
-import DatePicker from "react-datepicker";
-import setHours from "date-fns/setHours";
-import { EditOutlined, UserOutlined, FileDoneOutlined, OrderedListOutlined} from "@ant-design/icons";
-import setMinutes from "date-fns/setMinutes";
-import lt from "date-fns/locale/lt";
+import { Modal, Form, Input, Select, Card, Typography, Row, Col, Avatar} from "antd";
+import { FileDoneOutlined} from "@ant-design/icons";
 import axios from '../../axiosApi';
 const { Option } = Select;
 const AddDiagnosisModal = ({ visible, onCreate, onCancel }) => {
   const { Title } = Typography;
   const [patients, setPatients] = useState([]);
-  const [patient, setPatientID] = useState(null)
   const [confirmLoading, setConfirmLoading] = React.useState(false);
   const [form] = Form.useForm();
 
@@ -68,7 +62,7 @@ const AddDiagnosisModal = ({ visible, onCreate, onCancel }) => {
                         message: "Pasirinkite pacientą"
                       }
                     ]}>
-          <Select onChange={patient => setPatientID(patient)} >
+          <Select >
             {patients.map((patient, index) => (
                 <Option key={index} value={patient.patient_id}>{patient.name + " " + patient.surname + "  |  " + patient.birthday}</Option>
               ))}

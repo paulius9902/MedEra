@@ -91,7 +91,7 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
                     ]}>
           <Select onChange={doctor => {setDoctorID(doctor); setStartDate(null)}} placeholder="Gydytojas">
             {doctors.map((doctor, index) => (
-                <Option value={doctor.doctor_id}>{doctor.name + " " + doctor.surname + "  |  " + doctor.specialization}</Option>
+                <Option key={doctor.doctor_id} value={doctor.doctor_id}>{doctor.name + " " + doctor.surname + "  |  " + doctor.specialization}</Option>
               ))}
           </Select>
         </Form.Item>

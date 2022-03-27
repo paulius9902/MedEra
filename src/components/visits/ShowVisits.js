@@ -158,7 +158,7 @@ const ShowVisits = () => {
       render :(status_id) => {
         if (status_id===1) {
           return (
-            <Tag style={{ fontSize: '100%'}} icon={<SyncOutlined spin />} color="processing" key={status_id}>
+            <Tag style={{ fontSize: '100%'}} icon={<SyncOutlined spin />} color="processing">
               Laukiama patvirtinimo
             </Tag>
           )
@@ -170,7 +170,7 @@ const ShowVisits = () => {
           )
         } else {
           return (
-            <Tag style={{ fontSize: '100%'}}icon={<CloseCircleOutlined />} color="error" key={status_id}>
+            <Tag style={{ fontSize: '100%'}}icon={<CloseCircleOutlined />} color="error">
               Atšauktas
             </Tag>
           )
@@ -185,10 +185,10 @@ const ShowVisits = () => {
           return (
             <div>
               <Link to={`/visit/`} onClick={() => confirmVisit(record.visit_id)}>
-                <CheckOutlined style={{color: "#87d068", fontSize: '150%'}}/>
+                <CheckOutlined style={{color: "#87d068", fontSize: '150%'}} />
               </Link>
               <Link to={`/visit/`} onClick={() => cancelVisit(record.visit_id)}>
-                <CloseOutlined style={{color: "#f50", fontSize: '150%'}}/>
+                <CloseOutlined style={{color: "#f50", fontSize: '150%'}} />
               </Link>
             </div>
           );

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from '../../axiosApi';
 import { useParams, useNavigate } from 'react-router';
 import Table from "antd/lib/table";
-import {Button, Divider, Popconfirm, notification, Tag} from 'antd';
+import {Button, Divider, Popconfirm, notification, Skeleton, Empty} from 'antd';
 import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import AddLabTestModal from './AddLabTestModal';
@@ -17,6 +17,7 @@ const ShowLabTests = () => {
   const [lab_tests, setLabTests] = useState([]);
   const [visible_create, setVisibleCreate] = useState(false);
   const [visible_update, setVisibleUpdate] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getAllLabTests();
@@ -25,6 +26,7 @@ const ShowLabTests = () => {
   const onCreate = async(values) => {
     console.log(values);
     await axios.post(`api/laboratory_test`, values).then(response=>{
+      setLoading(true);
       console.log(response.data);
       getAllLabTests();
       notification.success({ message: 'Sėkmingai sukurta!' });
@@ -46,12 +48,14 @@ const ShowLabTests = () => {
     try {
       const res = await axios.get('api/laboratory_test');
       setLabTests(res.data);
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
   };
 
   const confirmHandler = id => {
+    setLoading(true);
     deleteLabTest(id);
   };
 
@@ -119,9 +123,7 @@ const ShowLabTests = () => {
           <div>
             
             
-            <UpdateLabTestModal {...record} onUpdateRefresh={() => {
-                                    getAllLabTests();
-                                  }}/>
+            <UpdateLabTestModal getAllLabTests={getAllLabTests} setLoading={setLoading} {...record}/>
             <Popconfirm
               placement='topLeft'
               title='Ar tikrai norite ištrinti?'
@@ -146,7 +148,14 @@ const ShowLabTests = () => {
       <Divider></Divider>
       <Button className="mr-2 mb-3" size='large' onClick={() => {setVisibleCreate(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti lab. tyrimą</Button>
 
-      <Table columns={COLUMNS} dataSource={lab_tests} size="middle" rowKey={record => record.test_id} />
+      <Table 
+        columns={COLUMNS} 
+        dataSource={loading? [] : lab_tests}
+                locale={{
+                emptyText: loading ? <Skeleton active={true} /> : <Empty />
+              }} 
+        size="middle" 
+        rowKey={record => record.test_id} />
       <AddLabTestModal
         visible={visible_create}
         onCreate={onCreate}

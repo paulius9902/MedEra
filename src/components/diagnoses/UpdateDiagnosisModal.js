@@ -1,7 +1,7 @@
-import React, {useCallback} from "react";
+import React from "react";
 import "antd/dist/antd.css";
 import { Modal, Typography, notification, Form, Card, Row, Col, Avatar, Input} from "antd";
-import { EditOutlined, UserOutlined, FileDoneOutlined, OrderedListOutlined} from "@ant-design/icons";
+import { EditOutlined, FileDoneOutlined} from "@ant-design/icons";
 import axios from '../../axiosApi';
 //import { ShowDiagnoses} from './ShowDiagnoses';
 
@@ -9,7 +9,7 @@ import "./custom.css";
 
 const { Title } = Typography;
 
-function UpdateUser(record, onUpdateRefresh) {
+function UpdateUser({getAllDiagnosis, setLoading, ...record}) {
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
@@ -17,9 +17,12 @@ function UpdateUser(record, onUpdateRefresh) {
   const onUpdate = async(values) => {
     console.log(values);
     await axios.patch(`api/diagnosis/${record.diagnosis_id}`, values).then(response=>{
+      setLoading(true);
       console.log(response.data);
       
       notification.success({ message: 'Sėkmingai atnaujinta!' });
+      setVisible(false);
+      getAllDiagnosis();
     })
     setVisible(false);
   };
@@ -38,8 +41,9 @@ function UpdateUser(record, onUpdateRefresh) {
     setConfirmLoading(true);
     setTimeout(() => {
       onUpdate(values);
+      setVisible(false);
+      setConfirmLoading(false);
     }, 2000);
-    setConfirmLoading(false);
   };
 
   return (

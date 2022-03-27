@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../axiosApi';
 import Table from "antd/lib/table";
-import {Button, Divider, Popconfirm, notification, Tag} from 'antd';
+import {Button, Divider, Popconfirm, notification, Empty, Skeleton} from 'antd';
 import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import AddPatientModal from './AddPatientModal';
@@ -13,6 +13,7 @@ const ShowPatients = () => {
 
   const [patients, setPatients] = useState([]);
   const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const onCreate = async(values) => {
     if (values.gender==='V')
@@ -26,6 +27,7 @@ const ShowPatients = () => {
     values.birthday = values.birthday.toISOString().split('T')[0]
     console.log(values);
     await axios.post(`api/patient`, values).then(response=>{
+      setLoading(true);
       console.log(response.data);
       getAllPatient();
     })
@@ -46,12 +48,14 @@ const ShowPatients = () => {
     try {
       const res = await axios.get('api/patient');
       setPatients(res.data);
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
   };
 
   const confirmHandler = id => {
+    setLoading(true);
     deletePatient(id);
   };
 
@@ -124,7 +128,13 @@ const ShowPatients = () => {
       <Divider></Divider>
       <Button className="mr-2 mb-3" size='large' onClick={() => {setVisible(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti pacientą</Button>
 
-      <Table columns={COLUMNS} dataSource={patients} size="middle" rowKey={record => record.patient_id} />
+      <Table columns={COLUMNS} 
+             dataSource={loading? [] : patients}
+             locale={{
+              emptyText: loading ? <Skeleton active={true} /> : <Empty />
+             }}
+             size="middle" 
+             rowKey={record => record.patient_id} />
       <AddPatientModal
         visible={visible}
         onCreate={onCreate}

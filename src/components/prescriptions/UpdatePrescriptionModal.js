@@ -9,7 +9,7 @@ import axios from '../../axiosApi';
 
 const { Title } = Typography;
 
-function UpdatePrescription(record, onUpdateRefresh) {
+function UpdatePrescription({getAllPrescriptions, setLoading, ...record}) {
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
@@ -17,9 +17,12 @@ function UpdatePrescription(record, onUpdateRefresh) {
   const onUpdate = async(values, id) => {
     console.log(values);
     await axios.patch(`api/prescription/${id}`, values).then(response=>{
+      setLoading(true);
       console.log(response.data);
       
       notification.success({ message: 'Sėkmingai atnaujinta!' });
+      setVisible(false);
+      getAllPrescriptions();
     })
     
   };

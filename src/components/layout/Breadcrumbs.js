@@ -4,7 +4,6 @@ import "./styles.css";
 import { useLocation } from 'react-router-dom'
 
 const Breadcrumbs = (props) => {
-    const url = window.location.href;
     const { pathname } = useLocation()
     if(pathname.includes('/visit')) {
         return (

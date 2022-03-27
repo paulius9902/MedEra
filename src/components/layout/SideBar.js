@@ -7,13 +7,11 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import SubMenu from "antd/lib/menu/SubMenu";
 import { FileDoneOutlined, LineChartOutlined, CarryOutOutlined, AuditOutlined, UserOutlined, IdcardOutlined, ExperimentOutlined, CalendarOutlined, OrderedListOutlined, PlusCircleOutlined, MedicineBoxOutlined, InfoCircleOutlined} from '@ant-design/icons';
 import PropTypes from 'prop-types';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, useLocation } from "react-router-dom";
 import { isEqual } from "lodash";
 import { connect } from "react-redux";
 
-
 const { Content, Footer, Sider } = Layout;
-
 class SideBar extends React.Component {
 
   constructor(props) {
@@ -22,7 +20,6 @@ class SideBar extends React.Component {
     this.logout = this.logout.bind(this);
     this.setSelectedKeys = this.setSelectedKeys.bind(this);
 
-
     this.state = {
       logged_in: localStorage.getItem('access_token') ? true : false,
       logged_user_name: '',
@@ -30,7 +27,7 @@ class SideBar extends React.Component {
       is_doctor: '',
       is_patient: '',
       collapsed: true,
-      selectedKeys,
+      selectedKeys
     }
   }
   
@@ -48,11 +45,50 @@ class SideBar extends React.Component {
     window.location = "/";
   };
 
+  componentDidMount() {
+    const pathName = window.location.pathname
+    console.log(window.location.pathname)
+    if (pathName.includes("/visit")) {
+      this.setState({
+        selectedKeys: ["/visit"]
+      });
+    } else if (pathName.includes("/doctor")) {
+      this.setState({
+        selectedKeys: ["/doctor"]
+      });
+    } else if (pathName.includes("/patient")) {
+      this.setState({
+        selectedKeys: ["/patient"]
+      });
+    } else if (pathName.includes("/diagnosis")) {
+      this.setState({
+        selectedKeys: ["/diagnosis"]
+      });
+    } else if (pathName.includes("/laboratory_test")) {
+      this.setState({
+        selectedKeys: ["/laboratory_test"]
+      });
+    } else if (pathName.includes("/prescription")) {
+      this.setState({
+        selectedKeys: ["/prescription"]
+      });
+    } else if (pathName.includes("/user")) {
+      this.setState({
+        selectedKeys: ["/user"]
+      });
+    } else {
+      this.setState({
+        selectedKeys: ["0"]
+      });
+    }
+  }
+
   render() {
     const { selectedKeys } = this.state;
     const iconSize = {
       fontSize: '200%'
     };
+
     return (
       <Sider
         collapsible
@@ -65,51 +101,51 @@ class SideBar extends React.Component {
           left: 0
         }}
       >
-        <Menu theme="dark" mode="inline" selectedKeys={selectedKeys} >
-          <Menu.Item  onClick={() => this.setSelectedKeys(['1'])} key="1">
+        <Menu theme="dark" mode="inline"
+            selectedKeys={selectedKeys} >
+          <Menu.Item  key="/visit" onClick={() => { this.setSelectedKeys("/visit")}}>
               <Link to="/visit">
                 <CalendarOutlined style={iconSize}/>
                 <span className="nav-text">Vizitai</span>
               </Link>
-
           </Menu.Item>
 
-          <Menu.Item key="4" onClick={() => { this.setSelectedKeys("4")}}>
+          <Menu.Item key="/doctor" onClick={() => { this.setSelectedKeys("/doctor")}}>
             <Link to="/doctor">
               <MedicineBoxOutlined style={iconSize}/>
               <span className="nav-text">Gydytojai</span>
             </Link>
           </Menu.Item>
 
-          <Menu.Item key="5" onClick={() => { this.setSelectedKeys("5")}}>
+          <Menu.Item key="/patient" onClick={() => { this.setSelectedKeys("/patient")}}>
             <Link to="/patient">
               <IdcardOutlined style={iconSize}/>
               <span className="nav-text">Pacientai</span>
             </Link>
           </Menu.Item>
 
-          <Menu.Item key="6" onClick={() => { this.setSelectedKeys("6")}}>
+          <Menu.Item key="/diagnosis" onClick={() => { this.setSelectedKeys("/diagnosis")}}>
             <Link to="/diagnosis">
               <FileDoneOutlined style={iconSize}/>
               <span className="nav-text">Diagnozės</span>
             </Link>
           </Menu.Item>
 
-          <Menu.Item key="7" onClick={() => { this.setSelectedKeys("7")}}>
+          <Menu.Item key="/laboratory_test" onClick={() => { this.setSelectedKeys("/laboratory_test")}}>
             <Link to="/laboratory_test">
               <ExperimentOutlined style={iconSize}/>
               <span className="nav-text">Lab. tyrimai</span>
             </Link>
           </Menu.Item>
 
-          <Menu.Item key="8" onClick={() => { this.setSelectedKeys("8")}}>
+          <Menu.Item key="/prescription" onClick={() => { this.setSelectedKeys("/prescription")}}>
             <Link to="/prescription">
               <AuditOutlined style={iconSize}/>
               <span className="nav-text">Receptai</span>
             </Link>
           </Menu.Item>
 
-          <Menu.Item key="9" onClick={() => { this.setSelectedKeys("9")}}>
+          <Menu.Item key="/user" onClick={() => { this.setSelectedKeys("/user")}}>
             <Link to="/user">
               <UserOutlined style={iconSize}/>
               <span className="nav-text">Vartotojai</span>
