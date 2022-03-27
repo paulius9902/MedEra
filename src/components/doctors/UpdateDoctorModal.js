@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import { MedicineBoxOutlined} from "@ant-design/icons";
-import { Button, Modal, Form, Input, Radio, Select, InputNumber, Row, Col, Avatar} from "antd";
-import { useNavigate, useParams } from 'react-router-dom';
+import { Modal, Form, Input, InputNumber, Row, Col, Avatar} from "antd";
+import { useParams } from 'react-router-dom';
 import axios from '../../axiosApi';
 const AddDoctorModal = ({ visible, onCreate, onCancel}) => {
   
@@ -13,7 +13,7 @@ const AddDoctorModal = ({ visible, onCreate, onCancel}) => {
 
   useEffect(() => {
     loadDoctor();
-  }, []);
+  },[]);
 
   const loadDoctor = async () => {
     const result = await axios.get(`api/doctor/${id}`);

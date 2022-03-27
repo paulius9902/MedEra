@@ -1,13 +1,11 @@
 import axios from '../../axiosApi';
-import React, {useState, useEffect, Fragment} from 'react';
-import { useParams, useNavigate } from 'react-router';
+import React, {useState, useEffect} from 'react';
+import { useParams} from 'react-router';
 import { Link } from 'react-router-dom';
-//import { Card, Row } from 'react-bootstrap';
-import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined} from '@ant-design/icons';
-import {Button, Space, notification, Card, Form, Row, Col, Typography, Badge, Descriptions} from 'antd';
+import {PlusCircleOutlined, EditOutlined, DeleteOutlined} from '@ant-design/icons';
+import {notification, Card, Form, Row, Col, Descriptions} from 'antd';
 import UpdateDoctorModal from './UpdateDoctorModal';
 import AddDoctorVisitModal from './AddDoctorVisitModal';
-const { Title, Text} = Typography;
 const DoctorDetail = () => {
 
 const [doctor, setDoctor] = useState([])
@@ -73,6 +71,7 @@ return (
                 cover={
                     <img
                         src="https://www.shareicon.net/data/512x512/2016/08/18/813849_people_512x512.png"
+                        alt=""
                     />
                     }
                 actions={[

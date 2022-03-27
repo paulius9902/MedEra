@@ -1,9 +1,6 @@
 import React, { useState, useEffect} from 'react';
-import ReactDOM from "react-dom";
-import { Button, Modal, Form, Input, Radio, Row, Col, Avatar} from "antd";
+import { Modal, Form, Input, Row, Col, Avatar} from "antd";
 import DatePicker from "react-datepicker";
-import setHours from "date-fns/setHours";
-import setMinutes from "date-fns/setMinutes";
 import lt from "date-fns/locale/lt";
 import { CalendarOutlined} from "@ant-design/icons";
 import axios from '../../axiosApi';
@@ -30,7 +27,7 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
   useEffect(() => {
     loadDoctors();
     loadWorkHours();
-  }, []);
+  },[]);
 
   const loadDoctors = async () => {
     const result = await axios.get("api/doctor");

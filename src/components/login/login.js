@@ -1,8 +1,8 @@
-import React, {useState, useEffect, Fragment} from 'react';
+import React, {useState} from 'react';
 import "antd/dist/antd.css";
 import axiosInstance from '../../axiosApi'
 import "./login.css";
-import { Form, Input, Button, Checkbox, Badge } from "antd";
+import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import 'antd/dist/antd.css'; 
 //import poto from "./poto.png";
@@ -58,8 +58,8 @@ const NormalLoginForm = () => {
         }}
         onFinish={onFinish}
       >
-        <div class="left-background ">
-                <h1 class="white-text">MedEra</h1>
+        <div className="left-background ">
+                <h1 className="white-text">MedEra</h1>
                 <p>Prisijunkite prie savo asmeninės MedEra paskyros</p>
         </div>
         <div className="login-form-container">

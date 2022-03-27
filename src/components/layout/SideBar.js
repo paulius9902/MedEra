@@ -1,17 +1,12 @@
 import React from "react";
 //import "./styles.css";
 import axiosInstance from '../../axiosApi';
-import { Layout, Menu, Input, Divider, Avatar } from "antd";
-import { Navbar, Nav, OverlayTrigger, Tooltip} from 'react-bootstrap';
-import SettingsIcon from '@material-ui/icons/Settings';
-import SubMenu from "antd/lib/menu/SubMenu";
-import { FileDoneOutlined, LineChartOutlined, CarryOutOutlined, AuditOutlined, UserOutlined, IdcardOutlined, ExperimentOutlined, CalendarOutlined, OrderedListOutlined, PlusCircleOutlined, MedicineBoxOutlined, InfoCircleOutlined} from '@ant-design/icons';
+import { Layout, Menu} from "antd";
+import { FileDoneOutlined, AuditOutlined, UserOutlined, IdcardOutlined, ExperimentOutlined, CalendarOutlined, MedicineBoxOutlined} from '@ant-design/icons';
 import PropTypes from 'prop-types';
-import { BrowserRouter as Router, Route, Link, useLocation } from "react-router-dom";
-import { isEqual } from "lodash";
-import { connect } from "react-redux";
+import {Link } from "react-router-dom";
 
-const { Content, Footer, Sider } = Layout;
+const {Sider } = Layout;
 class SideBar extends React.Component {
 
   constructor(props) {

@@ -1,22 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../axiosApi';
-import { useParams, useNavigate } from 'react-router';
 import Table from "antd/lib/table";
 import {Button, Divider, Popconfirm, notification, Skeleton, Empty} from 'antd';
-import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined} from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import {PlusCircleOutlined, DeleteOutlined} from '@ant-design/icons';
 import AddLabTestModal from './AddLabTestModal';
 import UpdateLabTestModal from './UpdateLabTestModal';
-import { trackPromise } from 'react-promise-tracker';
 //import "./custom.css";
 //import { Button } from 'react-bootstrap';
 
 const ShowLabTests = () => {
-  const {id} = useParams();
-  const [lab_test_id, setLabTestID] = useState(null);
   const [lab_tests, setLabTests] = useState([]);
   const [visible_create, setVisibleCreate] = useState(false);
-  const [visible_update, setVisibleUpdate] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

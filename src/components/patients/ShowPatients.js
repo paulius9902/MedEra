@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from '../../axiosApi';
 import Table from "antd/lib/table";
 import {Button, Divider, Popconfirm, notification, Empty, Skeleton} from 'antd';
-import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined} from '@ant-design/icons';
+import {PlusCircleOutlined, EditOutlined, DeleteOutlined} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import AddPatientModal from './AddPatientModal';
-import { trackPromise } from 'react-promise-tracker';
 //import { Button } from 'react-bootstrap';
 
 

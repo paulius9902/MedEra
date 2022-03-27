@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback} from 'react';
+import React from 'react';
 import "antd/dist/antd.css";
 import { Modal, Typography, notification, Form, Card, Row, Col, Avatar, Input, Select} from "antd";
 import { EditOutlined, UserOutlined} from "@ant-design/icons";
@@ -10,7 +10,6 @@ const UpdateUser = ({getAllUsers, setLoading, ...record}) => {
   const [form] = Form.useForm();
   const [visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
-  const [email, setEmail] = useState('');
 
   const onUpdate = async(values) => {
     console.log(values);
@@ -84,8 +83,6 @@ const UpdateUser = ({getAllUsers, setLoading, ...record}) => {
                 rules={[{ required: true }]}
                 style={{ width: "100%" }}
                 name="email"
-                validateStatus={email.validateStatus}
-                help={email.errorMsg}
               >
                 <Input/>
               </Form.Item>

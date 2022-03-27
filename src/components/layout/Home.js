@@ -3,7 +3,7 @@ import Patients from '../dashboard/patients';
 import Doctors from '../dashboard/doctors';
 import Visits from '../dashboard/visits';
 import Users from '../dashboard/users';
-import { Container, Grid, makeStyles } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 
 function Home() {
 

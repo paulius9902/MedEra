@@ -1,17 +1,14 @@
 import axios from '../../axiosApi';
-import React, {useState, useEffect, Fragment} from 'react';
-import { useParams, useNavigate } from 'react-router';
+import React, {useState, useEffect} from 'react';
+import { useParams} from 'react-router';
 import { Link } from 'react-router-dom';
 //import { Card, Row } from 'react-bootstrap';
-import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined} from '@ant-design/icons';
-import {Button, Space, notification, Card, Form, Row, Col, Typography, Descriptions, Popconfirm, Table, Skeleton, Empty, Divider} from 'antd';
+import {PlusCircleOutlined, EditOutlined, DeleteOutlined} from '@ant-design/icons';
+import {notification, Card, Form, Row, Col, Descriptions, Popconfirm, Table, Divider} from 'antd';
 import UpdatePatientModal from './UpdatePatientModal';
-import { CardColumns } from 'reactstrap';
-const { Title, Text} = Typography;
 const PatientDetail = () => {
 
 const [patient, setPatient] = useState([])
-const [work_hours, setWorkHours] = useState([])
 const {id} = useParams();
 const [visible_patient, setVisiblePatient] = useState(false);
 const [visible_visit, setVisibleVisit] = useState(false);
@@ -101,7 +98,7 @@ return (
                     <Card
                     cover={
                         <img
-                            class="img-fluid rounded mb-4 mb-lg-0"
+                            className="img-fluid rounded mb-4 mb-lg-0"
                             src={patient.image}
                             alt=""
                         />

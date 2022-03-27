@@ -1,22 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../axiosApi';
-import { useParams, useNavigate } from 'react-router';
 import Table from "antd/lib/table";
 import {Button, Divider, Popconfirm, notification, Skeleton, Empty} from 'antd';
-import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined} from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import {PlusCircleOutlined, DeleteOutlined} from '@ant-design/icons';
 import AddPrescriptionModal from './AddPrescriptionModal';
 import UpdatePrescriptionModal from './UpdatePrescriptionModal';
-import { trackPromise } from 'react-promise-tracker';
 //import "./custom.css";
 //import { Button } from 'react-bootstrap';
 
 const ShowPrescriptions = () => {
-  const {id} = useParams();
-  const [prescription_id, setPrescriptionID] = useState(null);
   const [prescriptions, setPrescriptions] = useState([]);
   const [visible_create, setVisibleCreate] = useState(false);
-  const [visible_update, setVisibleUpdate] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

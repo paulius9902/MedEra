@@ -1,8 +1,8 @@
 import React, { useState, useEffect} from 'react';
-import { Modal, Form, Input, Select, Card, Row, Col, Avatar} from "antd";
+import { Modal, Form, Input, Select, Row, Col, Avatar} from "antd";
 import DatePicker from "react-datepicker";
 import setHours from "date-fns/setHours";
-import { EditOutlined, UserOutlined, FileDoneOutlined, OrderedListOutlined, CalendarOutlined} from "@ant-design/icons";
+import { CalendarOutlined} from "@ant-design/icons";
 import setMinutes from "date-fns/setMinutes";
 import { addDays, isSameDay, parseISO, addMonths } from "date-fns";
 import lt from "date-fns/locale/lt";
@@ -16,7 +16,6 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
 
   const [start_date, setStartDate] = useState(null)
   const [visits, setVisits] = useState([])
-  const [visits_dates, setVisitsDates] = useState([])
   const [doctors, setDoctors] = useState([]);
   const [doctor_id, setDoctorID] = useState(null)
   

@@ -1,6 +1,6 @@
-import React, { Component} from "react";
-import { Layout, Menu} from 'antd';
-import { Routes, Route, Redirect} from "react-router-dom";
+import React from "react";
+import { Layout} from 'antd';
+import { Routes, Route} from "react-router-dom";
 import Header from "./components/layout/Header";
 import Breadcrumb from "./components/layout/Breadcrumbs";
 //import Footer from "./components/layout/Footer";
@@ -21,8 +21,7 @@ import Profile from "./components/profile/Profile";
 import ChangePassword from "./components/profile/ChangePassword";
 import ShowUsers from "./components/users/ShowUsers";
 
-const { SubMenu } = Menu;
-const { Content, Sider, Footer } = Layout;
+const { Content, Footer } = Layout;
 
 class App extends React.Component {
     constructor(props) {

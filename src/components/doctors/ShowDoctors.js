@@ -2,17 +2,13 @@ import axios from '../../axiosApi';
 import React, {useState, useEffect} from 'react';
 import {Button, Card, Row, Col, Divider, notification, Popconfirm} from 'antd';
 import { Link } from 'react-router-dom';
-import {PlusCircleOutlined, SettingOutlined, InfoCircleOutlined, DeleteOutlined} from '@ant-design/icons';
+import {PlusCircleOutlined, InfoCircleOutlined, DeleteOutlined} from '@ant-design/icons';
 import AddDoctorModal from './AddDoctorModal';
 
 const ShowDoctors = () => {
-    const { Meta } = Card;
     const [doctors, setDoctors] = useState([])
     const [visible, setVisible] = useState(false);
-    var photos = ["https://www.shareicon.net/data/256x256/2016/09/01/822733_user_512x512.png",
-                "https://www.shareicon.net/data/256x256/2016/09/01/822712_user_512x512.png",
-                "https://www.shareicon.net/data/256x256/2016/08/18/813846_people_512x512.png",
-                "https://www.shareicon.net/data/256x256/2016/08/18/813849_people_512x512.png"];
+
     const onCreate = async(values) => {
         values.birthday = values.birthday.toISOString().split('T')[0]
         console.log(values);
@@ -37,6 +33,7 @@ const ShowDoctors = () => {
         await axios.post(`api/doctor`, values).then(response=>{
           console.log(response.data);
           fetchDoctors();
+          notification.success({ message: 'Sėkmingai pridėta!' });
         })
         setVisible(false);
     };
@@ -81,6 +78,7 @@ const ShowDoctors = () => {
                         cover={
                         <img
                             src={doctor.image}
+                            alt=""
                         />
                         }
                         actions={[

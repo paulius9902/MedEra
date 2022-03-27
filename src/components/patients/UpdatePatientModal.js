@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from 'react';
-import { Button, Modal, Form, Input, Radio, Select, InputNumber, Row, Col, Avatar} from "antd";
-import { useNavigate, useParams } from 'react-router-dom';
+import { Modal, Form, Input, Row, Col, Avatar} from "antd";
+import { useParams } from 'react-router-dom';
 import axios from '../../axiosApi';
 import { IdcardOutlined} from "@ant-design/icons";
 const AddPatientModal = ({ visible, onCreate, onCancel}) => {
@@ -13,7 +13,7 @@ const AddPatientModal = ({ visible, onCreate, onCancel}) => {
 
   useEffect(() => {
     loadPatient();
-  }, []);
+  },[]);
 
   const loadPatient = async () => {
     const result = await axios.get(`api/patient/${id}`);

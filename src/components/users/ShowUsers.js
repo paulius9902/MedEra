@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../axiosApi';
-import { useParams, useNavigate } from 'react-router';
 import Table from "antd/lib/table";
-import {Button, Divider, Popconfirm, notification, Tag, Menu, Dropdown, Skeleton, Empty} from 'antd';
-import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined, SyncOutlined, CheckCircleOutlined, CloseCircleOutlined, UserOutlined, DownOutlined} from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import {Button, Divider, Popconfirm, notification, Skeleton, Empty} from 'antd';
+import {PlusCircleOutlined, DeleteOutlined, CheckCircleOutlined, CloseCircleOutlined} from '@ant-design/icons';
 import AddUserAdminModal from './AddUserModal';
 import UpdateUserModal from './UpdateUserModal';
-import { trackPromise } from 'react-promise-tracker';
 //import { Button } from 'react-bootstrap';
 
 const ShowUsers = () => {

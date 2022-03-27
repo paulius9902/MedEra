@@ -1,19 +1,17 @@
 import axios from '../../axiosApi';
 import React, {useState, useEffect} from 'react';
-import { useParams, useNavigate } from 'react-router';
+import { useParams} from 'react-router';
 import { Link } from 'react-router-dom';
-import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined, CheckCircleOutlined, CloseCircleOutlined} from '@ant-design/icons';
-import {Button, Space, notification, Card, Form, Row, Col, Typography, Badge, Descriptions} from 'antd';
+import {EditOutlined, CheckCircleOutlined, CloseCircleOutlined} from '@ant-design/icons';
+import {notification, Card, Form, Row, Col, Descriptions} from 'antd';
 import UpdateUserModal from './UpdateUserModal';
 
 const UserDetail = () => {
 
 const [user, setUser] = useState([])
-const is_superuser = localStorage.getItem('is_superuser') === 'true';
 const [visible_user, setVisibleUser] = useState(false);
 
 const {id} = useParams();
-const navigate = useNavigate();
 
 useEffect(() => {
     getUser();
@@ -43,6 +41,7 @@ const getUser = async () => {
                     cover={
                         <img
                             src="https://www.shareicon.net/data/512x512/2017/02/15/878685_user_512x512.png"
+                            alt=''
                         />
                         }
                     actions={[

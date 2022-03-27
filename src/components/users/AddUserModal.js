@@ -1,19 +1,12 @@
 import React, { useState, useEffect} from 'react';
-import ReactDOM from "react-dom";
-import { Button, Modal, Form, Input, Radio, Select, Card, Typography, InputNumber, Row, Col, Avatar} from "antd";
-import DatePicker from "react-datepicker";
-import setHours from "date-fns/setHours";
-import setMinutes from "date-fns/setMinutes";
-import lt from "date-fns/locale/lt";
+import { Modal, Form, Input, Select, Card, Typography, Row, Col, Avatar} from "antd";
 import axios from '../../axiosApi';
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { UserOutlined} from "@ant-design/icons";
 const { Option } = Select;
 const AddUserModal = ({ visible, onCreate, onCancel }) => {
   const { Title } = Typography;
   const [patients, setPatients] = useState([]);
   const [doctors, setDoctors] = useState([]);
-  const [patient, setPatientID] = useState(null)
-  const [role, setRole] = useState(null)
   const [confirmLoading, setConfirmLoading] = React.useState(false);
   const [form] = Form.useForm();
 
@@ -76,7 +69,7 @@ const AddUserModal = ({ visible, onCreate, onCancel }) => {
                         message: "Pasirinkite vartotojo tipą!"
                       }
                     ]}>
-          <Select onChange={role => {setRole(role); }}>
+          <Select>
             <Option value="A">Administratorius</Option>
             <Option value="D">Gydytojas</Option>
             <Option value="P">Pacientas</Option>

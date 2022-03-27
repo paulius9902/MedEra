@@ -1,10 +1,9 @@
 import React from "react";
 import "antd/dist/antd.css";
 import "./styles.css";
-import { SettingOutlined, LaptopOutlined, UserOutlined, LogoutOutlined} from '@ant-design/icons';
+import { SettingOutlined, UserOutlined, LogoutOutlined} from '@ant-design/icons';
 import axiosInstance from '../../axiosApi';
-import { Layout, Menu, Input, Divider, Avatar } from "antd";
-import { Navbar, Nav, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import { Layout, Menu } from "antd";
 import SubMenu from "antd/lib/menu/SubMenu";
 
 const { Header } = Layout;

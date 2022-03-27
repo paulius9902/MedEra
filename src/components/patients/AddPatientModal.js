@@ -1,18 +1,13 @@
-import React, { useState, useEffect} from 'react';
-import ReactDOM from "react-dom";
-import { Button, Modal, Form, Input, Radio, Select, InputNumber, Row, Col, Avatar} from "antd";
+import React, { useState} from 'react';
+import { Modal, Form, Input, Select, Row, Col, Avatar} from "antd";
 import DatePicker from "react-datepicker";
-import setHours from "date-fns/setHours";
-import setMinutes from "date-fns/setMinutes";
 import lt from "date-fns/locale/lt";
 import { IdcardOutlined} from "@ant-design/icons";
-import axios from '../../axiosApi';
+
 const { Option } = Select;
 const AddPatientModal = ({ visible, onCreate, onCancel }) => {
 
   const [start_date, setStartDate] = useState(new Date());
-  const [gender, setGender] = useState(null)
-  
   const [form] = Form.useForm();
 
   return (
@@ -74,7 +69,7 @@ const AddPatientModal = ({ visible, onCreate, onCancel }) => {
                         message: "Pasirinkite lytį!"
                       }
                     ]}>
-          <Select onChange={(gender) => setGender(gender)} >
+          <Select>
             <Option value="V">Vyras</Option>
             <Option value="M">Moteris</Option>
           </Select>
