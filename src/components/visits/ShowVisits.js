@@ -14,10 +14,9 @@ const ShowVisits = () => {
   const [loading, setLoading] = useState(true);
   
   const onCreate = async(values) => {
-    console.log(values);
     values.status = 1
     values.start_date=new Date(Math.floor(values.start_date.getTime() - values.start_date.getTimezoneOffset() * 60000))
-
+    console.log(values);
     await axios.post(`api/visit`, values).then(response=>{
       setLoading(true);
       console.log(response.data);
@@ -92,7 +91,8 @@ const ShowVisits = () => {
       dataIndex: 'start_date',
       key: "start_date",
       defaultSortOrder: 'ascend',
-      sorter: (a, b) => moment(a.start_date).unix() - moment(b.start_date).unix()
+      sorter: (a, b) => moment(a.start_date).unix() - moment(b.start_date).unix(),
+      render: (text, record) => text.slice(0, 16).replace('T', ' ')
     },
     {
       title: "Kabinetas",
@@ -101,37 +101,15 @@ const ShowVisits = () => {
     },
     {
       title: 'Gydytojas',
-      children: [
-        {
-          title: "Vardas",
-          dataIndex: ['doctor', 'name'],
-          key: "doctor_name",
-          render: (text, record) => <Link to={'/doctor/' + record.doctor.doctor_id}>{text}</Link>
-        },
-        {
-          title: "Pavardė",
-          dataIndex: ['doctor', 'surname'],
-          key: "doctor_surname",
-          render: (text, record) => <Link to={'/doctor/' + record.doctor.doctor_id}>{text}</Link>
-        }
-      ]
+      dataIndex: ['doctor', 'name']|['doctor', 'name'],
+      key: "doctor_name",
+      render: (text, record) => <Link to={'/doctor/' + record.doctor.doctor_id}>{record.doctor.name + ' ' + record.doctor.surname}</Link>
     },
     {
       title: 'Pacientas',
-      children: [
-        {
-          title: "Vardas",
-          dataIndex: ['patient', 'name'],
-          key: "patient_name",
-          render: (text, record) => <Link to={'/patient/' + record.patient.patient_id}>{text}</Link>
-        },
-        {
-          title: "Pavardė",
-          dataIndex: ['patient', 'surname'],
-          key: "patient_surname",
-          render: (text, record) => <Link to={'/patient/' + record.patient.patient_id}>{text}</Link>
-        }
-      ]
+      dataIndex: ['patient', 'name'],
+      key: "patient_name",
+      render: (text, record) => <Link to={'/patient/' + record.patient.patient_id}>{record.patient.name + ' ' + record.patient.surname}</Link>
     },
     {
       title: "Vizito priežastis",

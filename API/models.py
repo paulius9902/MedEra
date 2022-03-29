@@ -65,6 +65,7 @@ class Patients(models.Model):
     last_update_date = models.DateTimeField(auto_now=timezone.now)
     allergies = models.ManyToManyField(Allergies, through="PatientsAllergies")
     image = models.CharField(max_length=100)
+    personal_code = models.CharField(max_length=11)
 
     class Meta:
         managed = False
