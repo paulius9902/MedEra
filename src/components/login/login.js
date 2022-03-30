@@ -5,8 +5,7 @@ import "./login.css";
 import { Form, Input, Button } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import 'antd/dist/antd.css'; 
-//import poto from "./poto.png";
-//import logo from "./logo.png";
+
 const NormalLoginForm = () => {
   const [error, setError] = useState('');
   const onFinish = (values) => {
@@ -35,10 +34,40 @@ const NormalLoginForm = () => {
         localStorage.setItem('user_id', userID)
         localStorage.setItem('patient_id', patientID)
         localStorage.setItem('doctor_id', doctorID)
-
-        window.location = "/";
       })
-    }).catch(error => {
+      .then(() => {
+        if (localStorage.getItem('patient_id')!=='null')
+        {
+          axiosInstance.get(`api/patient/${localStorage.getItem('patient_id')}`)
+          .then((res) => {
+            console.log(res.data)
+            const patientName = res.data.name;
+            const patientSurname = res.data.surname;
+            localStorage.setItem('patient', patientName + " " + patientSurname)
+          })
+          .then(() =>{
+            window.location = "/";
+          })
+        }
+        else if (localStorage.getItem('doctor_id')!=='null'){
+          axiosInstance.get(`api/doctor/${localStorage.getItem('doctor_id')}`)
+          .then((res) => {
+            console.log(res.data)
+            const doctorName = res.data.name;
+            const doctorSurname = res.data.surname;
+            localStorage.setItem('doctor', doctorName + " " +doctorSurname)
+          })
+          .then(() =>{
+            window.location = "/";
+          })
+        }
+        else
+        {
+          window.location = "/";
+        }
+      })
+    })
+    .catch(error => {
       if(error.response) { 
         const errm = "Neteisingas el. paštas arba slaptažodis";
         setError(errm)

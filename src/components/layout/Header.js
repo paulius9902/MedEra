@@ -16,6 +16,7 @@ class HeaderMe extends React.Component {
 
     this.state = {
       logged_in: localStorage.getItem('access_token') ? true : false,
+      user: localStorage.getItem('doctor') ? localStorage.getItem('doctor') : localStorage.getItem('patient'),
       logged_user_name: '',
       is_superuser: '',
       is_doctor: '',
@@ -41,7 +42,7 @@ class HeaderMe extends React.Component {
       <Header className="header">
         <h1 className="medera"><a href="/" >MedEra</a></h1>
         <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['6']}>
-          <SubMenu key="4" style={rightStyle} title={<span><UserOutlined style={{ fontSize: '150%'}}/> Profilis </span>}>
+          <SubMenu key="4" style={rightStyle} title={<span><UserOutlined style={{ fontSize: '150%'}}/> {this.state.user ? this.state.user : 'Administratorius'}</span>}>
             <Menu.Item onClick={this.settings} key="5"><SettingOutlined style={{ fontSize: '150%'}}/> Nustatymai </Menu.Item>
             <Menu.Item  onClick={this.logout} key="6"><LogoutOutlined style={{ fontSize: '150%'}}/> Atsijungti </Menu.Item>
           </SubMenu>

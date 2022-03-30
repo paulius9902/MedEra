@@ -118,13 +118,14 @@ return (
                         <Link style={{fontSize: '125%' }} to={'#'} onClick={() => {setVisibleVisit(true);}} ><PlusCircleOutlined style={{ color: "#87d068" }}/> Pridėti receptą</Link>,
                         ]}>
                         <Descriptions title="Paciento duomenys" bordered>
-                        <Descriptions.Item label="Vardas" span={3}>{patient.name}</Descriptions.Item>
-                        <Descriptions.Item label="Pavardė" span={3}>{patient.surname}</Descriptions.Item>
+                        <Descriptions.Item label="Vardas" span={2}>{patient.name}</Descriptions.Item>
+                        <Descriptions.Item label="Pavardė" span={2}>{patient.surname}</Descriptions.Item>
+                        <Descriptions.Item label="Asmens kodas" span={2}>{patient.personal_code}</Descriptions.Item>
                         <Descriptions.Item label="Gimimo data" span={2}>{patient.birthday ? patient.birthday : '-'}</Descriptions.Item>
                         <Descriptions.Item label="Telefono nr." span={2}>{patient.phone_number}</Descriptions.Item>
+                        <Descriptions.Item label="Gydosi iki" span={2}>{patient.termination_date ? patient.termination_date : '-'}</Descriptions.Item>
                         <Descriptions.Item label="Ūgis(cm)">{patient.height ? patient.height : '-'}</Descriptions.Item>
                         <Descriptions.Item label="Svoris(kg)">{patient.weight ? patient.weight : '-'}</Descriptions.Item>
-                        <Descriptions.Item label="Gydosi iki">{patient.termination_date ? patient.termination_date : '-'}</Descriptions.Item>
                     </Descriptions>
                     </Card>
                     <Divider></Divider>
