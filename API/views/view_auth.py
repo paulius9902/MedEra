@@ -2,10 +2,11 @@ from rest_framework.views import APIView
 from django.http.response import JsonResponse
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from API.serializers import ChangePasswordSerializer, CustomUserSerializer
-from API.models import NewUser
+from API.serializers import ChangePasswordSerializer, CustomUserRegSerializer, CustomUserSerializer, PatientRegSerializer, PatientSerializer
+from API.models import NewUser, Patients
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import update_session_auth_hash
+from rest_framework.parsers import JSONParser
 
 class BlacklistTokenUpdateView(APIView):
     permission_classes = [AllowAny]
@@ -56,3 +57,15 @@ class UserView(APIView):
         obj = self.get_object()
         serializer = self.serializer_class(obj)
         return JsonResponse(serializer.data, status=status.HTTP_200_OK, safe=False)
+
+class PatientGetListReg(APIView):
+    def get(self, request):
+        patients = Patients.objects.all()
+        patients_serializer = PatientRegSerializer(patients, many=True)
+        return JsonResponse(patients_serializer.data, safe=False)
+
+class UserGetListReg(APIView):
+    def get(self, request):
+        users = NewUser.objects.all()
+        users_serializer = CustomUserRegSerializer(users, many=True)
+        return JsonResponse(users_serializer.data, safe=False)

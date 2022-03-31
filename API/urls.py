@@ -19,6 +19,7 @@ urlpatterns=[
     path('doctor/<int:doctor_id>/work_hours/<int:week_day>', views.DoctorWorkHours.as_view(), name='work_hours_detail'),
 
     path('patient', views.PatientGetList.as_view(), name='patient_list'),
+    path('patient_reg', views.PatientGetListReg.as_view(), name='patient_reg'),
     path('patient/<int:patient_id>', views.PatientGet.as_view(), name='patient_detail'),
 
     path('patient/<int:patient_id>/allergy', views.PatientAllergyGetList.as_view(), name='patient_allergy_list'),
@@ -43,6 +44,7 @@ urlpatterns=[
     path('visit_status/<int:status_id>', views.VisitStatusGet.as_view(), name='status_detail'),
 
     path('user', views.UserGetList.as_view(), name='user_list'),
+    path('user_reg', views.UserGetListReg.as_view(), name='user_reg'),
     path('user/<int:user_id>', views.UserGet.as_view(), name='user_detail'),
 
     path('token', TokenObtainPairView.as_view(), name='token_obtain_pair'),

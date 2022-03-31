@@ -10,6 +10,12 @@ class PatientSerializer(serializers.ModelSerializer):
         fields=('__all__')
         depth = 1
 
+class PatientRegSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Patients
+        #fields=('patient_id', 'name', 'surname', 'user_id')
+        fields=('patient_id', 'personal_code',)
+
 class DoctorSerializer(serializers.ModelSerializer):
     class Meta:
         model=Doctors
@@ -112,6 +118,11 @@ class CustomUserSerializerDepth(serializers.ModelSerializer):
         model = NewUser
         fields=('__all__')
         depth = 1
+
+class CustomUserRegSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = NewUser
+        fields=('id', 'email',)
 
 class ChangePasswordSerializer(serializers.Serializer):
     model = NewUser

@@ -2,12 +2,15 @@ import React, {useState} from 'react';
 import "antd/dist/antd.css";
 import axiosInstance from '../../axiosApi'
 import "./login.css";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, notification} from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import 'antd/dist/antd.css'; 
+import Register from './register';
+import { Link } from 'react-router-dom';
 
 const NormalLoginForm = () => {
   const [error, setError] = useState('');
+  const [visible_register, setVisibleRegister] = useState(false);
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
     axiosInstance.post('api/token', values, {crossDomain: true})
@@ -76,6 +79,18 @@ const NormalLoginForm = () => {
     });
   };
 
+  const onCreate = async(values) => {
+    console.log(values);
+    values.is_superuser=false
+    values.is_doctor=false
+    values.is_patient=true
+    await axiosInstance.post(`api/user`, values).then(response=>{
+      console.log(response.data);
+      notification.success({ message: 'Sėkmingai prisiregistravote!' });
+    })
+    setVisibleRegister(false);
+  };
+
   return (
     <div className="background">
     <div className="container">
@@ -135,14 +150,21 @@ const NormalLoginForm = () => {
             </Button>
           </Form.Item>
           <div style={{ marginTop: 8 }}>
-                    <a href="/">Užmiršote slaptažodį?</a>
+                    <Link to={"#"} onClick={() => {setVisibleRegister(true);}}>Užmiršote slaptažodį?</Link>
                   </div>
                   <div style={{ marginTop: 8 }}>
-                  <a href="/">Neturite paskyros?</a>
+                    <Link to={"#"} onClick={() => {setVisibleRegister(true);}}>Registracija</Link>
           </div>
         </div>
       </Form>
     </div>
+    <Register
+        visible={visible_register}
+        onCreate={onCreate}
+        onCancel={() => {
+          setVisibleRegister(false);
+        }}
+      />
     </div>
   );
 };
