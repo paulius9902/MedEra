@@ -9,14 +9,12 @@ import AddDoctorVisitModal from './AddDoctorVisitModal';
 const DoctorDetail = () => {
 
 const [doctor, setDoctor] = useState([])
-const [work_hours, setWorkHours] = useState([])
 const {id} = useParams();
 const [visible_doctor, setVisibleDoctor] = useState(false);
 const [visible_visit, setVisibleVisit] = useState(false);
 
 useEffect(() => {
     getSingleDoctor();
-    getWorkHours();
 },[])
 
 const onUpdate = async(values) => {
@@ -47,12 +45,6 @@ const getSingleDoctor = async () => {
   console.log(data);
   setDoctor(data);
 }
-
-const getWorkHours = async () => {
-    const  { data } = await axios.get(`api/doctor/${id}/work_hours`)
-    console.log(data);
-    setWorkHours(data);
-  }
 
 const deleteDoctor = async (id) => {
     try {

@@ -140,6 +140,7 @@ class LaboratoryTests(models.Model):
     patient = models.ForeignKey(Patients, models.DO_NOTHING)
     visit = models.ForeignKey(Visits, models.DO_NOTHING, blank=True, null=True)
     doctor = models.ForeignKey(Doctors, models.DO_NOTHING)
+    test_date = models.DateTimeField()
 
     class Meta:
         managed = False

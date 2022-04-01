@@ -18,6 +18,7 @@ const ShowLabTests = () => {
   }, []);
 
   const onCreate = async(values) => {
+    values.test_date=new Date(Math.floor(values.test_date.getTime() - values.test_date.getTimezoneOffset() * 60000))
     console.log(values);
     await axios.post(`api/laboratory_test`, values).then(response=>{
       setLoading(true);

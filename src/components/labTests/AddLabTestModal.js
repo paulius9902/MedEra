@@ -2,10 +2,14 @@ import React, { useState, useEffect} from 'react';
 import { Modal, Form, Input, Select, Card, Typography, InputNumber, Row, Col, Avatar} from "antd";
 import { ExperimentOutlined} from "@ant-design/icons";
 import axios from '../../axiosApi';
+import lt from "date-fns/locale/lt";
+import DatePicker from "react-datepicker";
+
 const { Option } = Select;
 const AddLaboratoryTestModal = ({ visible, onCreate, onCancel }) => {
   const { Title } = Typography;
   const [patients, setPatients] = useState([]);
+  const [test_date, setTestDate] = useState(null);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
   const [form] = Form.useForm();
 
@@ -67,6 +71,26 @@ const AddLaboratoryTestModal = ({ visible, onCreate, onCancel }) => {
                 <Option key={index} value={patient.patient_id}>{patient.name + " " + patient.surname + "  |  " + patient.birthday}</Option>
               ))}
           </Select>
+        </Form.Item>
+        <Form.Item name="test_date" label="Tyrimo data:" 
+                      rules={[
+                      {
+                        required: true,
+                        message: "Pasirinkite tyrimo datą!"
+                      }]}>
+        <DatePicker
+          selected={test_date}
+          className="form-control" 
+          onChange={(date) => setTestDate(date)}
+          peekNextMonth
+          showTimeSelect
+          showMonthDropdown
+          showYearDropdown
+          dateFormat="yyyy-MM-dd HH:mm"
+          timeIntervals={5}
+          dropdownMode="select"
+          placeholder="Pasirinkite tyrimo datą:"
+          locale={lt}/>
         </Form.Item>
         <Form.Item name="name" label="Pavadinimas:"
                     rules={[

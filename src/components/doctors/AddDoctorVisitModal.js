@@ -12,8 +12,6 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
   const [start_date, setStartDate] = useState(null)
   
   const [doctors, setDoctors] = useState([]);
-  const [work_hours, setWorkHours] = useState([]);
-  const [doctor_id, setDoctorID] = useState(null)
   
   const [form] = Form.useForm();
 
@@ -26,17 +24,11 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
 
   useEffect(() => {
     loadDoctors();
-    loadWorkHours();
   },[]);
 
   const loadDoctors = async () => {
     const result = await axios.get("api/doctor");
     setDoctors(result.data.reverse());
-  };
-
-  const loadWorkHours = async () => {
-    const result = await axios.get(`api/doctor/${doctor_id}/work_hours`);
-    setWorkHours(result.data.reverse());
   };
 
   return (
