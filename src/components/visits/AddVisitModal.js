@@ -68,13 +68,19 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
               form
                 .validateFields()
                 .then((values) => {
-                  form.resetFields();
                   console.log(values)
-                  onCreate(values);
+                  onCreate(values, form);
+                  setDoctorID(null)
+                  setStartDate(null)
                 })
                 .catch((info) => {
                   console.log("Validate Failed:", info);
-                })}}>
+                })
+                //getVisits()
+                //results = visits.filter((visit) => visit.doctor.doctor_id === doctor_id).map(
+                  //(visit) => new Date(parseISO(visit.start_date))
+                //)
+                }}>
       <Form form={form} layout="vertical" name="form_in_modal"> 
       <Row>
       <Col span={6}>

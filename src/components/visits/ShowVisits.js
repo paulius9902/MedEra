@@ -13,7 +13,7 @@ const ShowVisits = () => {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   
-  const onCreate = async(values) => {
+  const onCreate = async(values, form) => {
     values.status = 1
     values.start_date=new Date(Math.floor(values.start_date.getTime() - values.start_date.getTimezoneOffset() * 60000))
     console.log(values);
@@ -21,6 +21,7 @@ const ShowVisits = () => {
       setLoading(true);
       console.log(response.data);
       getAllVisit();
+      form.resetFields();
       notification.success({ message: 'Vizitas sukurtas!' });
     })
     setVisible(false);
