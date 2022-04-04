@@ -212,6 +212,8 @@ const ShowVisits = () => {
         onCancel={() => {
           setVisible(false);
         }}
+        getAllVisit={getAllVisit}
+        visits={visits}
       />
     </>
   );

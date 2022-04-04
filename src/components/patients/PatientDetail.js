@@ -6,15 +6,19 @@ import { Link } from 'react-router-dom';
 import {PlusCircleOutlined, EditOutlined, DeleteOutlined} from '@ant-design/icons';
 import {notification, Card, Form, Row, Col, Descriptions, Popconfirm, Table, Divider} from 'antd';
 import UpdatePatientModal from './UpdatePatientModal';
+import AddPatientAllergiesModal from './AddPatientAllergiesModal';
 const PatientDetail = () => {
 
 const [patient, setPatient] = useState([])
+const [allergies, setAllergies] = useState([])
 const {id} = useParams();
 const [visible_patient, setVisiblePatient] = useState(false);
+const [visible_patient_allergies, setVisiblePatientAllergies] = useState(false);
 const [visible_visit, setVisibleVisit] = useState(false);
 
 useEffect(() => {
     getSinglePatient();
+    getAllAllergies();
 },[])
 
 const COLUMNS = [
@@ -40,7 +44,7 @@ const COLUMNS = [
                 title='Ar tikrai norite ištrinti?'
                 okText='Taip'
                 cancelText='Ne'
-                onConfirm={() => confirmHandler(record.visit_id)}
+                onConfirm={() => confirmHandler(record.allergy_id)}
               >
                 <DeleteOutlined
                   style={{ color: "#f50", marginLeft: 12, fontSize: '150%'}}
@@ -74,6 +78,34 @@ const onUpdate = async(values) => {
       notification.success({ message: 'Sėkmingai atnaujinta!' });
     })
     setVisiblePatient(false);
+};
+
+const onAddAllergies = async(values) => {
+  const arr1d = [].concat(...Object.values(values));
+  var res = Object.keys(arr1d).map(function(name){
+    var obj = {};
+    obj[`allergy`] = arr1d[name];
+    return obj;
+  });
+  {res.map((allergy, index) => (
+     axios.post(`api/patient/${id}/allergy`, JSON.stringify(allergy)).then(response=>{
+      console.log(response.data);
+      console.log(JSON.stringify(response.data))
+      getSinglePatient();
+      
+    })
+  ))}
+  notification.success({ message: 'Sėkmingai pridėta!' });
+  setVisiblePatientAllergies(false);
+};
+
+const getAllAllergies = async () => {
+  try {
+    const res = await axios.get('api/allergy');
+    setAllergies(res.data);
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const getSinglePatient = async () => {
@@ -131,7 +163,7 @@ return (
                     <Divider></Divider>
                     <Card
                     actions={[
-                        <Link style={{fontSize: '125%' }} to={'#'} onClick={() => {setVisibleVisit(true);}} ><PlusCircleOutlined style={{ color: "#87d068" }}/> Pridėti alergiją</Link>,
+                        <Link style={{fontSize: '125%' }} to={'#'} onClick={() => {setVisiblePatientAllergies(true);}} ><PlusCircleOutlined style={{ color: "#87d068" }}/> Pridėti alergiją</Link>,
                         ]}>
                     <Descriptions title="Alergijos" bordered></Descriptions>
                     <Table  columns={COLUMNS} 
@@ -148,6 +180,14 @@ return (
                 onCancel={() => {
                 setVisiblePatient(false);
                 }}
+            />
+            <AddPatientAllergiesModal
+                visible={visible_patient_allergies}
+                onCreate={onAddAllergies}
+                onCancel={() => {
+                setVisiblePatientAllergies(false);
+                }}
+                allergies={allergies}
             />
             </Row>
             </Form>

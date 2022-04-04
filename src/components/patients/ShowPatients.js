@@ -11,6 +11,7 @@ import AddPatientModal from './AddPatientModal';
 const ShowPatients = () => {
 
   const [patients, setPatients] = useState([]);
+  const [allergies, setAllergies] = useState([]);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -25,9 +26,11 @@ const ShowPatients = () => {
     }
     values.birthday = values.birthday.toISOString().split('T')[0]
     console.log(values);
-    await axios.post(`api/patient`, values).then(response=>{
+    await axios.post(`api/patient`, values)
+    .then(response=>{
       setLoading(true);
       console.log(response.data);
+      console.log(response.data.patient_id);
       getAllPatient();
     })
     setVisible(false);
@@ -53,12 +56,22 @@ const ShowPatients = () => {
     }
   };
 
+  const getAllAllergies = async () => {
+    try {
+      const res = await axios.get('api/allergy');
+      setAllergies(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const confirmHandler = id => {
     setLoading(true);
     deletePatient(id);
   };
 
   useEffect(() => {
+    //getAllAllergies();
     getAllPatient();
   }, []);
 
@@ -140,6 +153,7 @@ const ShowPatients = () => {
         onCancel={() => {
           setVisible(false);
         }}
+        allergies={allergies}
       />
     </>
   );

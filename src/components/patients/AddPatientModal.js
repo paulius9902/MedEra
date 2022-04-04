@@ -1,13 +1,13 @@
 import React, { useState} from 'react';
-import { Modal, Form, Input, Select, Row, Col, Avatar} from "antd";
+import { Modal, Form, Input, Select, Row, Col, Avatar, InputNumber} from "antd";
 import DatePicker from "react-datepicker";
 import lt from "date-fns/locale/lt";
 import { IdcardOutlined} from "@ant-design/icons";
 
 const { Option } = Select;
-const AddPatientModal = ({ visible, onCreate, onCancel }) => {
+const AddPatientModal = ({ visible, onCreate, onCancel, allergies }) => {
 
-  const [start_date, setStartDate] = useState(new Date());
+  const [start_date, setStartDate] = useState(null);
   const [form] = Form.useForm();
 
   return (
@@ -82,6 +82,30 @@ const AddPatientModal = ({ visible, onCreate, onCancel }) => {
                       }
                     ]}>
           <Input/>
+        </Form.Item>
+        <Form.Item  name="personal_code" label="Asmens kodas:"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Įveskite asmens kodą!"
+                      },
+                    ]}>
+           <InputNumber
+              min={10000000000}
+              max={99999999999}
+              style={{
+                width: '100%',
+              }}
+              type="number"
+              placeholder="Asmens kodas"
+            />
+        </Form.Item>
+        <Form.Item name="allergies" label="Alergijos:">
+          <Select placeholder="Alergijos" mode="multiple">
+            {allergies.map((allergy, index) => (
+                <Option key={allergy.allergy_id} value={allergy.allergy_id}>{allergy.name}</Option>
+              ))}
+          </Select>
         </Form.Item>
         </Col>
         </Row>

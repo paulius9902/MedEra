@@ -12,6 +12,8 @@ from rest_framework_simplejwt.views import (
 )
 
 urlpatterns=[
+    path('allergy', views.AllergyGetList.as_view(), name='allergy_list'),
+
     path('doctor', views.DoctorGetList.as_view(), name='doctor_list'),
     path('doctor/<int:doctor_id>', views.DoctorGet.as_view(), name='doctor_detail'),
 

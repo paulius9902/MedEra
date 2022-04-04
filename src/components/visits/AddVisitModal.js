@@ -12,10 +12,9 @@ import "react-datepicker/dist/react-datepicker.css";
 const { Option } = Select;
 const { TextArea } = Input;
 
-const AddVisitModal = ({ visible, onCreate, onCancel }) => {
+const AddVisitModal = ({ visible, onCreate, onCancel, getAllVisit, visits }) => {
 
   const [start_date, setStartDate] = useState(null)
-  const [visits, setVisits] = useState([])
   const [doctors, setDoctors] = useState([]);
   const [doctor_id, setDoctorID] = useState(null)
   
@@ -33,15 +32,8 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
     return day !== 0 && day !== 6;
   };
 
-  const getVisits = async () => {
-    const  { data } = await axios.get(`api/visit`)
-    console.log(data);
-    setVisits(data);
-  }
-
   useEffect(() => {
     loadDoctors();
-    getVisits();
   }, []);
 
   const loadDoctors = async () => {
@@ -76,10 +68,6 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
                 .catch((info) => {
                   console.log("Validate Failed:", info);
                 })
-                //getVisits()
-                //results = visits.filter((visit) => visit.doctor.doctor_id === doctor_id).map(
-                  //(visit) => new Date(parseISO(visit.start_date))
-                //)
                 }}>
       <Form form={form} layout="vertical" name="form_in_modal"> 
       <Row>
