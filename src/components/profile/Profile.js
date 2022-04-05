@@ -14,7 +14,7 @@ const [visible_user, setVisibleUser] = useState(false);
 const [visible_change_password, setVisibleChangePassword] = useState(false);
 const [error_message, setErrorMsg,] = useState("");
 
-const {id} = useParams();
+const id = localStorage.getItem('user_id')
 
 useEffect(() => {
     getUser();

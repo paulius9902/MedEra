@@ -26,18 +26,6 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='Comments',
-            fields=[
-                ('comment_id', models.AutoField(primary_key=True, serialize=False)),
-                ('creation_date', models.DateTimeField(auto_now_add=True)),
-                ('text', models.CharField(max_length=500)),
-            ],
-            options={
-                'db_table': 'comments',
-                'managed': False,
-            },
-        ),
-        migrations.CreateModel(
             name='Diagnoses',
             fields=[
                 ('diagnosis_id', models.IntegerField(primary_key=True, serialize=False)),
@@ -152,19 +140,6 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'visit_statuses',
-                'managed': False,
-            },
-        ),
-        migrations.CreateModel(
-            name='WorkHours',
-            fields=[
-                ('work_hours_id', models.AutoField(primary_key=True, serialize=False)),
-                ('week_day', models.IntegerField()),
-                ('start_time', models.TextField(blank=True, null=True)),
-                ('end_time', models.TextField(blank=True, null=True)),
-            ],
-            options={
-                'db_table': 'work_hours',
                 'managed': False,
             },
         ),

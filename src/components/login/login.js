@@ -6,11 +6,13 @@ import { Form, Input, Button, notification} from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import 'antd/dist/antd.css'; 
 import Register from './register';
+import ResetPasswordEmail from './resetPasswordEmail';
 import { Link } from 'react-router-dom';
 
 const NormalLoginForm = () => {
   const [error, setError] = useState('');
   const [visible_register, setVisibleRegister] = useState(false);
+  const [visible_reset, setVisibleReset] = useState(false);
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
     axiosInstance.post('api/token', values, {crossDomain: true})
@@ -91,6 +93,15 @@ const NormalLoginForm = () => {
     setVisibleRegister(false);
   };
 
+  const onReset = async(values) => {
+    console.log(values);
+    await axiosInstance.post(`api/reset_email_request`, values).then(response=>{
+      console.log(response.data);
+      notification.success({ message: 'Laiškas išsiųstas!' });
+    })
+    setVisibleReset(false);
+  };
+
   return (
     <div className="background">
     <div className="container">
@@ -149,7 +160,7 @@ const NormalLoginForm = () => {
             </Button>
           </Form.Item>
           <div style={{ marginTop: 8 }}>
-                    <Link to={"#"} onClick={() => {setVisibleRegister(true);}}>Užmiršote slaptažodį?</Link>
+                    <Link to={"#"} onClick={() => {setVisibleReset(true);}}>Užmiršote slaptažodį?</Link>
                   </div>
                   <div style={{ marginTop: 8 }}>
                     <Link to={"#"} onClick={() => {setVisibleRegister(true);}}>Registracija</Link>
@@ -162,6 +173,13 @@ const NormalLoginForm = () => {
         onCreate={onCreate}
         onCancel={() => {
           setVisibleRegister(false);
+        }}
+      />
+    <ResetPasswordEmail
+        visible={visible_reset}
+        onReset={onReset}
+        onCancel={() => {
+          setVisibleReset(false);
         }}
       />
     </div>

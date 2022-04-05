@@ -10,7 +10,6 @@ import ResetCompleteModal from './resetCompleteModal';
 
 const ResetPassword = () => {
   const { uidb64, token } = useParams();
-  const [error, setError] = useState('');
   const [visible_reset_complete, setVisibleResetComplete] = useState(false);
 
   const onFinish = (values) => {
@@ -21,6 +20,7 @@ const ResetPassword = () => {
     .then((res) => {
       console.log(res);
       notification.success({ message: 'Sėkmingai pakeitėte slaptažodį!'});
+      setVisibleResetComplete(true);
     })
     .catch(error => {
       if(error.response) { 
@@ -61,26 +61,6 @@ const ResetPassword = () => {
               size="large"
             />
           </Form.Item>
-          <Form.Item
-            name="password_repeat"
-            rules={[
-              {
-                required: true,
-                message: "Pakartokite slaptažodį!"
-              },
-              { 
-                min: 8, 
-                message: 'Slaptažodį turi sudaryti bent 8 simboliai!' 
-              },
-            ]}
-          >
-            <Input.Password
-              prefix={<LockOutlined className="site-form-item-icon" />}
-              placeholder="Pakartokite slaptažodį!"
-              size="large"
-            />
-          </Form.Item>
-          <div style={{color:'red', paddingBottom:'10px'}}>{error}</div>
           <Form.Item>
             <Button
               type="primary"
@@ -100,4 +80,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetCompleteModal;
+export default ResetPassword;

@@ -7,6 +7,8 @@ from rest_framework.parsers import JSONParser
 from API.serializers import CustomUserSerializer
 from django.http import HttpResponse
 from django.db.models import Q
+from ..utils import Util
+from rest_framework.response import Response
 
 class VisitGetList(APIView):
     permission_classes = [IsAuthenticated, ]
@@ -146,3 +148,27 @@ class VisitStatusGet(APIView):
             return JsonResponse("Sėkmingai ištrinta!", safe=False)
         else:
             return HttpResponse('Neturite administratoriaus teisių!', status=403)
+
+class VisitConfirmEmail(APIView):
+    def get(request, self, visit_id):
+        visit = Visits.objects.filter(visit_id=visit_id).get()
+        visit_serializer = VisitSerializer(visit)
+        user = NewUser.objects.filter(patient=visit_serializer.data["patient"]).get()
+        user_serializer = CustomUserSerializer(user)
+        email_body = 'Sveiki,\n\nJūsų vizitas patvirtintas.\nVizito data: '+str({visit_serializer.data["start_date"]}).replace("T"," ").replace("'","").replace("{","").replace("}","")+'\n\n MedEra' 
+        subject = 'MedEra vizitas patvirtintas'
+        data = {'email_body': email_body, 'to_email': user_serializer.data["email"], 'email_subject': subject}
+        Util.send_email(data)
+        return Response("Sėkmingai išsiųsta!")
+
+class VisitCancelEmail(APIView):
+    def get(request, self, visit_id):
+        visit = Visits.objects.filter(visit_id=visit_id).get()
+        visit_serializer = VisitSerializer(visit)
+        user = NewUser.objects.filter(patient=visit_serializer.data["patient"]).get()
+        user_serializer = CustomUserSerializer(user)
+        email_body = 'Sveiki,\n\nJūsų vizitas atšauktas.\nVizito data: '+str({visit_serializer.data["start_date"]}).replace("T"," ").replace("'","").replace("{","").replace("}","")+'\n\n MedEra' 
+        subject = 'MedEra vizitas atšauktas'
+        data = {'email_body': email_body, 'to_email': user_serializer.data["email"], 'email_subject': subject}
+        Util.send_email(data)
+        return Response("Sėkmingai išsiųsta!")

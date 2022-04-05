@@ -1,8 +1,8 @@
 import React, { useState, useEffect} from 'react';
-import { Modal, Form, Input, Select, Row, Col, Avatar} from "antd";
+import { Modal, Form, Input, Select, Row, Col, Avatar, Space, Button} from "antd";
 import DatePicker from "react-datepicker";
 import setHours from "date-fns/setHours";
-import { CalendarOutlined} from "@ant-design/icons";
+import { CalendarOutlined, SearchOutlined} from "@ant-design/icons";
 import setMinutes from "date-fns/setMinutes";
 import { addDays, isSameDay, parseISO, addMonths } from "date-fns";
 import lt from "date-fns/locale/lt";
@@ -82,7 +82,7 @@ const AddVisitModal = ({ visible, onCreate, onCancel, getAllVisit, visits }) => 
                         message: "Pasirinkite gydytoją!"
                       }
                     ]}>
-          <Select onChange={doctor => {setDoctorID(doctor); setStartDate(null)}} placeholder="Gydytojas">
+          <Select onChange={doctor => {setDoctorID(doctor); setStartDate(null)}} placeholder="Gydytojas" showSearch filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}>
             {doctors.map((doctor, index) => (
                 <Option key={doctor.doctor_id} value={doctor.doctor_id}>{doctor.name + " " + doctor.surname + "  |  " + doctor.specialization}</Option>
               ))}
@@ -130,7 +130,7 @@ const AddVisitModal = ({ visible, onCreate, onCancel, getAllVisit, visits }) => 
                         message: "Įveskite vizito priežastį!"
                       }
                     ]}>
-          <TextArea placeholder="Vizito priežasties aprašymas"/>
+          <Input.TextArea placeholder="Vizito priežasties aprašymas"/>
         </Form.Item>
         </Col>
         </Row>

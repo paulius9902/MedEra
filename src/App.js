@@ -8,7 +8,7 @@ import Home from "./components/layout/Home";
 import SideBar from "./components/layout/SideBar";
 //import './App.css';
 import Login from "./components/login/login";
-import ResetPassword from "./components/login/reset_password";
+import ResetPassword from "./components/login/resetPassword";
 
 import ShowPatients from "./components/patients/ShowPatients";
 import PatientDetail from "./components/patients/PatientDetail";

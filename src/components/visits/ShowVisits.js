@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../axiosApi';
 import Table from "antd/lib/table";
-import {Button, Popconfirm, notification, Tag, Divider, Skeleton, Empty, Tooltip } from 'antd';
-import {PlusCircleOutlined, DeleteOutlined, CheckOutlined, CloseOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined} from '@ant-design/icons';
+import {Button, Popconfirm, notification, Tag, Divider, Skeleton, Empty, Tooltip, Space, Input} from 'antd';
+import {PlusCircleOutlined, DeleteOutlined, CheckOutlined, CloseOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined, SearchOutlined} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import AddVisitModal from './AddVisitModal';
 import UpdateVisitModal from './UpdateVisitModal';
 import moment from 'moment';
+import Highlighter from 'react-highlight-words';
 
 const ShowVisits = () => {
 
   const [visits, setVisits] = useState([]);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(true);
-  
+
   const onCreate = async(values, form) => {
     values.status = 1
     values.start_date=new Date(Math.floor(values.start_date.getTime() - values.start_date.getTimezoneOffset() * 60000))
@@ -43,6 +44,7 @@ const ShowVisits = () => {
       setLoading(true);
       const status = { status: '2' };
       await axios.patch(`api/visit/${id}`, status);
+      await axios.get(`api/visit_confirm_email/${id}`);
       getAllVisit();
       notification.success({ message: 'Vizitas patvirtintas!' });
     } catch (error) {
@@ -55,6 +57,7 @@ const ShowVisits = () => {
       setLoading(true);
       const status = { status: '3' };
       await axios.patch(`api/visit/${id}`, status);
+      await axios.get(`api/visit_cancel_email/${id}`);
       getAllVisit();
       notification.error({ message: 'Vizitas atšauktas!' });
     } catch (error) {
@@ -99,7 +102,7 @@ const ShowVisits = () => {
     {
       title: "Kabinetas",
       dataIndex: ['doctor', 'room'],
-      key: "room_number"
+      key: 'room_number',
     },
     {
       title: 'Gydytojas',

@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models import fields
 from rest_framework import serializers
-from API.models import Allergies, Comments, Diagnoses, Doctors, LaboratoryTests, Patients, Prescriptions, VisitStatuses, WorkHours, Visits, NewUser, PatientsAllergies
+from API.models import Allergies, Diagnoses, Doctors, LaboratoryTests, Patients, Prescriptions, VisitStatuses, Visits, NewUser, PatientsAllergies
 from django.utils.encoding import smart_str, force_str, smart_bytes, DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -27,12 +27,6 @@ class DoctorSerializer(serializers.ModelSerializer):
         #fields=('doctor_id', 'name', 'surname', 'birth_date', 'user_id')
         fields=('__all__')
 
-class WorkHoursSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=WorkHours
-        #fields=('week_day', 'start_time', 'end_time', 'doctor', 'work_hours_id')
-        fields=('__all__')
-
 class VisitSerializer(serializers.ModelSerializer):
     class Meta:
         model=Visits
@@ -45,11 +39,6 @@ class VisitSerializerDoctorPatient(serializers.ModelSerializer):
         #fields=('visit_id', 'start_date', 'doctor_id', 'patient_id')
         fields=('__all__')
         depth = 1
-
-class CommentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model=Comments
-        fields=('__all__')
 
 class VisitStatusSerializer(serializers.ModelSerializer):
     class Meta:

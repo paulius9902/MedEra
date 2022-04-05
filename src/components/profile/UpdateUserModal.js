@@ -1,24 +1,23 @@
 import React, { useState, useEffect} from 'react';
-import { LockOutlined} from "@ant-design/icons";
+import { UserOutlined} from "@ant-design/icons";
 import { Modal, Form, Input, InputNumber, Row, Col, Avatar} from "antd";
 import { useParams } from 'react-router-dom';
 import axios from '../../axiosApi';
-const AddDoctorModal = ({ visible, onCreate, onCancel}) => {
+const UpdateUserModal = ({ visible, onCreate, onCancel}) => {
   
-  const { id } = useParams();
-  const [doctor, setDoctor] = useState([]);
-  const [name, setName] = useState(null)
+  const id = localStorage.getItem('user_id')
+  const [user, setUser] = useState([]);
   
   const [form] = Form.useForm();
 
   useEffect(() => {
-    loadDoctor();
+    loadUser();
   }, []);
 
-  const loadDoctor = async () => {
-    const result = await axios.get(`api/doctor/${id}`);
-    setName(result.data.name);
-    setDoctor(result.data);
+  const loadUser = async () => {
+    const result = await axios.get(`api/user/${id}`);
+    setUser(result.data);
+    console.log(result.data)
   };
 
   const handleOk = async (e) => {
@@ -26,7 +25,7 @@ const AddDoctorModal = ({ visible, onCreate, onCancel}) => {
 };
 
   return (
-    <Modal visible={visible} title="Atnaujinti gydytojo duomenis" okText="Atnaujinti"
+    <Modal visible={visible} title="Atnaujinti profilį" okText="Atnaujinti"
             cancelText="Atšaukti" onCancel={onCancel}
             onOk={() => {
               form
@@ -41,61 +40,21 @@ const AddDoctorModal = ({ visible, onCreate, onCancel}) => {
             }}>
       <Form form={form} layout="vertical" name="form_in_modal" onFinish={handleOk}
             initialValues={{
-                name: doctor.name,
-                surname: doctor.surname,
-                phone_number: doctor.phone_number,
-                specialization: doctor.specialization,
-                room: doctor.room,
+                email: user.email,
             }}> 
         <Row>
       <Col span={6}>
-              <Avatar shape="square" size={100} icon={<LockOutlined />} />
+              <Avatar shape="square" size={100} icon={<UserOutlined />} />
             </Col>
             <Col span={18}>
-        <Form.Item name="name" label="Vardas:" value={name}
+        <Form.Item name="email" label="El. paštas:"
                     rules={[
                       {
                         required: true,
-                        message: "Įveskite gydytojo vardą!"
+                        message: "Įveskite el. paštą!"
                       }
                     ]}>
           <Input/>
-        </Form.Item>
-        <Form.Item name="surname" label="Pavardė:"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Įveskite gydytojo pavardę!"
-                      }
-                    ]}>
-          <Input/>
-        </Form.Item>
-        <Form.Item name="phone_number" label="Telefono nr.:"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Įveskite telefono numerį!"
-                      }
-                    ]}>
-          <Input/>
-        </Form.Item>
-        <Form.Item name="specialization" label="Specializacija:"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Įveskite specializaciją!"
-                      }
-                    ]}>
-          <Input/>
-        </Form.Item>
-        <Form.Item name="room" label="Kabinetas:"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Įveskite kabinetą!"
-                      }
-                    ]}>
-          <InputNumber className="form-control" style={{width: '100%',}}/>
         </Form.Item>
         </Col>
         </Row>
@@ -104,4 +63,4 @@ const AddDoctorModal = ({ visible, onCreate, onCancel}) => {
   );
 };
 
-export default AddDoctorModal;
+export default UpdateUserModal;

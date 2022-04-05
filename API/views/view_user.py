@@ -38,7 +38,7 @@ class UserGet(APIView):
     def get(self, request, user_id):
         user = NewUser.objects.get(id=self.request.user.id)
         user_serializer = CustomUserSerializer(user)
-        if(user_serializer.data["is_superuser"]):
+        if(user_serializer.data["is_superuser"] or user_serializer.data["id"]==user_id):
             try:
                 user = NewUser.objects.get(id=user_id)
             except NewUser.DoesNotExist:
@@ -56,7 +56,7 @@ class UserGet(APIView):
             return HttpResponse('Vartotojas nerastas!', status=404)
         user_token = NewUser.objects.get(id=self.request.user.id)
         user_serializer_token = CustomUserSerializer(user_token)
-        if(user_serializer_token.data["is_superuser"]):
+        if(user_serializer_token.data["is_superuser"] or user_serializer_token.data["id"]==user_id):
             user_data = JSONParser().parse(request)
             user_serializer = CustomUserSerializer(user, data = user_data, partial=True)
             if user_serializer.is_valid():

@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from API.models import Doctors, NewUser, WorkHours
-from API.serializers import DoctorSerializer, WorkHoursSerializer
+from API.models import Doctors, NewUser
+from API.serializers import DoctorSerializer
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
 from API.serializers import CustomUserSerializer
@@ -71,63 +71,5 @@ class DoctorGet(APIView):
         if(user_serializer.data["is_superuser"]):
             doctor.delete()
             return HttpResponse('Sėkmingai ištrinta!')
-        else:
-            return HttpResponse('Neturite administratoriaus teisių!', status=204)
-
-class DoctorWorkHoursList(APIView):
-    permission_classes = [IsAuthenticated, ]
-    def get(self, request, doctor_id):
-        work_hours = WorkHours.objects.filter(doctor_id=doctor_id)
-        work_hours_serializer=WorkHoursSerializer(work_hours, many=True)
-        return JsonResponse(work_hours_serializer.data, safe=False)
-    def post(self, request, doctor_id):
-        user = NewUser.objects.get(id=self.request.user.id)
-        user_serializer = CustomUserSerializer(user)
-        if(user_serializer.data["is_superuser"]):
-            work_hours = JSONParser().parse(request)
-            work_hours['doctor'] = doctor_id
-            work_hours_serializer = WorkHoursSerializer(data = work_hours)
-            if work_hours_serializer.is_valid():
-                work_hours_serializer.save()
-                return JsonResponse("Sėkmingai pridėta!",safe=False)
-            return JsonResponse(work_hours_serializer.errors, safe=False, status=400)
-        else:
-            return HttpResponse('Neturite administratoriaus teisių!', status=204)
-
-class DoctorWorkHours(APIView):
-    permission_classes = [IsAuthenticated, ]
-    def get(self, request, doctor_id, week_day):
-        try:
-            work_hours = WorkHours.objects.filter(doctor_id=doctor_id, week_day=week_day).get()
-        except WorkHours.DoesNotExist:
-            return HttpResponse('Darbo valandos nerastos!', status=404)
-        work_hours_serializer = WorkHoursSerializer(work_hours, many=False)
-        return JsonResponse(work_hours_serializer.data, safe=False)
-    def patch(self, request, doctor_id, week_day):
-        try:
-            work_hours = WorkHours.objects.filter(doctor_id=doctor_id, week_day=week_day).get()
-        except WorkHours.DoesNotExist:
-            return HttpResponse('Darbo valandos nerastos!', status=404)
-        user = NewUser.objects.get(id=self.request.user.id)
-        user_serializer = CustomUserSerializer(user)
-        if(user_serializer.data["is_superuser"]):
-            work_hours_data = JSONParser().parse(request)
-            work_hours_serializer = WorkHoursSerializer(work_hours, data = work_hours_data, partial=True)
-            if work_hours_serializer.is_valid():
-                work_hours_serializer.save()
-                return JsonResponse("Sėkmingai atnaujinta!", status=200, safe=False)
-            return JsonResponse(work_hours_serializer.errors, status=400, safe=False)
-        else:
-            return HttpResponse('Neturite administratoriaus teisių!', status=204)
-    def delete(self, request, doctor_id, week_day):
-        try:
-            work_hours = WorkHours.objects.filter(doctor_id=doctor_id, week_day=week_day).get()
-        except WorkHours.DoesNotExist:
-            return HttpResponse('Darbo valandos nerastos!', status=404)
-        user = NewUser.objects.get(id=self.request.user.id)
-        user_serializer = CustomUserSerializer(user)
-        if(user_serializer.data["is_superuser"]):
-            work_hours.delete()
-            return JsonResponse("Sėkmingai ištrinta!", safe=False)
         else:
             return HttpResponse('Neturite administratoriaus teisių!', status=204)

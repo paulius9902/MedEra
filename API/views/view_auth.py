@@ -88,13 +88,12 @@ class RequestPasswordResetEmail(APIView):
             token = PasswordResetTokenGenerator().make_token(user)
             current_site = 'http://localhost:3000'
             relativeLink = reverse('password_reset_confirm',kwargs={'uidb64':uidb64, 'token': token})
-            absolute_url = 'http://'+current_site+relativeLink
-            email_body = 'Hello, \n Use the link below to reset password for your account \n' + absolute_url
-            subject = 'test'
+            absolute_url = current_site+relativeLink
+            email_body = 'Sveiki, \n Paspauskite žemiau esančią nurodą ir pakeiskite MedEra paskyros slaptažodį. \n' + absolute_url
+            subject = 'MedEra slaptažodžio keitimas'
             data = {'email_body': email_body, 'to_email': user.email, 'email_subject': subject}
             Util.send_email(data)
             return Response("Sėkmingai išsiųsta!")
-            return Response({current_site})
         return Response({{{'success'}: 'We have sent a reset link in your email. Please check it out'}}, status=status.HTTP_200_OK)
         
 

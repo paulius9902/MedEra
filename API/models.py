@@ -146,18 +146,6 @@ class LaboratoryTests(models.Model):
         managed = False
         db_table = 'laboratory_tests'
 
-class WorkHours(models.Model):
-    work_hours_id = models.AutoField(primary_key=True)
-    week_day = models.IntegerField()
-    start_time = models.TextField(blank=True, null=True)
-    end_time = models.TextField(blank=True, null=True)
-    doctor = models.ForeignKey(Doctors, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'work_hours'
-        unique_together = (('week_day', 'doctor'),)
-
 
 class NewUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=150, unique=True)
@@ -182,14 +170,3 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
-
-class Comments(models.Model):
-    comment_id = models.AutoField(primary_key=True)
-    creation_date = models.DateTimeField(auto_now_add=timezone.now)
-    text = models.CharField(max_length=500)
-    visit = models.ForeignKey(Visits, models.DO_NOTHING)
-    user = models.ForeignKey(NewUser, models.DO_NOTHING)
-
-    class Meta:
-        managed = False
-        db_table = 'comments'
