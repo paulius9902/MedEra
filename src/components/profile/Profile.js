@@ -2,14 +2,17 @@ import axios from '../../axiosApi';
 import React, {useState, useEffect} from 'react';
 import { useParams} from 'react-router';
 import { Link } from 'react-router-dom';
-import {EditOutlined, CheckCircleOutlined, CloseCircleOutlined} from '@ant-design/icons';
+import {EditOutlined, CheckCircleOutlined, CloseCircleOutlined, LockOutlined} from '@ant-design/icons';
 import {notification, Card, Form, Row, Col, Descriptions} from 'antd';
 import UpdateUserModal from './UpdateUserModal';
+import ChangePasswordModal from './ChangePasswordModal';
 
 const UserDetail = () => {
 
 const [user, setUser] = useState([])
 const [visible_user, setVisibleUser] = useState(false);
+const [visible_change_password, setVisibleChangePassword] = useState(false);
+const [error_message, setErrorMsg,] = useState("");
 
 const {id} = useParams();
 
@@ -25,6 +28,23 @@ const onUpdate = async(values) => {
       notification.success({ message: 'Sėkmingai atnaujinta!' });
     })
     setVisibleUser(false);
+};
+
+const onChangePassword = async(values) => {
+    console.log(values);
+    await axios.put(`api/change_password`, values).then(response=>{
+        console.log(response.data);
+        setErrorMsg({errorMsg: ""});
+        notification.success({ message: 'Sėkmingai pakeistas slaptažodis!' });
+        setVisibleChangePassword(false);
+    })
+    .catch(error => {
+        if(error.response) { 
+            setErrorMsg({validateStatus: 'error',
+            errorMsg: "Neteisingas dabartinis slaptažodis!"});
+            
+        }
+      });
 };
 
 const getUser = async () => {
@@ -51,7 +71,10 @@ const getUser = async () => {
                 
                 </Col>
                 <Col span={18}>
-                    <Card>
+                    <Card
+                        actions={[
+                            <Link style={{fontSize: '125%' }} to={'#'} onClick={() => {setVisibleChangePassword(true);}} ><LockOutlined style={{ color: "#2db7f5" }}/>Keisti slaptažodį</Link>,
+                            ]}>
                             <Descriptions title="Vartotojo duomenys" bordered>
                                 <Descriptions.Item label="El. paštas" span={3}>{user.email}</Descriptions.Item>
                                 <Descriptions.Item label="Aktyvus" span={3}>{user.is_active ? 
@@ -79,6 +102,14 @@ const getUser = async () => {
                 onCancel={() => {
                 setVisibleUser(false);
                 }}
+            />
+            <ChangePasswordModal
+                visible={visible_change_password}
+                onChangePassword={onChangePassword}
+                onCancel={() => {
+                    setVisibleChangePassword(false)
+                }}
+                error_message={error_message}
             />
             </Row>
             </Form>

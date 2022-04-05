@@ -2,6 +2,11 @@ from django.db import models
 from django.db.models import fields
 from rest_framework import serializers
 from API.models import Allergies, Comments, Diagnoses, Doctors, LaboratoryTests, Patients, Prescriptions, VisitStatuses, WorkHours, Visits, NewUser, PatientsAllergies
+from django.utils.encoding import smart_str, force_str, smart_bytes, DjangoUnicodeDecodeError
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class PatientSerializer(serializers.ModelSerializer):
     class Meta:
@@ -128,3 +133,37 @@ class ChangePasswordSerializer(serializers.Serializer):
     model = NewUser
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
+
+class ResetPasswordEmailRequest(serializers.Serializer):
+    email = serializers.EmailField(min_length=2)
+    class Meta:
+        fields = ['email']
+class SetNewPasswordSerializer(serializers.Serializer):
+    password = serializers.CharField(min_length=6, max_length=64, write_only= True)
+    token = serializers.CharField(min_length=1, write_only= True)
+    uidb64 = serializers.CharField(min_length=1, write_only= True)
+    class Meta:
+        fields = ['password', 'token','uidb64']
+    def validate(self, attrs):
+        try:
+            password = attrs.get('password')
+            token = attrs.get('token')
+            uidb64 = attrs.get('uidb64')
+            id = force_str(urlsafe_base64_decode(uidb64))
+            user = NewUser.objects.get(id=id)
+            if not PasswordResetTokenGenerator().check_token(user, token):
+                raise AuthenticationFailed('The token is invalid', 401)
+            user.set_password(password)
+            user.save()
+        except Exception as e:
+            raise AuthenticationFailed('The token is invalid', 401)
+        return super().validate(attrs)
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        # Add custom claims
+        token['username'] = user.username
+        return token

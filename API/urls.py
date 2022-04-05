@@ -11,6 +11,8 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
+from API.views.view_auth import PasswordTokenViewAPI, RequestPasswordResetEmail, SetNewPasswordAPIView
+
 urlpatterns=[
     path('allergy', views.AllergyGetList.as_view(), name='allergy_list'),
 
@@ -49,9 +51,18 @@ urlpatterns=[
     path('user_reg', views.UserGetListReg.as_view(), name='user_reg'),
     path('user/<int:user_id>', views.UserGet.as_view(), name='user_detail'),
 
+    path('patient_count', views.PatientGetCount.as_view(), name='patient_count'),
+    path('doctor_count', views.DoctorGetCount.as_view(), name='doctor_count'),
+    path('visit_count', views.VisitGetCount.as_view(), name='visit_count'),
+    path('user_count', views.UserGetCount.as_view(), name='user_count'),
+
     path('token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
     path('logout', BlacklistTokenUpdateView.as_view(), name='logout'),
     path('change_password', ChangePasswordView.as_view(), name='change_password'),
-    path('info', UserView.as_view(), name='info')
+    path('info', UserView.as_view(), name='info'),
+
+    path('reset_email_request', RequestPasswordResetEmail.as_view(), name="reset_email_request"),
+    path('password_reset/<uidb64>/<token>', PasswordTokenViewAPI.as_view(), name="password_reset_confirm"),
+    path('password_reset_complete', SetNewPasswordAPIView.as_view(), name="password_reset_complete"),
 ]

@@ -8,6 +8,7 @@ import Home from "./components/layout/Home";
 import SideBar from "./components/layout/SideBar";
 //import './App.css';
 import Login from "./components/login/login";
+import ResetPassword from "./components/login/reset_password";
 
 import ShowPatients from "./components/patients/ShowPatients";
 import PatientDetail from "./components/patients/PatientDetail";
@@ -92,6 +93,9 @@ class App extends React.Component {
                         <Route exact path="/" element={<Login/>} />
 
                         <Route exact path="*" element={<Login/>} />
+
+                        <Route exact path="/api/password_reset/:uidb64/:token/" element={<ResetPassword/>} />
+                        
                        </Routes>
                    </main>
                 </div>

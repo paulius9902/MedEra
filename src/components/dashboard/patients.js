@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import axios from '../../axiosApi';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
@@ -11,6 +12,8 @@ import {
   makeStyles
 } from '@material-ui/core';
 import PeopleIcon from '@mui/icons-material/People';
+import CountUp from 'react-countup';
+import { duration } from 'moment';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,7 +35,17 @@ const useStyles = makeStyles((theme) => ({
 
 const Patients = ({ className, ...rest }) => {
   const classes = useStyles();
+  const [patient_count, setPatientCount] = useState(0)
 
+  useEffect(() => {
+    getPatientCount();
+  },[])
+
+  const getPatientCount = async () => {
+    const  { data } = await axios.get(`api/patient_count`)
+    console.log(data);
+    setPatientCount(data);
+  }
   return (
     <Card
       className={clsx(classes.root, className)}
@@ -55,7 +68,7 @@ const Patients = ({ className, ...rest }) => {
               color="textPrimary"
               variant="h3"
             >
-              1234
+              <CountUp end={patient_count} duration={3.3}/>
             </Typography>
           </Grid>
           <Grid item>

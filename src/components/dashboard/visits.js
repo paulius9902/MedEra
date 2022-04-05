@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import axios from '../../axiosApi';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
@@ -11,6 +12,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import InsertInvitationIcon from '@mui/icons-material/InsertInvitation';
+import CountUp from 'react-countup';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,6 +34,17 @@ const useStyles = makeStyles((theme) => ({
 
 const Visits = ({ className, ...rest }) => {
   const classes = useStyles();
+  const [visit_count, setVisitCount] = useState(0)
+
+  useEffect(() => {
+    getVisitCount();
+  },[])
+
+  const getVisitCount = async () => {
+    const  { data } = await axios.get(`api/visit_count`)
+    console.log(data);
+    setVisitCount(data);
+  }
 
   return (
     <Card
@@ -55,7 +68,7 @@ const Visits = ({ className, ...rest }) => {
               color="textPrimary"
               variant="h3"
             >
-              1234
+              <CountUp end={visit_count} duration={3.3}/>
             </Typography>
           </Grid>
           <Grid item>

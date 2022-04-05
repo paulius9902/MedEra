@@ -5,6 +5,7 @@ import {Button, Popconfirm, notification, Tag, Divider, Skeleton, Empty, Tooltip
 import {PlusCircleOutlined, DeleteOutlined, CheckOutlined, CloseOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import AddVisitModal from './AddVisitModal';
+import UpdateVisitModal from './UpdateVisitModal';
 import moment from 'moment';
 
 const ShowVisits = () => {
@@ -175,6 +176,7 @@ const ShowVisits = () => {
         else {
           return (
             <>
+              <UpdateVisitModal getAllVisit={getAllVisit} setLoading={setLoading} {...record}/>
               <Popconfirm
                 placement='topLeft'
                 title='Ar tikrai norite ištrinti?'

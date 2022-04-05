@@ -8,3 +8,4 @@ from .view_diagnosis import *
 from .view_laboratory_test import *
 from .view_prescription import *
 from .view_allergy import *
+from .view_dashboard import *

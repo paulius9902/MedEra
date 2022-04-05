@@ -82,10 +82,10 @@ class Visits(models.Model):
     doctor = models.ForeignKey(Doctors, models.DO_NOTHING)
     patient = models.ForeignKey(Patients, models.DO_NOTHING)
     visit_id = models.AutoField(primary_key=True)
-
     creation_date = models.DateTimeField(auto_now_add=timezone.now)
     health_issue = models.CharField(max_length=500)
     status = models.ForeignKey(VisitStatuses, models.DO_NOTHING)
+    description = models.CharField(max_length=2000, blank=True, null=True)
 
     class Meta:
         managed = False

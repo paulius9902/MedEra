@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import axios from '../../axiosApi';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import {
@@ -11,6 +12,7 @@ import {
   colors
 } from '@material-ui/core';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import CountUp from 'react-countup';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -25,6 +27,17 @@ const useStyles = makeStyles(() => ({
 
 const Users = ({ className, ...rest }) => {
   const classes = useStyles();
+  const [user_count, setUserCount] = useState(0)
+
+  useEffect(() => {
+    getUserCount();
+  },[])
+
+  const getUserCount = async () => {
+    const  { data } = await axios.get(`api/user_count`)
+    console.log(data);
+    setUserCount(data);
+  }
 
   return (
     <Card
@@ -48,7 +61,7 @@ const Users = ({ className, ...rest }) => {
               color="textPrimary"
               variant="h3"
             >
-              1234
+              <CountUp end={user_count} duration={3.3}/>
             </Typography>
           </Grid>
           <Grid item>

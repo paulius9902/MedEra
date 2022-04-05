@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { MedicineBoxOutlined} from "@ant-design/icons";
+import { LockOutlined} from "@ant-design/icons";
 import { Modal, Form, Input, InputNumber, Row, Col, Avatar} from "antd";
 import { useParams } from 'react-router-dom';
 import axios from '../../axiosApi';
@@ -49,7 +49,7 @@ const AddDoctorModal = ({ visible, onCreate, onCancel}) => {
             }}> 
         <Row>
       <Col span={6}>
-              <Avatar shape="square" size={100} icon={<MedicineBoxOutlined />} />
+              <Avatar shape="square" size={100} icon={<LockOutlined />} />
             </Col>
             <Col span={18}>
         <Form.Item name="name" label="Vardas:" value={name}
