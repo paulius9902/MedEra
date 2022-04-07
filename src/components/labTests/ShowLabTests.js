@@ -116,7 +116,7 @@ const ShowLabTests = () => {
       render: (record) => {
         return (
           <div>
-            <Button type="text" href='http://127.0.0.1:8000/static/meniu.pdf'>
+            <Button type="text" href={record.docfile}>
               <FilePdfOutlined style={{ marginRight: 12, fontSize: '150%'}}/>
             </Button>
             <UpdateLabTestModal getAllLabTests={getAllLabTests} setLoading={setLoading} {...record}/>

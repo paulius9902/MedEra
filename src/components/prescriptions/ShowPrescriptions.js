@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from '../../axiosApi';
 import Table from "antd/lib/table";
 import {Button, Divider, Popconfirm, notification, Skeleton, Empty} from 'antd';
-import {PlusCircleOutlined, DeleteOutlined} from '@ant-design/icons';
+import {PlusCircleOutlined, DeleteOutlined, FilePdfOutlined} from '@ant-design/icons';
 import AddPrescriptionModal from './AddPrescriptionModal';
 import UpdatePrescriptionModal from './UpdatePrescriptionModal';
 //import "./custom.css";
@@ -115,7 +115,7 @@ const ShowPrescriptions = () => {
       render: (record) => {
         return (
           <div>
-            
+              <FilePdfOutlined style={{ marginRight: 12, fontSize: '150%'}}/>
             
             <UpdatePrescriptionModal getAllPrescriptions={getAllPrescriptions} setLoading={setLoading} {...record}/>
             <Popconfirm

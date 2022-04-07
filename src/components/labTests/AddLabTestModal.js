@@ -1,17 +1,23 @@
 import React, { useState, useEffect} from 'react';
-import { Modal, Form, Input, Select, Card, Typography, InputNumber, Row, Col, Avatar, Upload, Button} from "antd";
-import { ExperimentOutlined, UploadOutlined} from "@ant-design/icons";
+import { Modal, Form, Input, Select, Card, Typography, InputNumber, Row, Col, Avatar, Upload, Button, message} from "antd";
+import { ExperimentOutlined, UploadOutlined, InboxOutlined} from "@ant-design/icons";
 import axios from '../../axiosApi';
 import lt from "date-fns/locale/lt";
 import DatePicker from "react-datepicker";
+import { storage } from "../../utils/Firebase";
+import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
+
 
 const { Option } = Select;
+const { Dragger } = Upload;
 const AddLaboratoryTestModal = ({ visible, onCreate, onCancel }) => {
   const { Title } = Typography;
   const [patients, setPatients] = useState([]);
   const [test_date, setTestDate] = useState(null);
+  const [file_url, setFileUrl] = useState(null);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
   const [form] = Form.useForm();
+  const [document, setDocument] = useState([]);
 
   useEffect(() => {
     loadPatients();
@@ -21,6 +27,45 @@ const AddLaboratoryTestModal = ({ visible, onCreate, onCancel }) => {
     const result = await axios.get("api/patient");
     setPatients(result.data.reverse());
   };
+
+  const onChange = (info) => {
+    if (info.file.type !== "application/pdf") {
+      message.error("Įkelkite PDF formato dokumentą.");
+      setDocument([]);
+    } else {
+      setDocument(info.fileList);
+    }
+  };
+
+  const dummyRequest = ({ onSuccess }) => {
+    setTimeout(() => {
+      onSuccess("ok");
+    }, 0);
+  };
+
+  const uploadDocument = (file) => {
+    if (!file) return;
+    const sotrageRef = ref(storage, `files/${file.name}`);
+    const uploadTask = uploadBytesResumable(sotrageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const prog = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        console.log(prog)
+      },
+      (error) => console.log(error),
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log("File available at", downloadURL);
+          setFileUrl(downloadURL);
+        });
+      }
+    );
+  };
+
   return (
     <Modal visible={visible} 
             title={<Title level={4}>Pridėti lab. tyrimą</Title>} 
@@ -35,6 +80,10 @@ const AddLaboratoryTestModal = ({ visible, onCreate, onCancel }) => {
                   console.log(values)
                   setConfirmLoading(true);
                   setTimeout(() => {
+                    console.log('failas: '+values.document.file.originFileObj)
+                    uploadDocument(values.document.file.originFileObj);
+                    values.docfile = file_url;
+                    console.log('duomenys: '+values.data)
                     onCreate(values);
                     setConfirmLoading(false);
                   }, 500);
@@ -124,16 +173,25 @@ const AddLaboratoryTestModal = ({ visible, onCreate, onCancel }) => {
             style={{width: '100%',}}
           />
         </Form.Item>
-        <Form.Item name="docfile" label="Failas"
+        <Form.Item name="document" label="Failas"
                     rules={[
                       {
                         required: true,
                         message: "Pridėkite tyrimo failą!"
                       }
                     ]}>
-          <Upload>
-            <Button icon={<UploadOutlined />}>Prisegti</Button>
-          </Upload>
+          <Dragger
+            onChange={onChange}
+            customRequest={dummyRequest}
+            multiple={false}
+            fileList={document}
+          >
+            <p className="ant-upload-drag-icon">
+              <InboxOutlined />
+            </p>
+            <p className="ant-upload-text">Užtemkite arba paspauskite norėdami įkelti failą</p>
+            <p className="ant-upload-hint">PDF dokumentas</p>
+          </Dragger>
         </Form.Item>
         </Col>
           </Row>

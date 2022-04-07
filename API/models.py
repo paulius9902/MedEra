@@ -141,7 +141,7 @@ class LaboratoryTests(models.Model):
     visit = models.ForeignKey(Visits, models.DO_NOTHING, blank=True, null=True)
     doctor = models.ForeignKey(Doctors, models.DO_NOTHING)
     test_date = models.DateTimeField()
-    docfile = models.FileField(upload_to='documents/%Y/%m/%d')
+    docfile = models.CharField(max_length=200)
 
     class Meta:
         managed = False
