@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from 'react';
-import { Modal, Form, Input, Select, Card, Typography, InputNumber, Row, Col, Avatar} from "antd";
-import { ExperimentOutlined} from "@ant-design/icons";
+import { Modal, Form, Input, Select, Card, Typography, InputNumber, Row, Col, Avatar, Upload, Button} from "antd";
+import { ExperimentOutlined, UploadOutlined} from "@ant-design/icons";
 import axios from '../../axiosApi';
 import lt from "date-fns/locale/lt";
 import DatePicker from "react-datepicker";
@@ -123,6 +123,17 @@ const AddLaboratoryTestModal = ({ visible, onCreate, onCancel }) => {
             stringMode
             style={{width: '100%',}}
           />
+        </Form.Item>
+        <Form.Item name="docfile" label="Failas"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Pridėkite tyrimo failą!"
+                      }
+                    ]}>
+          <Upload>
+            <Button icon={<UploadOutlined />}>Prisegti</Button>
+          </Upload>
         </Form.Item>
         </Col>
           </Row>

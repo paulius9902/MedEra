@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from '../../axiosApi';
 import Table from "antd/lib/table";
 import {Button, Divider, Popconfirm, notification, Skeleton, Empty} from 'antd';
-import {PlusCircleOutlined, DeleteOutlined} from '@ant-design/icons';
+import {PlusCircleOutlined, DeleteOutlined, FilePdfOutlined} from '@ant-design/icons';
 import AddLabTestModal from './AddLabTestModal';
 import UpdateLabTestModal from './UpdateLabTestModal';
 //import "./custom.css";
@@ -116,8 +116,9 @@ const ShowLabTests = () => {
       render: (record) => {
         return (
           <div>
-            
-            
+            <Button type="text" href='http://127.0.0.1:8000/static/meniu.pdf'>
+              <FilePdfOutlined style={{ marginRight: 12, fontSize: '150%'}}/>
+            </Button>
             <UpdateLabTestModal getAllLabTests={getAllLabTests} setLoading={setLoading} {...record}/>
             <Popconfirm
               placement='topLeft'
