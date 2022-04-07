@@ -116,7 +116,6 @@ const ShowPrescriptions = () => {
         return (
           <div>
               <FilePdfOutlined style={{ marginRight: 12, fontSize: '150%'}}/>
-            
             <UpdatePrescriptionModal getAllPrescriptions={getAllPrescriptions} setLoading={setLoading} {...record}/>
             <Popconfirm
               placement='topLeft'
