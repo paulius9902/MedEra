@@ -2,12 +2,16 @@ import React, { useState, useEffect} from 'react';
 import { Modal, Form, Input, Select, Card, Typography, Row, Col, Avatar} from "antd";
 import { AuditOutlined} from "@ant-design/icons";
 import axios from '../../axiosApi';
+import lt from "date-fns/locale/lt";
+import DatePicker from "react-datepicker";
+
 const { Option } = Select;
 const AddPrescriptionModal = ({ visible, onCreate, onCancel }) => {
   const { Title } = Typography;
   const [patients, setPatients] = useState([]);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
   const [form] = Form.useForm();
+  const [prescription_date, setPrescriptionDate] = useState(null);
 
   useEffect(() => {
     loadPatients();
@@ -67,6 +71,25 @@ const AddPrescriptionModal = ({ visible, onCreate, onCancel }) => {
                 <Option key={index} value={patient.patient_id}>{patient.name + " " + patient.surname + "  |  " + patient.birthday}</Option>
               ))}
           </Select>
+        </Form.Item>
+        <Form.Item name="date" label="Recepto data:" 
+                      rules={[
+                      {
+                        required: true,
+                        message: "Pasirinkite recepto datą!"
+                      }]}>
+        <DatePicker
+          selected={prescription_date}
+          className="form-control" 
+          onChange={(date) => setPrescriptionDate(date)}
+          peekNextMonth
+          showMonthDropdown
+          showYearDropdown
+          dateFormat="yyyy-MM-dd"
+          timeIntervals={5}
+          dropdownMode="select"
+          placeholder="Pasirinkite tyrimo datą:"
+          locale={lt}/>
         </Form.Item>
         <Form.Item name="medicine" label="Vaistas:"
                     rules={[

@@ -5,6 +5,7 @@ import {Button, Divider, Popconfirm, notification, Skeleton, Empty} from 'antd';
 import {PlusCircleOutlined, DeleteOutlined, FilePdfOutlined} from '@ant-design/icons';
 import AddPrescriptionModal from './AddPrescriptionModal';
 import UpdatePrescriptionModal from './UpdatePrescriptionModal';
+import callpdf from "./callpdf";
 //import "./custom.css";
 //import { Button } from 'react-bootstrap';
 
@@ -115,14 +116,14 @@ const ShowPrescriptions = () => {
       render: (record) => {
         return (
           <div>
-              <FilePdfOutlined style={{ marginRight: 12, fontSize: '150%'}}/>
+            <FilePdfOutlined onClick={() => callpdf(record)} style={{ marginRight: 12, fontSize: '150%'}}/>
             <UpdatePrescriptionModal getAllPrescriptions={getAllPrescriptions} setLoading={setLoading} {...record}/>
             <Popconfirm
               placement='topLeft'
               title='Ar tikrai norite ištrinti?'
               okText='Taip'
               cancelText='Ne'
-              onConfirm={() => confirmHandler(record.test_id)}
+              onConfirm={() => confirmHandler(record.prescription_id)}
             >
               <DeleteOutlined
                 style={{ color: "#ff4d4f", marginLeft: 12, fontSize: '150%'}}

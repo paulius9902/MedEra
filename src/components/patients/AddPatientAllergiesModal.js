@@ -4,8 +4,6 @@ import { IdcardOutlined} from "@ant-design/icons";
 
 const { Option } = Select;
 const AddPatientAllergiesModal = ({ visible, onCreate, onCancel, allergies }) => {
-
-  const [start_date, setStartDate] = useState(null);
   const [form] = Form.useForm();
 
   return (

@@ -1,0 +1,14 @@
+.App {
+    font-family: sans-serif;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+  }
+  
+  iframe {
+    margin-top: 24px;
+    height: calc(100vh - 200px);
+  }
+  

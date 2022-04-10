@@ -1,19 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo} from 'react';
 import axios from '../../axiosApi';
 import Table from "antd/lib/table";
 import {Button, Popconfirm, notification, Tag, Divider, Skeleton, Empty, Tooltip, Space, Input} from 'antd';
-import {PlusCircleOutlined, DeleteOutlined, CheckOutlined, CloseOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined, SearchOutlined} from '@ant-design/icons';
+import {PlusCircleOutlined, DeleteOutlined, CheckOutlined, CloseOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined, SearchOutlined, InfoCircleOutlined} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import AddVisitModal from './AddVisitModal';
 import UpdateVisitModal from './UpdateVisitModal';
 import moment from 'moment';
-import Highlighter from 'react-highlight-words';
+import { useTableSearch } from "./useTableSearch";
 
 const ShowVisits = () => {
 
   const [visits, setVisits] = useState([]);
   const [visible, setVisible] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading_data, setLoading] = useState(true);
+  const [searchVal, setSearchVal] = useState(null);
+
+  const { filteredData } = useTableSearch({
+    searchVal,
+    retrieve: visits
+  });
 
   const onCreate = async(values, form) => {
     values.status = 1
@@ -106,9 +112,9 @@ const ShowVisits = () => {
     },
     {
       title: 'Gydytojas',
-      dataIndex: ['doctor', 'name']|['doctor', 'name'],
+      dataIndex: ['doctor', 'name']|['doctor', 'surname'],
       key: "doctor_name",
-      render: (text, record) => <Link to={'/doctor/' + record.doctor.doctor_id}>{record.doctor.name + ' ' + record.doctor.surname}</Link>
+      render: (text, record) => <Link to={'/doctor/' + record.doctor.doctor_id}>{record.doctor.name + ' ' + record.doctor.surname}</Link>,
     },
     {
       title: 'Pacientas',
@@ -203,10 +209,28 @@ const ShowVisits = () => {
       <h1>Vizitai</h1>
       <Divider></Divider>
       <Button className="mr-2 mb-3" size='large' onClick={() => {setVisible(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti vizitą</Button>
+      <Input.Search
+        placeholder="Paieška..."
+        allowClear
+        onChange={(e) => setSearchVal(e.target.value)}
+        suffix={
+          <Tooltip title="Įveskite gydytoją arba pacientą">
+            <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
+          </Tooltip>}
+        enterButton
+        style={{
+          position: "sticky",
+          top: "0",
+          left: "0",
+          width: "400px",
+          marginTop: "2vh",
+          float: 'right'
+        }}
+      />
       <Table  columns={COLUMNS} 
-              dataSource={loading? [] : visits}
+              dataSource={filteredData}
                 locale={{
-                emptyText: loading ? <Skeleton active={true} /> : <Empty />
+                emptyText: loading_data ? <Skeleton active={true} /> : <Empty />
               }}
               size="middle" 
               rowKey={record => record.visit_id} 
