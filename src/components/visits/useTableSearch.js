@@ -9,7 +9,7 @@ export const useTableSearch = ({ searchVal, retrieve }) => {
     if (!allValues) allValues = [];
     for (var key in user) {
       if (typeof user[key] === "object") {crawl(user[key], allValues);}
-      else if (key==='name' || key==='surname') allValues.push(user[key] + " ");
+      else if (key==='full_name') allValues.push(user[key] + " ");
     }
     return allValues;
   };

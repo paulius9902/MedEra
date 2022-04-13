@@ -101,6 +101,25 @@ const ShowVisits = () => {
       title: "Vizito data",
       dataIndex: 'start_date',
       key: "start_date",
+      filters: [
+        {
+          text: 'Vakar',
+          value: moment().subtract(1, 'days').format("YYYY-MM-DD"),
+        },
+        {
+          text: 'Šiandien',
+          value: moment().format("YYYY-MM-DD"),
+        },
+        {
+          text: 'Ryt',
+          value: moment().add(1, 'days').format("YYYY-MM-DD"),
+        },
+        {
+          text: 'Poryt',
+          value: moment().add(2, 'days').format("YYYY-MM-DD"),
+        },
+      ],
+      onFilter: (value, record) => record.start_date.indexOf(value) === 0,
       defaultSortOrder: 'ascend',
       sorter: (a, b) => moment(a.start_date).unix() - moment(b.start_date).unix(),
       render: (text, record) => text.slice(0, 16).replace('T', ' ')
@@ -112,15 +131,23 @@ const ShowVisits = () => {
     },
     {
       title: 'Gydytojas',
-      dataIndex: ['doctor', 'name']|['doctor', 'surname'],
+      dataIndex: ['doctor', 'full_name'],
       key: "doctor_name",
-      render: (text, record) => <Link to={'/doctor/' + record.doctor.doctor_id}>{record.doctor.name + ' ' + record.doctor.surname}</Link>,
+      filters: [
+        {
+          text: 'Mano vizitai',
+          value: localStorage.getItem('doctor_id'),
+        },
+      ],
+      onFilter: (value, record) => record.doctor.doctor_id.toString()===value,
+      sorter: (a, b) => a.visit_id - b.visit_id,
+      render: (text, record) => <Link to={'/doctor/' + record.doctor.doctor_id}>{text}</Link>,
     },
     {
       title: 'Pacientas',
-      dataIndex: ['patient', 'name'],
+      dataIndex: ['patient', 'full_name'],
       key: "patient_name",
-      render: (text, record) => <Link to={'/patient/' + record.patient.patient_id}>{record.patient.name + ' ' + record.patient.surname}</Link>
+      render: (text, record) => <Link to={'/patient/' + record.patient.patient_id}>{text}</Link>
     },
     {
       title: "Vizito priežastis",
@@ -209,7 +236,7 @@ const ShowVisits = () => {
       <h1>Vizitai</h1>
       <Divider></Divider>
       <Button className="mr-2 mb-3" size='large' onClick={() => {setVisible(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti vizitą</Button>
-      <Input.Search
+      <Input
         placeholder="Paieška..."
         allowClear
         onChange={(e) => setSearchVal(e.target.value)}
@@ -222,7 +249,7 @@ const ShowVisits = () => {
           position: "sticky",
           top: "0",
           left: "0",
-          width: "400px",
+          width: "300px",
           marginTop: "2vh",
           float: 'right'
         }}
