@@ -11,9 +11,9 @@ function UpdateVisitModal({getAllVisit, setLoading, ...record}) {
   const [visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
 
-  const onUpdate = async(values, id) => {
+  const onUpdate = async(values) => {
     console.log(values);
-    await axios.patch(`api/visit/${id}`, values).then(response=>{
+    await axios.patch(`api/visit/${record.visit_id}`, values).then(response=>{
       setLoading(true);
       console.log(response.data);
       
@@ -31,10 +31,10 @@ function UpdateVisitModal({getAllVisit, setLoading, ...record}) {
     setVisible(false);
   };
 
-  const handleOk = (values, id) => {
+  const handleOk = (values) => {
     setConfirmLoading(true);
     setTimeout(() => {
-      onUpdate(values, id);
+      onUpdate(values);
       setVisible(false);
       setConfirmLoading(false);
     }, 2000);
@@ -55,7 +55,7 @@ function UpdateVisitModal({getAllVisit, setLoading, ...record}) {
             .validateFields()
             .then((values) => {
               console.log(values)
-              handleOk(values, record.visit_id);
+              handleOk(values);
             })
             .catch((info) => {
               console.log("Validate Failed:", info);

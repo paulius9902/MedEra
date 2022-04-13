@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../axiosApi';
 import Table from "antd/lib/table";
-import {Button, Divider, Popconfirm, notification, Empty, Skeleton} from 'antd';
-import {PlusCircleOutlined, EditOutlined, DeleteOutlined} from '@ant-design/icons';
+import {Button, Divider, Popconfirm, notification, Empty, Skeleton, Input, Tooltip} from 'antd';
+import {PlusCircleOutlined, EditOutlined, DeleteOutlined, InfoCircleOutlined} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import AddPatientModal from './AddPatientModal';
 //import { Button } from 'react-bootstrap';
+import { UseTableSearch } from "./UseTableSearch";
 
 
 const ShowPatients = () => {
 
   const [patients, setPatients] = useState([]);
-  const [allergies, setAllergies] = useState([]);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [searchVal, setSearchVal] = useState(null);
+
+  const { filteredData } = UseTableSearch({
+    searchVal,
+    retrieve: patients
+  });
 
   const onCreate = async(values) => {
     if (values.gender==='V')
@@ -25,6 +31,7 @@ const ShowPatients = () => {
       values.image="https://www.shareicon.net/data/512x512/2016/09/01/822726_user_512x512.png"
     }
     values.birthday = values.birthday.toISOString().split('T')[0]
+    values.full_name = values.name || ' ' || values.surname
     console.log(values);
     await axios.post(`api/patient`, values)
     .then(response=>{
@@ -32,6 +39,7 @@ const ShowPatients = () => {
       console.log(response.data);
       console.log(response.data.patient_id);
       getAllPatient();
+      notification.success({ message: 'Sėkmingai pridėta!' });
     })
     setVisible(false);
   };
@@ -56,22 +64,12 @@ const ShowPatients = () => {
     }
   };
 
-  const getAllAllergies = async () => {
-    try {
-      const res = await axios.get('api/allergy');
-      setAllergies(res.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const confirmHandler = id => {
     setLoading(true);
     deletePatient(id);
   };
 
   useEffect(() => {
-    //getAllAllergies();
     getAllPatient();
   }, []);
 
@@ -139,9 +137,26 @@ const ShowPatients = () => {
       <h1>Pacientai</h1>
       <Divider></Divider>
       <Button className="mr-2 mb-3" size='large' onClick={() => {setVisible(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti pacientą</Button>
-
+      <Input
+        placeholder="Paieška..."
+        allowClear
+        onChange={(e) => setSearchVal(e.target.value)}
+        suffix={
+          <Tooltip title="Įveskite gydytoją arba pacientą">
+            <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
+          </Tooltip>}
+        enterButton
+        style={{
+          position: "sticky",
+          top: "0",
+          left: "0",
+          width: "300px",
+          marginTop: "2vh",
+          float: 'right'
+        }}
+      />
       <Table columns={COLUMNS} 
-             dataSource={loading? [] : patients}
+             dataSource={loading? [] : filteredData}
              locale={{
               emptyText: loading ? <Skeleton active={true} /> : <Empty />
              }}
@@ -153,7 +168,6 @@ const ShowPatients = () => {
         onCancel={() => {
           setVisible(false);
         }}
-        allergies={allergies}
       />
     </>
   );

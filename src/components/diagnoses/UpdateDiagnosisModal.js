@@ -24,7 +24,6 @@ function UpdateUser({getAllDiagnosis, setLoading, ...record}) {
       setVisible(false);
       getAllDiagnosis();
     })
-    setVisible(false);
   };
 
   const showModal = () => {
@@ -34,8 +33,6 @@ function UpdateUser({getAllDiagnosis, setLoading, ...record}) {
   const handleCancel = () => {
     setVisible(false);
   };
-
-  
 
   const handleOk = (values) => {
     setConfirmLoading(true);
@@ -61,18 +58,12 @@ function UpdateUser({getAllDiagnosis, setLoading, ...record}) {
           form
             .validateFields()
             .then((values) => {
-              console.log('reiksmes')
               console.log(values)
-              console.log('reiksmes')
               handleOk(values);
-              //onUpdateRefresh();
-              //getAllDiagnosis();
-              //ShowDiagnoses.getAllDiagnosis();
             })
             .catch((info) => {
               console.log("Validate Failed:", info);
             });
-            //window.location.reload()
         }}
         confirmLoading={confirmLoading}
         cancelText="Atšaukti"

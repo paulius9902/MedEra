@@ -69,7 +69,7 @@ const ShowDoctors = () => {
             <Button className="mr-2 mb-3" size='large' onClick={() => {setVisible(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti gydytoją</Button>
             <Divider></Divider>
             <div className="main-doctors-show">
-            <Row gutter={[16, 24]} span={4}>
+            <Row gutter={[70, 24]} span={4}>
             {
                 doctors.map((doctor, index) => (
                     <Col>

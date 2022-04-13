@@ -130,7 +130,7 @@ const AddVisitModal = ({ visible, onCreate, onCancel, getAllVisit, visits }) => 
                         message: "Įveskite vizito priežastį!"
                       }
                     ]}>
-          <Input.TextArea placeholder="Vizito priežasties aprašymas"/>
+          <Input.TextArea placeholder="Vizito priežasties aprašymas" showCount maxLength={500}/>
         </Form.Item>
         </Col>
         </Row>

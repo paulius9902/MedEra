@@ -12,12 +12,6 @@ const Register = ({ visible, onCreate, onCancel }) => {
   const [personal_code, setPersonalCode] = useState("");
   const [email, setEmail] = useState("");
   const [patient_id, setPatientID] = useState(null);
-  
-  function findPatient(personal_code) {
-    return patients.find((element) => {
-      return element.personal_code === personal_code;
-    })
-  }
 
   function validatePersonalCode(personal_code) {
     var data = patients.find((patient) => 

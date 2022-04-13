@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import AddVisitModal from './AddVisitModal';
 import UpdateVisitModal from './UpdateVisitModal';
 import moment from 'moment';
-import { useTableSearch } from "./useTableSearch";
+import useTableSearch from "./useTableSearch";
 
 const ShowVisits = () => {
 
@@ -15,11 +15,15 @@ const ShowVisits = () => {
   const [visible, setVisible] = useState(false);
   const [loading_data, setLoading] = useState(true);
   const [searchVal, setSearchVal] = useState(null);
+  const [filteredData, setFilteredData] = useTableSearch(
+                                                      searchVal,
+                                                      visits
+                                                    );
 
-  const { filteredData } = useTableSearch({
+  /*const { filteredData } = useTableSearch({
     searchVal,
     retrieve: visits
-  });
+  });*/
 
   const onCreate = async(values, form) => {
     values.status = 1
@@ -76,6 +80,7 @@ const ShowVisits = () => {
       const res = await axios.get('api/visit');
       setVisits(res.data);
       setLoading(false);
+      setFilteredData();
     } catch (error) {
       console.error(error);
     }
@@ -140,7 +145,6 @@ const ShowVisits = () => {
         },
       ],
       onFilter: (value, record) => record.doctor.doctor_id.toString()===value,
-      sorter: (a, b) => a.visit_id - b.visit_id,
       render: (text, record) => <Link to={'/doctor/' + record.doctor.doctor_id}>{text}</Link>,
     },
     {
@@ -171,6 +175,21 @@ const ShowVisits = () => {
       title: "Statusas",
       dataIndex: ['status', 'status_id'],
       key: "status_id",
+      filters: [
+        {
+          text: 'Laukiama patvirtinimo',
+          value: 1,
+        },
+        {
+          text: 'Patvirtintas',
+          value: 2,
+        },
+        {
+          text: 'Atšauktas',
+          value: 3,
+        },
+      ],
+      onFilter: (value, record) => record.status.status_id===value,
       render :(status_id) => {
         if (status_id===1) {
           return (
@@ -244,7 +263,6 @@ const ShowVisits = () => {
           <Tooltip title="Įveskite gydytoją arba pacientą">
             <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
           </Tooltip>}
-        enterButton
         style={{
           position: "sticky",
           top: "0",
@@ -255,7 +273,7 @@ const ShowVisits = () => {
         }}
       />
       <Table  columns={COLUMNS} 
-              dataSource={filteredData}
+              dataSource={loading_data? [] : filteredData}
                 locale={{
                 emptyText: loading_data ? <Skeleton active={true} /> : <Empty />
               }}
