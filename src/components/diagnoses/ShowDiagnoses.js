@@ -8,14 +8,15 @@ import AddDiagnosisModal from './AddDiagnosisModal';
 import UpdateDiagnosisModal from './UpdateDiagnosisModal';
 import Highlighter from 'react-highlight-words';
 import "./custom.css";
-//import { Button } from 'react-bootstrap';
+import get from "lodash.get";
+import isequal from "lodash.isequal";
 
 const ShowDiagnoses = () => {
   const [diagnoses, setDiagnoses] = useState([]);
   const [visible_create, setVisibleCreate] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [searchText, setSearchText] = useState('');
-  const [searchedColumn, setSearchedColumn] = useState('');
+  const [searchText, setSearchText] = useState("");
+  const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
 
   useEffect(() => {
@@ -58,10 +59,11 @@ const ShowDiagnoses = () => {
     deleteDiagnosis(id);
   };
 
-  const handleSearch = (selectedKeys, confirm, dataIndex) => {
-    confirm();
-    setSearchText(selectedKeys[0])
+  const  handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm({ closeDropdown: false });
+    setSearchText(selectedKeys[0]);
     setSearchedColumn(dataIndex)
+   
   };
 
   const handleReset = clearFilters => {
@@ -69,61 +71,56 @@ const ShowDiagnoses = () => {
     setSearchText('')
   };
 
+  const handleClose = confirm => {
+    confirm();
+  };
+
   const getColumnSearchProps = dataIndex => ({
+
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 8 }}>
         <Input
-          ref={ searchInput }
-          placeholder={`Search ${dataIndex}`}
+          ref={searchInput}
+          placeholder={`Paieška...`}
           value={selectedKeys[0]}
-          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-          style={{ marginBottom: 8, display: 'block' }}
+          //onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => handleClose(confirm)}
+          onChange={e => {
+            setSelectedKeys(e.target.value ? [e.target.value] : []);
+            handleSearch(selectedKeys, confirm, dataIndex);}}
+          style={{ width: 188, marginBottom: 8, display: 'block' }}
         />
         <Space>
           <Button
             type="primary"
-            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            onClick={() => handleClose(confirm)}
             icon={<SearchOutlined />}
             size="small"
             style={{ width: 90 }}
           >
-            Search
+            Uždaryti
           </Button>
           <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
-            Reset
-          </Button>
-          <Button
-            type="link"
-            size="small"
-            onClick={() => {
-              confirm({ closeDropdown: false });
-              setSearchText(selectedKeys[0])
-              setSearchedColumn(dataIndex)
-            }}
-          >
-            Filter
+            Ištrinti
           </Button>
         </Space>
       </div>
     ),
     filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
     onFilter: (value, record) =>
-      record[dataIndex]
-        ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
+      get(record, dataIndex)
+        ? get(record, dataIndex).toString().toLowerCase().includes(value.toLowerCase())
         : '',
     onFilterDropdownVisibleChange: visible => {
-      if (visible) {
-        setTimeout(() => searchInput.current.select());
-      }
+        if (visible) {    setTimeout(() => searchInput.current.select());   }
     },
     render: text =>
-      searchedColumn === dataIndex ? (
+      isequal(searchedColumn, dataIndex) ? (
         <Highlighter
           highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
           searchWords={[searchText]}
           autoEscape
-          textToHighlight={text ? text.toString() : ''}
+          textToHighlight={text.toString()}
         />
       ) : (
         text
@@ -146,29 +143,33 @@ const ShowDiagnoses = () => {
         title: 'Pacientas',
         dataIndex: ['patient', 'full_name'],
         key: "patient_full_name",
-        ...getColumnSearchProps(['patient', 'full_name']),
+        ...getColumnSearchProps(["patient", "full_name"]),
         render: (text, record) => <Link to={'/patient/' + record.patient.patient_id}>{text}</Link>
     },
     {
         title: 'Gydytojas',
         dataIndex: ['doctor', 'full_name'],
         key: "doctor_full_name",
+        ...getColumnSearchProps(["doctor", "full_name"]),
         render: (text, record) => <Link to={'/doctor/' + record.doctor.doctor_id}>{text}</Link>,
     },
     {
         title: "Vizito priežastis",
         dataIndex: ['visit', 'health_issue'],
-        key: "visit_health_issue"
+        key: "visit_health_issue",
+        ...getColumnSearchProps(['visit', 'health_issue']),
     },
     {
         title: "Diagnozė",
         dataIndex: 'name',
-        key: "name"
+        key: "name",
+        ...getColumnSearchProps("name"),
     },
     {
       title: "Aprašymas",
       dataIndex: 'description',
       key: "description",
+      ...getColumnSearchProps("description"),
       onCell: () => {
         return {
            style: {
@@ -209,7 +210,6 @@ const ShowDiagnoses = () => {
     },
   ];
  
-
   return (
     <>
       <h1>Diagnozės</h1>

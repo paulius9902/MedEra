@@ -1,25 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../axiosApi';
 import Table from "antd/lib/table";
-import {Button, Divider, Popconfirm, notification, Empty, Skeleton, Input, Tooltip} from 'antd';
-import {PlusCircleOutlined, EditOutlined, DeleteOutlined, InfoCircleOutlined} from '@ant-design/icons';
+import {Button, Divider, Popconfirm, notification, Empty, Skeleton} from 'antd';
+import {PlusCircleOutlined, EditOutlined, DeleteOutlined} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import AddPatientModal from './AddPatientModal';
-//import { Button } from 'react-bootstrap';
-import { UseTableSearch } from "./UseTableSearch";
+import useGetColumnSearchProps from '../../utils/getColumnSearchProps';
 
 
 const ShowPatients = () => {
-
+  const getColumnSearchProps = useGetColumnSearchProps();
   const [patients, setPatients] = useState([]);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [searchVal, setSearchVal] = useState(null);
-
-  const { filteredData } = UseTableSearch({
-    searchVal,
-    retrieve: patients
-  });
 
   const onCreate = async(values) => {
     if (values.gender==='V')
@@ -78,17 +71,12 @@ const ShowPatients = () => {
       title: "ID",
       dataIndex: 'patient_id',
       key: "patient_id",
-      sorter: (a, b) => a.patient_id - b.patient_id,
     },
     {
-      title: "Vardas",
-      dataIndex: 'name',
-      key: "name"
-    },
-    {
-      title: "Pavardė",
-      dataIndex: 'surname',
-      key: "surname"
+      title: "Vardas pavardė",
+      dataIndex: 'full_name',
+      key: "full_name",
+      ...getColumnSearchProps('full_name'),
     },
     {
       title: "Gimimo data",
@@ -150,26 +138,8 @@ const ShowPatients = () => {
       <h1>Pacientai</h1>
       <Divider></Divider>
       <Button className="mr-2 mb-3" size='large' onClick={() => {setVisible(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti pacientą</Button>
-      <Input
-        placeholder="Paieška..."
-        allowClear
-        onChange={(e) => setSearchVal(e.target.value)}
-        suffix={
-          <Tooltip title="Įveskite pacientą">
-            <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
-          </Tooltip>}
-        enterButton
-        style={{
-          position: "sticky",
-          top: "0",
-          left: "0",
-          width: "300px",
-          marginTop: "2vh",
-          float: 'right'
-        }}
-      />
       <Table columns={COLUMNS} 
-             dataSource={loading? [] : filteredData}
+             dataSource={loading? [] : patients}
              locale={{
               emptyText: loading ? <Skeleton active={true} /> : <Empty />
              }}

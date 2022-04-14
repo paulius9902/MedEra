@@ -1,22 +1,20 @@
-import React, { useEffect, useRef, useState, useMemo} from 'react';
+import React, { useEffect, useState} from 'react';
 import axios from '../../axiosApi';
 import Table from "antd/lib/table";
-import {Button, Popconfirm, notification, Tag, Divider, Skeleton, Empty, Tooltip, Space, Input} from 'antd';
-import {PlusCircleOutlined, DeleteOutlined, CheckOutlined, CloseOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined, SearchOutlined, InfoCircleOutlined} from '@ant-design/icons';
+import {Button, Popconfirm, notification, Tag, Divider, Skeleton, Empty, Tooltip} from 'antd';
+import {PlusCircleOutlined, DeleteOutlined, CheckOutlined, CloseOutlined, SyncOutlined, CloseCircleOutlined, CheckCircleOutlined} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import AddVisitModal from './AddVisitModal';
 import UpdateVisitModal from './UpdateVisitModal';
 import moment from 'moment';
-import useTableSearch from "./useTableSearch";
+import useGetColumnSearchProps from '../../utils/getColumnSearchProps';
 
 const ShowVisits = () => {
-
+  const getColumnSearchProps = useGetColumnSearchProps();
   const [visits, setVisits] = useState([]);
   const [visits_dates, setVisitsDates] = useState([]);
   const [visible, setVisible] = useState(false);
   const [loading_data, setLoading] = useState(true);
-  const [searchVal, setSearchVal] = useState(null);
-  const [filteredData] = useTableSearch(searchVal, visits);
   const [doctors, setDoctors] = useState([]);
 
   const onCreate = async(values, form) => {
@@ -111,7 +109,6 @@ const ShowVisits = () => {
       title: "ID",
       dataIndex: 'visit_id',
       key: "visit_id",
-      sorter: (a, b) => a.visit_id - b.visit_id,
     },
     {
       title: "Vizito data",
@@ -155,13 +152,14 @@ const ShowVisits = () => {
           value: localStorage.getItem('doctor_id'),
         },
       ],
-      onFilter: (value, record) => record.doctor.doctor_id.toString()===value,
+      ...getColumnSearchProps(['doctor', 'full_name']),
       render: (text, record) => <Link to={'/doctor/' + record.doctor.doctor_id}>{text}</Link>,
     },
     {
       title: 'Pacientas',
       dataIndex: ['patient', 'full_name'],
       key: "patient_name",
+      ...getColumnSearchProps(['patient', 'full_name']),
       render: (text, record) => <Link to={'/patient/' + record.patient.patient_id}>{text}</Link>
     },
     {
@@ -233,8 +231,8 @@ const ShowVisits = () => {
               <Link to={`/visit/`} onClick={() => confirmVisit(record.visit_id)}>
                 <CheckOutlined style={{color: "#87d068", fontSize: '150%'}} />
               </Link>
-              <Link to={`/visit/`} onClick={() => cancelVisit(record.visit_id)}>
-                <CloseOutlined style={{color: "#f50", fontSize: '150%'}} />
+              <Link to={`/visit/`} onClick={() => cancelVisit(record.visit_id)} >
+                <CloseOutlined style={{color: "#f50", fontSize: '150%', marginLeft: 8,}} />
               </Link>
             </div>
           );
@@ -251,7 +249,7 @@ const ShowVisits = () => {
                 onConfirm={() => confirmHandler(record.visit_id)}
               >
                 <DeleteOutlined
-                  style={{ color: "#f50", marginLeft: 12, fontSize: '150%'}}
+                  style={{ color: "#f50", marginLeft: 8, fontSize: '150%'}}
                 />
               </Popconfirm>
             </>
@@ -266,25 +264,8 @@ const ShowVisits = () => {
       <h1>Vizitai</h1>
       <Divider></Divider>
       <Button className="mr-2 mb-3" size='large' onClick={() => {setVisible(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti vizitą</Button>
-      <Input
-        placeholder="Paieška..."
-        allowClear
-        onChange={(e) => setSearchVal(e.target.value)}
-        suffix={
-          <Tooltip title="Įveskite gydytoją arba pacientą">
-            <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
-          </Tooltip>}
-        style={{
-          position: "sticky",
-          top: "0",
-          left: "0",
-          width: "300px",
-          marginTop: "2vh",
-          float: 'right'
-        }}
-      />
       <Table  columns={COLUMNS} 
-              dataSource={loading_data? [] : filteredData}
+              dataSource={loading_data? [] : visits}
                 locale={{
                 emptyText: loading_data ? <Skeleton active={true} /> : <Empty />
               }}

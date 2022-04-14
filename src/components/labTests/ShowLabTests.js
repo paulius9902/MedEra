@@ -5,6 +5,7 @@ import {Button, Divider, Popconfirm, notification, Skeleton, Empty} from 'antd';
 import {PlusCircleOutlined, DeleteOutlined, FilePdfOutlined} from '@ant-design/icons';
 import AddLabTestModal from './AddLabTestModal';
 import UpdateLabTestModal from './UpdateLabTestModal';
+import { Link } from 'react-router-dom';
 //import "./custom.css";
 //import { Button } from 'react-bootstrap';
 
@@ -63,37 +64,20 @@ const ShowLabTests = () => {
     {
         title: "Data",
         dataIndex: 'creation_date',
-        key: "creation_date"
+        key: "creation_date",
+        render: (text, record) => text.slice(0, 19).replace('T', ' ')
     },
     {
         title: 'Pacientas',
-        children: [
-          {
-            title: "Vardas",
-            dataIndex: ['patient', 'name'],
-            key: "patient_name"
-          },
-          {
-            title: "Pavardė",
-            dataIndex: ['patient', 'surname'],
-            key: "patient_surname"
-          }
-        ]
+        dataIndex: ['patient', 'full_name'],
+        key: "patient_full_name",
+        render: (text, record) => <Link to={'/patient/' + record.patient.patient_id}>{text}</Link>
     },
     {
         title: 'Gydytojas',
-        children: [
-          {
-            title: "Vardas",
-            dataIndex: ['doctor', 'name'],
-            key: "doctor_name"
-          },
-          {
-            title: "Pavardė",
-            dataIndex: ['doctor', 'surname'],
-            key: "doctor_surname"
-          }
-        ]
+        dataIndex: ['doctor', 'full_name'],
+        key: "doctor_full_name",
+        render: (text, record) => <Link to={'/doctor/' + record.doctor.doctor_id}>{text}</Link>,
     },
     {
         title: "Pavadinimas",
@@ -101,23 +85,13 @@ const ShowLabTests = () => {
         key: "name"
     },
     {
-        title: "Rodiklis",
-        dataIndex: 'value_text',
-        key: "value_text"
-    },
-    {
-      title: "Reikšmė",
-      dataIndex: 'value_numeric',
-      key: "value_numeric"
-  },
-    {
       title: "Veiksmas",
       key: "action",
       render: (record) => {
         return (
           <div>
             <Button type="text" href={record.docfile}>
-              <FilePdfOutlined style={{ marginRight: 12, fontSize: '150%'}}/>
+              <FilePdfOutlined style={{  fontSize: '150%'}}/>
             </Button>
             <UpdateLabTestModal getAllLabTests={getAllLabTests} setLoading={setLoading} {...record}/>
             <Popconfirm

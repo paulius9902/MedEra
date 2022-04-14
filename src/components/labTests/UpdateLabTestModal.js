@@ -54,7 +54,7 @@ function UpdateLabTest({getAllLabTests, setLoading, ...record}) {
         centered
         style={{ height: "80%" }}
         bodyStyle={{ height: "100%", overflowY: "auto", padding: 0 }}
-        width={800}
+        width={600}
         visible={visible}
         onCancel={handleCancel}
         onOk={() => {
@@ -84,8 +84,6 @@ function UpdateLabTest({getAllLabTests, setLoading, ...record}) {
         <Form form={form} layout="vertical"
           initialValues={{
             name: record.name,
-            value_text: record.value_text,
-            value_numeric: record.value_numeric,
         }}>
           
           <Row>
@@ -95,32 +93,15 @@ function UpdateLabTest({getAllLabTests, setLoading, ...record}) {
             <Col span={18}>
               <Form.Item
                 label="Pavadinimas:"
-                rules={[{ required: true }]}
-                style={{ width: "70%" }}
+                rules={[
+                  {
+                    required: true,
+                    message: "Įveskite pavadinimą!"
+                  }
+                ]}
                 name="name"
               >
                 <Input placeholder="Pavadinimas" />
-              </Form.Item>
-              <Form.Item
-                label="Rodiklis:"
-                rules={[{ required: true }]}
-                style={{ width: "70%" }}
-                name="value_text"
-              >
-                <Input placeholder="Rodiklis" />
-              </Form.Item>
-              <Form.Item
-                label="Reikšmė:"
-                rules={[{ required: true }]}
-                style={{ width: "70%" }}
-                name="value_numeric"
-              >
-                <InputNumber
-                  min="0"
-                  step="0.01"
-                  stringMode
-                  style={{width: '100%',}}
-                />
               </Form.Item>
             </Col>
           </Row>

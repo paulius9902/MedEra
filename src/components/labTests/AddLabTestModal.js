@@ -83,7 +83,7 @@ const AddLaboratoryTestModal = ({ visible, onCreate, onCancel }) => {
                     console.log('failas: '+values.document.file.originFileObj)
                     uploadDocument(values.document.file.originFileObj);
                     values.docfile = file_url;
-                    console.log('duomenys: '+values.data)
+                    console.log('duomenys: '+ values.data)
                     onCreate(values);
                     setConfirmLoading(false);
                   }, 500);
@@ -149,29 +149,6 @@ const AddLaboratoryTestModal = ({ visible, onCreate, onCancel }) => {
                       }
                     ]}>
           <Input/>
-        </Form.Item>
-        <Form.Item name="value_text" label="Tyrimas:"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Įveskite tyrimą!"
-                      }
-                    ]}>
-          <Input/>
-        </Form.Item>
-        <Form.Item name="value_numeric" label="Tyrimo reikšmė:"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Įveskite tyrimo reikšmę!"
-                      }
-                    ]}>
-          <InputNumber
-            min="0"
-            step="0.01"
-            stringMode
-            style={{width: '100%',}}
-          />
         </Form.Item>
         <Form.Item name="document" label="Failas"
                     rules={[

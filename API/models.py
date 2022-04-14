@@ -139,8 +139,6 @@ class LaboratoryTests(models.Model):
     test_id = models.AutoField(primary_key=True)
     creation_date = models.DateTimeField(auto_now_add=timezone.now)
     name = models.CharField(max_length=200)
-    value_text = models.CharField(max_length=100)
-    value_numeric = models.DecimalField(max_digits=5, decimal_places=2)
     patient = models.ForeignKey(Patients, models.DO_NOTHING)
     visit = models.ForeignKey(Visits, models.DO_NOTHING, blank=True, null=True)
     doctor = models.ForeignKey(Doctors, models.DO_NOTHING)
