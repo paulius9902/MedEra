@@ -28,6 +28,7 @@ urlpatterns=[
     path('patient/<int:patient_id>/allergy/<int:allergy_id>', views.PatientAllergyGet.as_view(), name='patient_allergy_detail'),
 
     path('visit', views.VisitGetList.as_view(), name='visit_list'),
+    path('visit_dates', views.VisitDatesList.as_view(), name='visit_dates_list'),
     path('visit/<int:visit_id>', views.VisitGet.as_view(), name='visit_detail'),
 
     path('diagnosis', views.DiagnosisGetList.as_view(), name='diagnosis_list'),

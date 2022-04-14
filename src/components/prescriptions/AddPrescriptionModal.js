@@ -80,7 +80,7 @@ const AddPrescriptionModal = ({ visible, onCreate, onCancel }) => {
                       }]}>
         <DatePicker
           selected={prescription_date}
-          className="form-control" 
+          className="ant-input" 
           onChange={(date) => setPrescriptionDate(date)}
           peekNextMonth
           showMonthDropdown

@@ -77,7 +77,13 @@ const AddDoctorModal = ({ visible, onCreate, onCancel}) => {
                         message: "Įveskite telefono numerį!"
                       }
                     ]}>
-          <Input/>
+          <InputNumber min={860000000}
+            max={869999999}
+            style={{
+              width: '100%',
+            }}
+            type="number"
+            placeholder="Telefono numeris"/>
         </Form.Item>
         <Form.Item name="specialization" label="Specializacija:"
                     rules={[
@@ -95,7 +101,7 @@ const AddDoctorModal = ({ visible, onCreate, onCancel}) => {
                         message: "Įveskite kabinetą!"
                       }
                     ]}>
-          <InputNumber className="form-control" style={{width: '100%',}}/>
+          <InputNumber style={{width: '100%',}} min={1}/>
         </Form.Item>
         </Col>
         </Row>

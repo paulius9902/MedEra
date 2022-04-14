@@ -72,7 +72,7 @@ const AddPatientModal = ({ visible, onCreate, onCancel }) => {
                         message: "Įveskite paciento vardą!"
                       }
                     ]}>
-          <Input/>
+          <Input placeholder="Vardas"/>
         </Form.Item>
         <Form.Item name="surname" label="Pavardė:"
                     rules={[
@@ -81,19 +81,19 @@ const AddPatientModal = ({ visible, onCreate, onCancel }) => {
                         message: "Įveskite paciento pavardę!"
                       }
                     ]}>
-          <Input/>
+          <Input placeholder="Pavardė"/>
         </Form.Item>
         <Form.Item name="birthday" label="Gimimo data:" >
         <DatePicker
           selected={start_date}
-          className="form-control" 
+          className="ant-input"
           onChange={(date) => setStartDate(date)}
           peekNextMonth
           showMonthDropdown
           showYearDropdown
           dateFormat="yyyy-MM-dd"
           dropdownMode="select"
-          placeholder="Pasirinkite gimimo datą:"
+          placeholderText="Pasirinkite gimimo datą"
           locale={lt}
           maxDate={new Date()}/>
         </Form.Item>
@@ -104,7 +104,7 @@ const AddPatientModal = ({ visible, onCreate, onCancel }) => {
                         message: "Pasirinkite lytį!"
                       }
                     ]}>
-          <Select>
+          <Select placeholder="Lytis">
             <Option value="V">Vyras</Option>
             <Option value="M">Moteris</Option>
           </Select>

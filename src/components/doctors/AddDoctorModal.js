@@ -7,7 +7,7 @@ import lt from "date-fns/locale/lt";
 const { Option } = Select;
 const AddDoctorModal = ({ visible, onCreate, onCancel }) => {
 
-  const [start_date, setStartDate] = useState(new Date());
+  const [start_date, setStartDate] = useState(null);
   const [form] = Form.useForm();
 
   return (
@@ -38,7 +38,7 @@ const AddDoctorModal = ({ visible, onCreate, onCancel }) => {
                         message: "Įveskite gydytojo vardą!"
                       }
                     ]}>
-          <Input/>
+          <Input placeholder="Vardas"/>
         </Form.Item>
         <Form.Item name="surname" label="Pavardė:"
                     rules={[
@@ -47,20 +47,21 @@ const AddDoctorModal = ({ visible, onCreate, onCancel }) => {
                         message: "Įveskite gydytojo pavardę!"
                       }
                     ]}>
-          <Input/>
+          <Input placeholder="Pavardė"/>
         </Form.Item>
         <Form.Item name="birthday" label="Gimimo data:" >
         <DatePicker
           selected={start_date}
-          className="form-control" 
+          className="ant-input" 
           onChange={(date) => setStartDate(date)}
           peekNextMonth
           showMonthDropdown
           showYearDropdown
           dateFormat="yyyy-MM-dd"
           dropdownMode="select"
-          placeholder="Pasirinkite gimimo datą:"
-          locale={lt}/>
+          placeholderText="Pasirinkite gimimo datą"
+          locale={lt}
+          maxDate={new Date()}/>
         </Form.Item>
         <Form.Item name="gender" label="Lytis:"
                     rules={[
@@ -69,7 +70,7 @@ const AddDoctorModal = ({ visible, onCreate, onCancel }) => {
                         message: "Pasirinkite lytį!"
                       }
                     ]}>
-          <Select >
+          <Select placeholder="Lytis">
             <Option value="V">Vyras</Option>
             <Option value="M">Moteris</Option>
           </Select>
@@ -81,7 +82,14 @@ const AddDoctorModal = ({ visible, onCreate, onCancel }) => {
                         message: "Įveskite telefono numerį!"
                       }
                     ]}>
-          <Input/>
+          <InputNumber
+            min={860000000}
+            max={869999999}
+            style={{
+              width: '100%',
+            }}
+            type="number"
+            placeholder="Telefono numeris"/>
         </Form.Item>
         <Form.Item name="specialization" label="Specializacija:"
                     rules={[
@@ -90,7 +98,7 @@ const AddDoctorModal = ({ visible, onCreate, onCancel }) => {
                         message: "Įveskite specializaciją!"
                       }
                     ]}>
-          <Input/>
+          <Input placeholder="Specializacija"/>
         </Form.Item>
         <Form.Item name="room" label="Kabinetas:"
                     rules={[
@@ -99,7 +107,7 @@ const AddDoctorModal = ({ visible, onCreate, onCancel }) => {
                         message: "Įveskite kabinetą!"
                       }
                     ]}>
-          <InputNumber className="form-control" style={{width: '100%',}}/>
+          <InputNumber style={{width: '100%',}} placeholder="Kabinetas" min={1}/>
         </Form.Item>
         </Col>
         </Row>

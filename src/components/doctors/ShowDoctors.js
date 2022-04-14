@@ -30,6 +30,7 @@ const ShowDoctors = () => {
         {
             values.image="https://www.shareicon.net/data/256x256/2016/08/18/813847_people_512x512.png"
         }
+        values.full_name = values.name + ' ' + values.surname
         await axios.post(`api/doctor`, values).then(response=>{
           console.log(response.data);
           fetchDoctors();

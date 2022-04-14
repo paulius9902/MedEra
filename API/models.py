@@ -106,6 +106,7 @@ class PatientsAllergies(models.Model):
 class Diagnoses(models.Model):
     diagnosis_id = models.AutoField(primary_key=True)
     creation_date = models.DateTimeField(auto_now_add=timezone.now)
+    name = models.CharField(max_length=50)
     description = models.CharField(max_length=500)
     temperature = models.DecimalField(max_digits=3, decimal_places=1, blank=True, null=True)
     systolic_blood_pressure = models.IntegerField(blank=True, null=True)

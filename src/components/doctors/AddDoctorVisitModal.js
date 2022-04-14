@@ -4,14 +4,16 @@ import DatePicker from "react-datepicker";
 import lt from "date-fns/locale/lt";
 import { CalendarOutlined} from "@ant-design/icons";
 import axios from '../../axiosApi';
+import { addDays, isSameDay, parseISO, addMonths } from "date-fns";
+import setMinutes from "date-fns/setMinutes";
+import setHours from "date-fns/setHours";
+import getDay from "date-fns/getDay";
 
 import "react-datepicker/dist/react-datepicker.css";
 
-const AddVisitModal = ({ visible, onCreate, onCancel }) => {
+const AddVisitModal = ({ visible, onCreate, onCancel, doctor_id, visits}) => {
 
   const [start_date, setStartDate] = useState(null)
-  
-  const [doctors, setDoctors] = useState([]);
   
   const [form] = Form.useForm();
 
@@ -22,13 +24,20 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
     return currentDate.getTime() < selectedDate.getTime();
   };
 
-  useEffect(() => {
-    loadDoctors();
-  },[]);
+  let results = visits.filter((visit) => visit.doctor_id === Number(doctor_id)).map(
+    (visit) => new Date(parseISO(visit.start_date))
+  );
 
-  const loadDoctors = async () => {
-    const result = await axios.get("api/doctor");
-    setDoctors(result.data.reverse());
+  const getExcludeTimesForDate = (date) =>
+    results.filter((time) => isSameDay(date, time));
+
+  const [excludeTimes, setExcludeTimes] = useState(
+    getExcludeTimesForDate(start_date)
+  );
+
+  const isWeekday = (date) => {
+    const day = getDay(date);
+    return day !== 0 && day !== 6;
   };
 
   return (
@@ -38,9 +47,10 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
               form
                 .validateFields()
                 .then((values) => {
-                  form.resetFields();
+                  form.resetFields()
                   console.log(values)
-                  onCreate(values);
+                  onCreate(values, form)
+                  setStartDate(null)
                 })
                 .catch((info) => {
                   console.log("Validate Failed:", info);
@@ -52,7 +62,7 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
               <Avatar shape="square" size={100} icon={<CalendarOutlined />} />
             </Col>
             <Col span={18}>
-        <Form.Item name="start_date" label="Data ir laikas:"
+            <Form.Item name="start_date" label="Data ir laikas:"
                     rules={[
                       {
                         required: true,
@@ -60,21 +70,34 @@ const AddVisitModal = ({ visible, onCreate, onCancel }) => {
                       }
                     ]}>
           <DatePicker
-            className="form-control" 
-            placeholder="Pasirinkite laiką:"
+            disabled={!doctor_id}
+            className="ant-input"
+            placeholderText="Pasirinkite vizito datą ir laiką"
             selected={start_date}
             filterTime={filterTime}
-            onChange={date => setStartDate(date)}
+            onChange={(date) => {
+              setStartDate(date);
+              setExcludeTimes(getExcludeTimesForDate(date));
+            }}
             showTimeSelect
             timeIntervals={30}
             dateFormat="yyyy-MM-dd HH:mm"
             timeFormat="HH:mm"
             timeCaption="Laikas:"
-            locale={lt}/>
+            locale={lt}
+            minDate={addDays(new Date(), 1)}
+            maxDate={addMonths(new Date(), 1)}
+            minTime={setHours(setMinutes(new Date(), 0), 8)}
+            maxTime={setHours(setMinutes(new Date(), 0), 18)}
+            filterDate={isWeekday}
+            excludeTimes={excludeTimes}
+            onKeyDown={(e) => {
+              e.preventDefault();
+           }}/>
         </Form.Item>
 
         <Form.Item name="health_issue" label="Sveikatos problema:">
-          <Input type="textarea" />
+          <Input.TextArea placeholder="Vizito priežasties aprašymas" showCount maxLength={500}/>
         </Form.Item>
         </Col>
         </Row>

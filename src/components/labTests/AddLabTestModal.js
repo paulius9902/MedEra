@@ -129,7 +129,7 @@ const AddLaboratoryTestModal = ({ visible, onCreate, onCancel }) => {
                       }]}>
         <DatePicker
           selected={test_date}
-          className="form-control" 
+          className="ant-input"
           onChange={(date) => setTestDate(date)}
           peekNextMonth
           showTimeSelect

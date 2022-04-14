@@ -12,10 +12,9 @@ import "react-datepicker/dist/react-datepicker.css";
 const { Option } = Select;
 const { TextArea } = Input;
 
-const AddVisitModal = ({ visible, onCreate, onCancel, getAllVisit, visits }) => {
+const AddVisitModal = ({ visible, onCreate, onCancel, visits, doctors}) => {
 
   const [start_date, setStartDate] = useState(null)
-  const [doctors, setDoctors] = useState([]);
   const [doctor_id, setDoctorID] = useState(null)
   
   const [form] = Form.useForm();
@@ -32,16 +31,7 @@ const AddVisitModal = ({ visible, onCreate, onCancel, getAllVisit, visits }) => 
     return day !== 0 && day !== 6;
   };
 
-  useEffect(() => {
-    loadDoctors();
-  }, []);
-
-  const loadDoctors = async () => {
-    const result = await axios.get("api/doctor");
-    setDoctors(result.data.reverse());
-  };
-
-  let results = visits.filter((visit) => visit.doctor.doctor_id === doctor_id).map(
+  let results = visits.filter((visit) => visit.doctor_id === doctor_id).map(
     (visit) => new Date(parseISO(visit.start_date))
   );
 
@@ -98,7 +88,7 @@ const AddVisitModal = ({ visible, onCreate, onCancel, getAllVisit, visits }) => 
                     ]}>
           <DatePicker
             disabled={!doctor_id}
-            className="form-control" 
+            className="ant-input"
             placeholderText="Pasirinkite vizito datą ir laiką"
             selected={start_date}
             filterTime={filterTime}

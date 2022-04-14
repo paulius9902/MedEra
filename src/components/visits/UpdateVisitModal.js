@@ -14,12 +14,9 @@ function UpdateVisitModal({getAllVisit, setLoading, ...record}) {
   const onUpdate = async(values) => {
     console.log(values);
     await axios.patch(`api/visit/${record.visit_id}`, values).then(response=>{
-      setLoading(true);
       console.log(response.data);
-      
       notification.success({ message: 'Sėkmingai atnaujinta!' });
       setVisible(false);
-      getAllVisit();
     })
   };
 

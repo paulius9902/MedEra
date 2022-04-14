@@ -12,13 +12,25 @@ const [doctor, setDoctor] = useState([])
 const {id} = useParams();
 const [visible_doctor, setVisibleDoctor] = useState(false);
 const [visible_visit, setVisibleVisit] = useState(false);
+const [visits, setVisits] = useState([]);
 
 useEffect(() => {
     getSingleDoctor();
+    getAllVisit();
 },[])
+
+const getAllVisit = async () => {
+    try {
+      const res = await axios.get('api/visit_dates');
+      setVisits(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
 const onUpdate = async(values) => {
     console.log(values);
+    values.full_name = values.name + ' ' + values.surname
     await axios.patch(`api/doctor/${id}`, values).then(response=>{
       console.log(response.data);
       getSingleDoctor();
@@ -27,7 +39,7 @@ const onUpdate = async(values) => {
     setVisibleDoctor(false);
 };
 
-const addVisit = async(values) => {
+const addVisit = async(values, form) => {
     values.status = 1
     values.start_date=new Date(Math.floor(values.start_date.getTime() - values.start_date.getTimezoneOffset() * 60000))
     values.doctor=id
@@ -35,6 +47,8 @@ const addVisit = async(values) => {
     await axios.post(`api/visit`, values).then(response=>{
       console.log(response.data);
       getSingleDoctor();
+      getAllVisit();
+      form.resetFields();
       notification.success({ message: 'Vizitas sėkmingai pridėtas!' });
     })
     setVisibleVisit(false);
@@ -46,14 +60,6 @@ const getSingleDoctor = async () => {
   setDoctor(data);
 }
 
-const deleteDoctor = async (id) => {
-    try {
-        await axios.delete(`api/doctor/${id}`)
-        notification.success({ message: 'Sėkmingai ištrinta!' });
-    } catch (error) {
-        console.error(error);
-    }
-}
 return (
     <Card bordered={false} size="small" style={{ padding: 15 }}>
     <Form layout="vertical">
@@ -68,7 +74,6 @@ return (
                     }
                 actions={[
                     <Link style={{fontSize: '125%' }} onClick={() => {setVisibleDoctor(true);}} to="#"><EditOutlined style={{color: "#2db7f5"}}/> Atnaujinti</Link>,
-                    <Link style={{fontSize: '125%' }} to="/doctor" onClick={() => deleteDoctor(doctor.doctor_id)}><DeleteOutlined style={{color: "#f50"}}/> Ištrinti</Link>,
                     ]}>
                 </Card>
             
@@ -97,8 +102,10 @@ return (
             visible={visible_visit}
             onCreate={addVisit}
             onCancel={() => {
-            setVisibleVisit(false);
+            setVisibleVisit(false)
             }}
+            doctor_id = {id}
+            visits = {visits}
         />
         </Row>
         </Form>

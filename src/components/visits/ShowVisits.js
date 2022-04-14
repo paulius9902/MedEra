@@ -12,18 +12,12 @@ import useTableSearch from "./useTableSearch";
 const ShowVisits = () => {
 
   const [visits, setVisits] = useState([]);
+  const [visits_dates, setVisitsDates] = useState([]);
   const [visible, setVisible] = useState(false);
   const [loading_data, setLoading] = useState(true);
   const [searchVal, setSearchVal] = useState(null);
-  const [filteredData, setFilteredData] = useTableSearch(
-                                                      searchVal,
-                                                      visits
-                                                    );
-
-  /*const { filteredData } = useTableSearch({
-    searchVal,
-    retrieve: visits
-  });*/
+  const [filteredData] = useTableSearch(searchVal, visits);
+  const [doctors, setDoctors] = useState([]);
 
   const onCreate = async(values, form) => {
     values.status = 1
@@ -32,8 +26,9 @@ const ShowVisits = () => {
     await axios.post(`api/visit`, values).then(response=>{
       setLoading(true);
       console.log(response.data);
-      getAllVisit();
       form.resetFields();
+      getAllVisitDates();
+      getAllVisit();
       notification.success({ message: 'Vizitas sukurtas!' });
     })
     setVisible(false);
@@ -42,6 +37,7 @@ const ShowVisits = () => {
   const deleteVisit = async (id) => {
     try {
       await axios.delete(`api/visit/${id}`);
+      getAllVisitDates();
       getAllVisit();
       notification.success({ message: 'Sėkmingai ištrinta!' });
     } catch (error) {
@@ -80,10 +76,23 @@ const ShowVisits = () => {
       const res = await axios.get('api/visit');
       setVisits(res.data);
       setLoading(false);
-      setFilteredData();
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const getAllVisitDates = async () => {
+    try {
+      const res = await axios.get('api/visit_dates');
+      setVisitsDates(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const loadDoctors = async () => {
+    const result = await axios.get("api/doctor");
+    setDoctors(result.data.reverse());
   };
 
   const confirmHandler = id => {
@@ -92,6 +101,8 @@ const ShowVisits = () => {
   };
 
   useEffect(() => {
+    getAllVisitDates();
+    loadDoctors();
     getAllVisit();
   }, []);
 
@@ -166,7 +177,7 @@ const ShowVisits = () => {
         }
      },
      render: (text) => (
-        <Tooltip title={text}>
+        <Tooltip title={text} placement="topLeft">
            <div style={{textOverflow: 'ellipsis', overflow: 'hidden'}}>{text}</div>
         </Tooltip>
      )
@@ -286,8 +297,8 @@ const ShowVisits = () => {
         onCancel={() => {
           setVisible(false);
         }}
-        getAllVisit={getAllVisit}
-        visits={visits}
+        visits={visits_dates}
+        doctors = {doctors}
       />
     </>
   );

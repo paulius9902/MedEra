@@ -31,7 +31,7 @@ const ShowPatients = () => {
       values.image="https://www.shareicon.net/data/512x512/2016/09/01/822726_user_512x512.png"
     }
     values.birthday = values.birthday.toISOString().split('T')[0]
-    values.full_name = values.name || ' ' || values.surname
+    values.full_name = values.name + ' ' + values.surname
     console.log(values);
     await axios.post(`api/patient`, values)
     .then(response=>{
@@ -77,7 +77,8 @@ const ShowPatients = () => {
     {
       title: "ID",
       dataIndex: 'patient_id',
-      key: "patient_id"
+      key: "patient_id",
+      sorter: (a, b) => a.patient_id - b.patient_id,
     },
     {
       title: "Vardas",
@@ -97,7 +98,19 @@ const ShowPatients = () => {
     {
       title: "Lytis",
       dataIndex: 'gender',
-      key: "gender"
+      key: "gender",
+      filters: [
+        {
+          text: 'Vyras',
+          value: 'V',
+        },
+        {
+          text: 'Moteris',
+          value: 'M',
+        },
+      ],
+      onFilter: (value, record) => record.gender.toString()===value,
+      render: (text, record) => record.gender === 'V' ? 'Vyras' : 'Moteris'
     },
     {
       title: "Telefono nr.",
@@ -142,7 +155,7 @@ const ShowPatients = () => {
         allowClear
         onChange={(e) => setSearchVal(e.target.value)}
         suffix={
-          <Tooltip title="Įveskite gydytoją arba pacientą">
+          <Tooltip title="Įveskite pacientą">
             <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
           </Tooltip>}
         enterButton

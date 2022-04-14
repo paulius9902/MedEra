@@ -62,20 +62,29 @@ const AddDiagnosisModal = ({ visible, onCreate, onCancel }) => {
                         message: "Pasirinkite pacientą"
                       }
                     ]}>
-          <Select >
+          <Select showSearch filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0} placeholder="Pasirinkite pacientą" >
             {patients.map((patient, index) => (
                 <Option key={index} value={patient.patient_id}>{patient.name + " " + patient.surname + "  |  " + patient.birthday}</Option>
               ))}
           </Select>
         </Form.Item>
+        <Form.Item name="name" label="Diagnozė:"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Įveskite diagnozę!"
+                      }
+                    ]}>
+          <Input placeholder="Diagnozės pavadinimas"/>
+        </Form.Item>
         <Form.Item name="description" label="Aprašymas:"
                     rules={[
                       {
                         required: true,
-                        message: "Įveskite aprašymą!"
+                        message: "Įveskite diagnozės aprašymą!"
                       }
                     ]}>
-          <Input/>
+          <Input.TextArea placeholder="Diagnozės aprašymas" showCount maxLength={500}/>
         </Form.Item>
         </Col>
           </Row>

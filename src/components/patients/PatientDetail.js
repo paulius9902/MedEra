@@ -90,6 +90,7 @@ const COLUMNS = [
 
 const onUpdate = async(values) => {
     console.log(values);
+    values.full_name = values.name + ' ' + values.surname
     await axios.patch(`api/patient/${id}`, values).then(response=>{
       console.log(response.data);
       getSinglePatient();

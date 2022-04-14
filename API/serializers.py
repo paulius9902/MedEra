@@ -118,6 +118,11 @@ class CustomUserRegSerializer(serializers.ModelSerializer):
         model = NewUser
         fields=('id', 'email',)
 
+class VisitDatesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Visits
+        fields=('doctor_id', 'start_date',)
+
 class ChangePasswordSerializer(serializers.Serializer):
     model = NewUser
     old_password = serializers.CharField(required=True)

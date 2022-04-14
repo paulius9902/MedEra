@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from API.models import VisitStatuses, Visits, NewUser, Patients
-from API.serializers import VisitSerializer, VisitSerializerDoctorPatient, PatientSerializer, VisitStatusSerializer
+from API.serializers import VisitDatesSerializer, VisitSerializer, VisitSerializerDoctorPatient, PatientSerializer, VisitStatusSerializer
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
 from API.serializers import CustomUserSerializer
@@ -172,3 +172,9 @@ class VisitCancelEmail(APIView):
         data = {'email_body': email_body, 'to_email': user_serializer.data["email"], 'email_subject': subject}
         Util.send_email(data)
         return Response("Sėkmingai išsiųsta!")
+
+class VisitDatesList(APIView):
+    def get(self, request):
+        visits = Visits.objects.all()
+        visits_serializer = VisitDatesSerializer(visits, many=True)
+        return JsonResponse(visits_serializer.data, safe=False)
