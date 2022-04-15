@@ -14,7 +14,6 @@ const AddLaboratoryTestModal = ({ visible, onCreate, onCancel }) => {
   const { Title } = Typography;
   const [patients, setPatients] = useState([]);
   const [test_date, setTestDate] = useState(null);
-  const [file_url, setFileUrl] = useState(null);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
   const [form] = Form.useForm();
   const [document, setDocument] = useState([]);
@@ -43,7 +42,7 @@ const AddLaboratoryTestModal = ({ visible, onCreate, onCancel }) => {
     }, 0);
   };
 
-  const uploadDocument = (file) => {
+  const uploadDocument = (file, values) => {
     if (!file) return;
     const sotrageRef = ref(storage, `files/${file.name}`);
     const uploadTask = uploadBytesResumable(sotrageRef, file);
@@ -60,7 +59,8 @@ const AddLaboratoryTestModal = ({ visible, onCreate, onCancel }) => {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           console.log("File available at", downloadURL);
-          setFileUrl(downloadURL);
+          values.docfile = downloadURL;
+          onCreate(values);
         });
       }
     );
@@ -80,11 +80,8 @@ const AddLaboratoryTestModal = ({ visible, onCreate, onCancel }) => {
                   console.log(values)
                   setConfirmLoading(true);
                   setTimeout(() => {
-                    console.log('failas: '+values.document.file.originFileObj)
-                    uploadDocument(values.document.file.originFileObj);
-                    values.docfile = file_url;
-                    console.log('duomenys: '+ values.data)
-                    onCreate(values);
+                    console.log('failas: '+values.document.file.originFileObj, values)
+                    uploadDocument(values.document.file.originFileObj, values);
                     setConfirmLoading(false);
                   }, 500);
                   
@@ -115,7 +112,7 @@ const AddLaboratoryTestModal = ({ visible, onCreate, onCancel }) => {
                         message: "Pasirinkite pacientą"
                       }
                     ]}>
-          <Select >
+          <Select showSearch  placeholder="Pasirinkite pacientą" filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}>
             {patients.map((patient, index) => (
                 <Option key={index} value={patient.patient_id}>{patient.name + " " + patient.surname + "  |  " + patient.birthday}</Option>
               ))}
@@ -138,7 +135,7 @@ const AddLaboratoryTestModal = ({ visible, onCreate, onCancel }) => {
           dateFormat="yyyy-MM-dd HH:mm"
           timeIntervals={5}
           dropdownMode="select"
-          placeholder="Pasirinkite tyrimo datą:"
+          placeholderText="Pasirinkite tyrimo datą"
           locale={lt}/>
         </Form.Item>
         <Form.Item name="name" label="Pavadinimas:"
@@ -148,7 +145,7 @@ const AddLaboratoryTestModal = ({ visible, onCreate, onCancel }) => {
                         message: "Įveskite pavadinimą!"
                       }
                     ]}>
-          <Input/>
+          <Input placeholder="Tyrimo pavadinimas"/>
         </Form.Item>
         <Form.Item name="document" label="Failas"
                     rules={[

@@ -65,7 +65,7 @@ const AddVisitModal = ({ visible, onCreate, onCancel, visits, doctors}) => {
               <Avatar shape="square" size={100} icon={<CalendarOutlined />} />
             </Col>
             <Col span={18}>
-        <Form.Item name="doctor" label="Pasirinkite gydytoją"
+        <Form.Item name="doctor" label="Pasirinkite gydytoją:"
                     rules={[
                       {
                         required: true,

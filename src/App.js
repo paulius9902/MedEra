@@ -21,6 +21,7 @@ import ShowVisits from "./components/visits/ShowVisits";
 import Profile from "./components/profile/Profile";
 import ChangePassword from "./components/profile/ChangePassword";
 import ShowUsers from "./components/users/ShowUsers";
+import NotFound from "./components/layout/NotFound";
 
 const { Content, Footer } = Layout;
 
@@ -72,7 +73,9 @@ class App extends React.Component {
 
                                         <Route exact path="/" element={<Home/>} />
 
-                                        <Route exact path="*" element={<Home/>} />
+                                        <Route exact path="*" element={<NotFound/>} />
+
+                                        <Route exact path="/not_found/" element={<NotFound/>} />
                                     </Routes>
                                 </main>
                             </div>

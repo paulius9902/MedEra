@@ -62,14 +62,10 @@ function UpdatePrescription({getAllPrescriptions, setLoading, ...record}) {
             .then((values) => {
               console.log(values)
               handleOk(values, record.prescription_id);
-              //onUpdateRefresh();
-              //getAllDiagnosis();
-              //ShowDiagnoses.getAllDiagnosis();
             })
             .catch((info) => {
               console.log("Validate Failed:", info);
             });
-            //window.location.reload()
         }}
         confirmLoading={confirmLoading}
         cancelText="Atšaukti"
@@ -93,7 +89,12 @@ function UpdatePrescription({getAllPrescriptions, setLoading, ...record}) {
             <Col span={18}>
             <Form.Item
                 label="Vaistas:"
-                rules={[{ required: true }]}
+                rules={[
+                  {
+                    required: true,
+                    message: "Įveskite vaisto pavadinimą!"
+                  }
+                ]}
                 style={{ width: "100%" }}
                 name="medicine"
               >
@@ -101,7 +102,12 @@ function UpdatePrescription({getAllPrescriptions, setLoading, ...record}) {
               </Form.Item>
               <Form.Item
                 label="Vartojimas:"
-                rules={[{ required: true }]}
+                rules={[
+                  {
+                    required: true,
+                    message: "Įveskite vaisto vartojimo aprašymą!"
+                  }
+                ]}
                 style={{ width: "100%" }}
                 name="custom_usage"
               >

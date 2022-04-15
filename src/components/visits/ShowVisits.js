@@ -174,6 +174,26 @@ const ShowVisits = () => {
            }
         }
      },
+     
+     render: (text) => (
+        <Tooltip title={text} placement="topLeft">
+           <div style={{textOverflow: 'ellipsis', overflow: 'hidden'}}>{text}</div>
+        </Tooltip>
+     )
+    },
+    {
+      title: "Komentaras",
+      dataIndex: 'description',
+      key: "description",
+      onCell: () => {
+        return {
+           style: {
+              whiteSpace: 'nowrap',
+              maxWidth: 150,
+           }
+        }
+     },
+     
      render: (text) => (
         <Tooltip title={text} placement="topLeft">
            <div style={{textOverflow: 'ellipsis', overflow: 'hidden'}}>{text}</div>
@@ -228,19 +248,15 @@ const ShowVisits = () => {
         if (record.status.status_id===1) {
           return (
             <div>
-              <Link to={`/visit/`} onClick={() => confirmVisit(record.visit_id)}>
-                <CheckOutlined style={{color: "#87d068", fontSize: '150%'}} />
-              </Link>
-              <Link to={`/visit/`} onClick={() => cancelVisit(record.visit_id)} >
-                <CloseOutlined style={{color: "#f50", fontSize: '150%', marginLeft: 8,}} />
-              </Link>
-            </div>
-          );
-        }
-        else {
-          return (
-            <>
-              <UpdateVisitModal getAllVisit={getAllVisit} setLoading={setLoading} {...record}/>
+              {localStorage.getItem('is_patient') === 'false' &&
+              <React.Fragment>
+                <Link to={`/visit/`} onClick={() => confirmVisit(record.visit_id)}>
+                  <CheckOutlined style={{color: "#87d068", fontSize: '150%'}} />
+                </Link>
+                <Link to={`/visit/`} onClick={() => cancelVisit(record.visit_id)} >
+                  <CloseOutlined style={{color: "#f50", fontSize: '150%', marginLeft: 8,}} />
+                </Link>
+              </React.Fragment>}
               <Popconfirm
                 placement='topLeft'
                 title='Ar tikrai norite ištrinti?'
@@ -252,6 +268,26 @@ const ShowVisits = () => {
                   style={{ color: "#f50", marginLeft: 8, fontSize: '150%'}}
                 />
               </Popconfirm>
+            </div>
+          );
+        }
+        else if(record.status.status_id!==1){
+          return (
+            <>
+              {localStorage.getItem('is_doctor') === 'true' &&
+              <UpdateVisitModal getAllVisit={getAllVisit} setLoading={setLoading} {...record}/>}
+              {localStorage.getItem('is_patient') === 'false' &&
+              <Popconfirm
+                placement='topLeft'
+                title='Ar tikrai norite ištrinti?'
+                okText='Taip'
+                cancelText='Ne'
+                onConfirm={() => confirmHandler(record.visit_id)}
+              >
+                <DeleteOutlined
+                  style={{ color: "#f50", marginLeft: 8, fontSize: '150%'}}
+                />
+              </Popconfirm>}
             </>
           );
         }
@@ -263,7 +299,8 @@ const ShowVisits = () => {
     <>
       <h1>Vizitai</h1>
       <Divider></Divider>
-      <Button className="mr-2 mb-3" size='large' onClick={() => {setVisible(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti vizitą</Button>
+      {localStorage.getItem('is_patient') === 'true' &&
+      <Button className="mr-2 mb-3" size='large' onClick={() => {setVisible(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti vizitą</Button>}
       <Table  columns={COLUMNS} 
               dataSource={loading_data? [] : visits}
                 locale={{

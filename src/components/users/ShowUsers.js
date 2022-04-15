@@ -5,9 +5,12 @@ import {Button, Divider, Popconfirm, notification, Skeleton, Empty} from 'antd';
 import {PlusCircleOutlined, DeleteOutlined, CheckCircleOutlined, CloseCircleOutlined} from '@ant-design/icons';
 import AddUserAdminModal from './AddUserModal';
 import UpdateUserModal from './UpdateUserModal';
+import useGetColumnSearchProps from '../../utils/getColumnSearchProps';
+import { Link } from 'react-router-dom';
 //import { Button } from 'react-bootstrap';
 
 const ShowUsers = () => {
+  const getColumnSearchProps = useGetColumnSearchProps();
   const [users, setUsers] = useState([]);
   const [visible_create_admin, setVisibleCreateAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -69,42 +72,38 @@ const ShowUsers = () => {
     {
         title: "El. paštas",
         dataIndex: 'email',
-        key: "email"
+        key: "email",
+        ...getColumnSearchProps('email'),
     },
     {
         title: 'Pacientas',
-        children: [
-          {
-            title: "Vardas",
-            dataIndex: ['patient', 'name'],
-            key: "patient_name"
-          },
-          {
-            title: "Pavardė",
-            dataIndex: ['patient', 'surname'],
-            key: "patient_surname"
-          }
-        ]
+        dataIndex: ['patient', 'full_name'],
+        key: "patient_full_name",
+        ...getColumnSearchProps(['patient', 'full_name']),
+        render: (text, record) => record.patient===null?'':<Link to={'/patient/' + record.patient.patient_id}>{text}</Link>,
     },
     {
         title: 'Gydytojas',
-        children: [
-          {
-            title: "Vardas",
-            dataIndex: ['doctor', 'name'],
-            key: "doctor_name"
-          },
-          {
-            title: "Pavardė",
-            dataIndex: ['doctor', 'surname'],
-            key: "doctor_surname"
-          }
-        ]
+        dataIndex: ['doctor', 'full_name'],
+        key: "doctor_full_name",
+        ...getColumnSearchProps(['doctor', 'full_name']),
+        render: (text, record) => record.doctor===null?'':<Link to={'/doctor/' + record.doctor.doctor_id}>{text}</Link>,
     },
     {
         title: "Administratorius",
         dataIndex: 'is_superuser',
         key: "is_superuser",
+        filters: [
+          {
+            text: 'Taip',
+            value: true,
+          },
+          {
+            text: 'Ne',
+            value: false,
+          },
+        ],
+        onFilter: (value, record) => record.is_superuser===value,
         render :(is_superuser) => {
           if (is_superuser===true) {
             return (
@@ -121,6 +120,17 @@ const ShowUsers = () => {
       title: "Gydytojas",
       dataIndex: 'is_doctor',
       key: "is_doctor",
+      filters: [
+        {
+          text: 'Taip',
+          value: true,
+        },
+        {
+          text: 'Ne',
+          value: false,
+        },
+      ],
+      onFilter: (value, record) => record.is_doctor===value,
       render :(is_doctor) => {
         if (is_doctor===true) {
           return (
@@ -137,6 +147,17 @@ const ShowUsers = () => {
       title: "Pacientas",
       dataIndex: 'is_patient',
       key: "is_patient",
+      filters: [
+        {
+          text: 'Taip',
+          value: true,
+        },
+        {
+          text: 'Ne',
+          value: false,
+        },
+      ],
+      onFilter: (value, record) => record.is_patient===value,
       render :(is_patient) => {
         if (is_patient===true) {
           return (
@@ -153,6 +174,17 @@ const ShowUsers = () => {
       title: "Aktyvus",
       dataIndex: String('is_active'),
       key: "is_active",
+      filters: [
+        {
+          text: 'Taip',
+          value: true,
+        },
+        {
+          text: 'Ne',
+          value: false,
+        },
+      ],
+      onFilter: (value, record) => record.is_active===value,
       render :(is_active) => {
         if (is_active===true) {
           return (

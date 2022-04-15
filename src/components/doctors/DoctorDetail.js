@@ -72,7 +72,7 @@ return (
                         alt=""
                     />
                     }
-                actions={[
+                actions={localStorage.getItem('is_superuser') === 'true' &&[
                     <Link style={{fontSize: '125%' }} onClick={() => {setVisibleDoctor(true);}} to="#"><EditOutlined style={{color: "#2db7f5"}}/> Atnaujinti</Link>,
                     ]}>
                 </Card>
@@ -80,7 +80,10 @@ return (
             </Col>
             <Col span={18}>
                 <Card
-                actions={[
+                
+                actions=
+                    {localStorage.getItem('is_patient') === 'true' &&
+                    [
                     <Link style={{fontSize: '150%'}} to={'#'} onClick={() => {setVisibleVisit(true);}} ><PlusCircleOutlined style={{ color: "#87d068" }}/> Pridėti vizitą</Link>,
                     ]}>
                         <Descriptions title="Gydytojo duomenys" bordered>

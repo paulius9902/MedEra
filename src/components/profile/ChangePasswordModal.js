@@ -5,18 +5,9 @@ import axios from '../../axiosApi';
 const { Option } = Select;
 const ChangePasswordModal = ({ visible, onChangePassword, onCancel, error_message}) => {
   const { Title } = Typography;
-  const [patients, setPatients] = useState([]);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
   const [form] = Form.useForm();
 
-  useEffect(() => {
-    loadPatients();
-  }, []);
-
-  const loadPatients = async () => {
-    const result = await axios.get("api/patient");
-    setPatients(result.data.reverse());
-  };
   return (
     <Modal visible={visible} 
             title={<Title level={4}>Keisti slaptažodį</Title>} 

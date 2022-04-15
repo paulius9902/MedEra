@@ -66,7 +66,7 @@ const AddPrescriptionModal = ({ visible, onCreate, onCancel }) => {
                         message: "Pasirinkite pacientą"
                       }
                     ]}>
-          <Select >
+          <Select showSearch  placeholder="Pasirinkite pacientą" filterOption={(input, option) => option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}>
             {patients.map((patient, index) => (
                 <Option key={index} value={patient.patient_id}>{patient.name + " " + patient.surname + "  |  " + patient.birthday}</Option>
               ))}
@@ -88,7 +88,7 @@ const AddPrescriptionModal = ({ visible, onCreate, onCancel }) => {
           dateFormat="yyyy-MM-dd"
           timeIntervals={5}
           dropdownMode="select"
-          placeholder="Pasirinkite tyrimo datą:"
+          placeholderText="Recepto data"
           locale={lt}/>
         </Form.Item>
         <Form.Item name="medicine" label="Vaistas:"
@@ -98,10 +98,15 @@ const AddPrescriptionModal = ({ visible, onCreate, onCancel }) => {
                         message: "Įveskite vaisto pavadinimą!"
                       }
                     ]}>
-          <Input/>
+          <Input placeholder="Vaisto pavadinimas"/>
         </Form.Item>
-        <Form.Item name="custom_usage" label="Vartojimas:">
-          <Input/>
+        <Form.Item name="custom_usage" label="Vartojimas:" rules={[
+                      {
+                        required: true,
+                        message: "Įveskite vaisto vartojimo aprašymą!"
+                      }
+                    ]}>
+          <Input placeholder="Vaisto vartojimas"/>
         </Form.Item>
         </Col>
           </Row>

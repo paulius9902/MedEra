@@ -112,12 +112,13 @@ class SideBar extends React.Component {
             </Link>
           </Menu.Item>
 
+          {localStorage.getItem('is_patient') === 'false' &&
           <Menu.Item key="/patient" onClick={() => { this.setSelectedKeys("/patient")}}>
             <Link to="/patient">
               <IdcardOutlined style={iconSize}/>
               <span className="nav-text">Pacientai</span>
             </Link>
-          </Menu.Item>
+          </Menu.Item>}
 
           <Menu.Item key="/diagnosis" onClick={() => { this.setSelectedKeys("/diagnosis")}}>
             <Link to="/diagnosis">
@@ -140,12 +141,13 @@ class SideBar extends React.Component {
             </Link>
           </Menu.Item>
 
+          {localStorage.getItem('is_patient') === 'false' &&
           <Menu.Item key="/user" onClick={() => { this.setSelectedKeys("/user")}}>
             <Link to="/user">
               <UserOutlined style={iconSize}/>
               <span className="nav-text">Vartotojai</span>
             </Link>
-          </Menu.Item>
+          </Menu.Item>}
         </Menu>
       </Sider>
     );

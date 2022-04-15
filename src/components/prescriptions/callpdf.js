@@ -96,7 +96,7 @@ const callpdf = (record) => {
           columns: [
             { 
               width: "30%", 
-              text: `Vaistas`, 
+              text: `Vaistas:`, 
               style: "titleFirstRow" },
             { 
               width: "auto", 
@@ -108,11 +108,11 @@ const callpdf = (record) => {
           columns: [
             { 
               width: "30%", 
-              text: `Kiekis`, 
+              text: `Kiekis:`, 
               style: "titleFirstRow" },
             { 
               width: "auto", 
-              text: `${record.quantity}`, 
+              text: `${record.quantity}`!=='null'?`${record.quantity}`:`-`, 
               style: "textFirstRow" },
           ],
         },
@@ -120,11 +120,11 @@ const callpdf = (record) => {
           columns: [
             { 
               width: "30%", 
-              text: `Vartojimas`, 
+              text: `Vartojimas:`, 
               style: "titleFirstRow" },
             { 
               width: "auto", 
-              text: `${record.custom_usage}`, 
+              text: `${record.custom_usage}`!=='null'?`${record.custom_usage}`:`-`, 
               style: "textFirstRow" }
           ],
         },
@@ -134,11 +134,11 @@ const callpdf = (record) => {
           columns: [
             { 
               width: "30%", 
-              text: `Vardas`, 
+              text: `Vardas:`, 
               style: "titleFirstRow" },
             { 
               width: "auto", 
-              text: `${record.patient_name}`, 
+              text: `${record.patient.name}`, 
               style: "textFirstRow" }
           ]
         },
@@ -146,11 +146,11 @@ const callpdf = (record) => {
           columns: [
             { 
               width: "30%", 
-              text: `Pavardė`, 
+              text: `Pavardė:`, 
               style: "titleFirstRow" },
             { 
               width: "auto", 
-              text: `${record.patient_surname}`, 
+              text: `${record.patient.surname}`, 
               style: "textFirstRow" }
           ]
         },
@@ -158,11 +158,23 @@ const callpdf = (record) => {
           columns: [
             { 
               width: "30%", 
-              text: `Asmens kodas`, 
+              text: `Asmens kodas:`, 
               style: "titleFirstRow" },
             { 
               width: "auto", 
-              text: `${record.personal_code}`, 
+              text: `${record.patient.personal_code}`, 
+              style: "textFirstRow" }
+          ]
+        },
+        {
+          columns: [
+            { 
+              width: "30%", 
+              text: `Gimimo data:`, 
+              style: "titleFirstRow" },
+            { 
+              width: "auto", 
+              text: `${record.patient.birthday}`, 
               style: "textFirstRow" }
           ]
         },
@@ -172,11 +184,11 @@ const callpdf = (record) => {
           columns: [
             { 
               width: "30%", 
-              text: `Vardas`, 
+              text: `Vardas:`, 
               style: "titleFirstRow" },
             { 
               width: "auto", 
-              text: `${record.doctor_name}`, 
+              text: `${record.doctor.name}`, 
               style: "textFirstRow" }
           ]
         },
@@ -184,11 +196,23 @@ const callpdf = (record) => {
           columns: [
             { 
               width: "30%", 
-              text: `Pavardė`, 
+              text: `Pavardė:`, 
               style: "titleFirstRow" },
             { 
               width: "auto", 
-              text: `${record.doctor_surname}`, 
+              text: `${record.doctor.surname}`, 
+              style: "textFirstRow" }
+          ]
+        },
+        {
+          columns: [
+            { 
+              width: "30%", 
+              text: `Specializacija:`, 
+              style: "titleFirstRow" },
+            { 
+              width: "auto", 
+              text: `${record.doctor.specialization}`, 
               style: "textFirstRow" }
           ]
         },

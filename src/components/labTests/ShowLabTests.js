@@ -4,7 +4,6 @@ import Table from "antd/lib/table";
 import {Button, Divider, Popconfirm, notification, Skeleton, Empty} from 'antd';
 import {PlusCircleOutlined, DeleteOutlined, FilePdfOutlined} from '@ant-design/icons';
 import AddLabTestModal from './AddLabTestModal';
-import UpdateLabTestModal from './UpdateLabTestModal';
 import { Link } from 'react-router-dom';
 //import "./custom.css";
 //import { Button } from 'react-bootstrap';
@@ -93,7 +92,7 @@ const ShowLabTests = () => {
             <Button type="text" href={record.docfile}>
               <FilePdfOutlined style={{  fontSize: '150%'}}/>
             </Button>
-            <UpdateLabTestModal getAllLabTests={getAllLabTests} setLoading={setLoading} {...record}/>
+            {localStorage.getItem('is_patient') === 'false' &&
             <Popconfirm
               placement='topLeft'
               title='Ar tikrai norite ištrinti?'
@@ -102,9 +101,9 @@ const ShowLabTests = () => {
               onConfirm={() => confirmHandler(record.test_id)}
             >
               <DeleteOutlined
-                style={{ color: "#ff4d4f", marginLeft: 12, fontSize: '150%'}}
+                style={{ color: "#ff4d4f", fontSize: '150%'}}
               />
-            </Popconfirm>
+            </Popconfirm>}
           </div>
         );
       }
@@ -116,8 +115,9 @@ const ShowLabTests = () => {
     <>
       <h1>Laboratoriniai tyrimai</h1>
       <Divider></Divider>
+      {localStorage.getItem('is_doctor') === 'true' &&
       <Button className="mr-2 mb-3" size='large' onClick={() => {setVisibleCreate(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti lab. tyrimą</Button>
-
+      }
       <Table 
         columns={COLUMNS} 
         dataSource={loading? [] : lab_tests}

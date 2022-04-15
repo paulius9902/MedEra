@@ -3,41 +3,44 @@ import React, {useState, useEffect} from 'react';
 import { useParams} from 'react-router';
 import { Link } from 'react-router-dom';
 //import { Card, Row } from 'react-bootstrap';
-import {PlusCircleOutlined, EditOutlined, DeleteOutlined} from '@ant-design/icons';
+import {PlusCircleOutlined, EditOutlined, DeleteOutlined, HeartFilled} from '@ant-design/icons';
 import {notification, Card, Form, Row, Col, Descriptions, Popconfirm, Table, Divider} from 'antd';
 import UpdatePatientModal from './UpdatePatientModal';
 import AddPatientAllergiesModal from './AddPatientAllergiesModal';
+import { useNavigate } from "react-router-dom";
+
 const PatientDetail = () => {
 
-const [patient, setPatient] = useState([])
-const [allergies, setAllergies] = useState([])
-const [patient_allergies, setPatientAllergies] = useState([])
-const [filtered_allergies, setFilteredAllergies] = useState([])
-const {id} = useParams();
-const [visible_patient, setVisiblePatient] = useState(false);
-const [visible_patient_allergies, setVisiblePatientAllergies] = useState(false);
-const [visible_visit, setVisibleVisit] = useState(false);
+  const navigate = useNavigate();
+  const [patient, setPatient] = useState([])
+  const [allergies, setAllergies] = useState([])
+  const [patient_allergies, setPatientAllergies] = useState([])
+  const [filtered_allergies, setFilteredAllergies] = useState([])
+  const {id} = useParams();
+  const [visible_patient, setVisiblePatient] = useState(false);
+  const [visible_patient_allergies, setVisiblePatientAllergies] = useState(false);
+  const [visible_visit, setVisibleVisit] = useState(false);
 
-useEffect(() => {
-  console.log("-----")
-  console.log(allergies)
-  console.log(filtered_allergies)
-  console.log(filtered_allergies)
-  setFilteredAllergies(Object.values(allergies).filter(o1 => !Object.values(patient_allergies).some(o2 => o1.allergy_id === o2.allergy_id)))
-  /*allergies.map(function(allergy1, i){
-    console.log(allergy1)
-    patient_allergies.map(function(allergy2, i){
-      console.log(allergy2)
-      setFilteredAllergies(Object.values(allergy1).filter(o1 => !Object.values(allergy2).some(o2 => o1.allergy_id === o2.allergy_id)))
-    })
-  })*/
-  console.log("-----")
-}, [patient_allergies, allergies]);
+  useEffect(() => {
+    console.log("-----")
+    console.log(allergies)
+    console.log(filtered_allergies)
+    console.log(filtered_allergies)
+    setFilteredAllergies(Object.values(allergies).filter(o1 => !Object.values(patient_allergies).some(o2 => o1.allergy_id === o2.allergy_id)))
+    /*allergies.map(function(allergy1, i){
+      console.log(allergy1)
+      patient_allergies.map(function(allergy2, i){
+        console.log(allergy2)
+        setFilteredAllergies(Object.values(allergy1).filter(o1 => !Object.values(allergy2).some(o2 => o1.allergy_id === o2.allergy_id)))
+      })
+    })*/
+    console.log("-----")
+  }, [patient_allergies, allergies]);
 
-useEffect(() => {
-    getAllAllergies();
-    getSinglePatient();
-},[])
+  useEffect(() => {
+      getAllAllergies();
+      getSinglePatient();
+  },[])
 
 const COLUMNS = [
     {
@@ -136,7 +139,8 @@ const getSinglePatient = async () => {
       setPatientAllergies(response.data.allergies)
      })
     .catch((error)=>{
-       console.log(error);
+      console.log(error);
+      navigate('/not_found');
     });
 }
 

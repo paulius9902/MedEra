@@ -83,7 +83,6 @@ const ShowDiagnoses = () => {
           ref={searchInput}
           placeholder={`Paieška...`}
           value={selectedKeys[0]}
-          //onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
           onPressEnter={() => handleClose(confirm)}
           onChange={e => {
             setSelectedKeys(e.target.value ? [e.target.value] : []);
@@ -184,15 +183,15 @@ const ShowDiagnoses = () => {
         </Tooltip>
      )
   },
-    {
+  {
       title: "Veiksmai",
       key: "action",
       render: (record) => {
         return (
-          <div>
-            
-            
-            <UpdateDiagnosisModal getAllDiagnosis={getAllDiagnosis} setLoading={setLoading} {...record}/>
+          localStorage.getItem('is_patient') === 'false' &&
+          <React.Fragment>
+            {localStorage.getItem('is_doctor') === 'true' &&
+            <UpdateDiagnosisModal getAllDiagnosis={getAllDiagnosis} setLoading={setLoading} {...record}/>}
             <Popconfirm
               placement='topLeft'
               title='Ar tikrai norite ištrinti?'
@@ -204,17 +203,18 @@ const ShowDiagnoses = () => {
                 style={{ color: "#ff4d4f", marginLeft: 12, fontSize: '150%'}}
               />
             </Popconfirm>
-          </div>
+          </React.Fragment>
         );
       }
-    },
+  },
   ];
  
   return (
     <>
       <h1>Diagnozės</h1>
       <Divider></Divider>
-      <Button className="mr-2 mb-3" size='large' onClick={() => {setVisibleCreate(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti diagnozę</Button>
+      {localStorage.getItem('is_doctor') === 'true' &&
+      <Button className="mr-2 mb-3" size='large' onClick={() => {setVisibleCreate(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti diagnozę</Button>}
 
       <Table columns={COLUMNS} 
              dataSource={loading? [] : diagnoses}
@@ -223,13 +223,14 @@ const ShowDiagnoses = () => {
              }}
              size="middle" 
              rowKey={record => record.diagnosis_id} />
+      {localStorage.getItem('is_patient') === 'false' &&
       <AddDiagnosisModal
         visible={visible_create}
         onCreate={onCreate}
         onCancel={() => {
           setVisibleCreate(false);
         }}
-      />
+      />}
     </>
   );
 };

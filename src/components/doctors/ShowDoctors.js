@@ -2,7 +2,7 @@ import axios from '../../axiosApi';
 import React, {useState, useEffect} from 'react';
 import {Button, Card, Row, Col, Divider, notification, Popconfirm} from 'antd';
 import { Link } from 'react-router-dom';
-import {PlusCircleOutlined, InfoCircleOutlined, DeleteOutlined} from '@ant-design/icons';
+import {PlusCircleOutlined, InfoCircleOutlined, DeleteOutlined, LoginOutlined} from '@ant-design/icons';
 import AddDoctorModal from './AddDoctorModal';
 
 const ShowDoctors = () => {
@@ -83,7 +83,7 @@ const ShowDoctors = () => {
                         />
                         }
                         actions={[
-                        <Link to={`/doctor/${doctor.doctor_id}`}><InfoCircleOutlined key="info" style={{fontSize: '175%', color: '#08c'}}/></Link>,
+                        localStorage.getItem('is_patient') === 'false' &&
                         <Popconfirm
                             placement='topLeft'
                             title='Ar tikrai norite ištrinti?'
@@ -91,8 +91,9 @@ const ShowDoctors = () => {
                             cancelText='Ne'
                             onConfirm={() => confirmHandler(doctor.doctor_id)}
                             >
-                            <DeleteOutlined key="delete" style={{fontSize: '175%', color: '#ff4d4f'}}/>
+                            <DeleteOutlined key="delete" style={{fontSize: '150%', color: '#ff4d4f'}}/>
                         </Popconfirm>,
+                        <Link style={{fontSize: '125%', color: '#08c'}} to={`/doctor/${doctor.doctor_id}`}>Plačiau <LoginOutlined key="info" /></Link>,
                         ]}
                     >
                         <h2>{doctor.name} {doctor.surname}</h2>

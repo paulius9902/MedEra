@@ -6,10 +6,11 @@ import {PlusCircleOutlined, DeleteOutlined, FilePdfOutlined} from '@ant-design/i
 import AddPrescriptionModal from './AddPrescriptionModal';
 import UpdatePrescriptionModal from './UpdatePrescriptionModal';
 import callpdf from "./callpdf";
-//import "./custom.css";
-//import { Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import useGetColumnSearchProps from '../../utils/getColumnSearchProps';
 
 const ShowPrescriptions = () => {
+  const getColumnSearchProps = useGetColumnSearchProps();
   const [prescriptions, setPrescriptions] = useState([]);
   const [visible_create, setVisibleCreate] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -62,38 +63,23 @@ const ShowPrescriptions = () => {
     },
     {
         title: 'Pacientas',
-        children: [
-          {
-            title: "Vardas",
-            dataIndex: ['patient', 'name'],
-            key: "patient_name"
-          },
-          {
-            title: "Pavardė",
-            dataIndex: ['patient', 'surname'],
-            key: "patient_surname"
-          }
-        ]
+        dataIndex: ['patient', 'full_name'],
+        key: "patient_full_name",
+        ...getColumnSearchProps(['patient', 'full_name']),
+        render: (text, record) => <Link to={'/patient/' + record.doctor.doctor_id}>{text}</Link>,
     },
     {
         title: 'Gydytojas',
-        children: [
-          {
-            title: "Vardas",
-            dataIndex: ['doctor', 'name'],
-            key: "doctor_name"
-          },
-          {
-            title: "Pavardė",
-            dataIndex: ['doctor', 'surname'],
-            key: "doctor_surname"
-          }
-        ]
+        dataIndex: ['doctor', 'full_name'],
+        key: "doctor_full_name",
+        ...getColumnSearchProps(['doctor', 'full_name']),
+        render: (text, record) => <Link to={'/doctor/' + record.doctor.doctor_id}>{text}</Link>,
     },
     {
         title: "Vaistas",
         dataIndex: 'medicine',
-        key: "medicine"
+        key: "medicine",
+        ...getColumnSearchProps('medicine'),
     },
     {
         title: "Kiekis",
@@ -108,7 +94,8 @@ const ShowPrescriptions = () => {
     {
       title: "Diagnozė",
       dataIndex: ['diagnosis', 'description'],
-      key: "doctor_surname"
+      key: "doctor_surname",
+      ...getColumnSearchProps(['diagnosis', 'description']),
     },
     {
       title: "Veiksmas",
@@ -140,7 +127,8 @@ const ShowPrescriptions = () => {
     <>
       <h1>Receptai</h1>
       <Divider></Divider>
-      <Button className="mr-2 mb-3" size='large' onClick={() => {setVisibleCreate(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti receptą</Button>
+      {localStorage.getItem('is_doctor') === 'true' &&
+      <Button className="mr-2 mb-3" size='large' onClick={() => {setVisibleCreate(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti receptą</Button>}
 
       <Table 
         columns={COLUMNS} 

@@ -78,11 +78,10 @@ function UpdateVisitModal({getAllVisit, setLoading, ...record}) {
             </Col>
             <Col span={18}>
             <Form.Item
-                label="Aprašymas:"
-                rules={[{ required: true }]}
+                label="Vizito komentaras:"
                 style={{ width: "100%" }}
                 name="description">
-                <Input.TextArea showCount maxLength={2000} placeholder="Aprašymas" />
+                <Input.TextArea showCount maxLength={2000} placeholder="Komentaras apie vizitą" />
               </Form.Item>
             </Col>
           </Row>
