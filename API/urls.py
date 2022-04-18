@@ -26,6 +26,10 @@ urlpatterns=[
 
     path('patient/<int:patient_id>/allergy', views.PatientAllergyGetList.as_view(), name='patient_allergy_list'),
     path('patient/<int:patient_id>/allergy/<int:allergy_id>', views.PatientAllergyGet.as_view(), name='patient_allergy_detail'),
+    path('patient/<int:patient_id>/visit', views.PatientVisitsGetList.as_view(), name='patient_visit_list'),
+    path('patient/<int:patient_id>/diagnosis', views.PatientDiagnosisGetList.as_view(), name='patient_diagnosis_list'),
+    path('patient/<int:patient_id>/lab_test', views.PatientLaboratoryTestGetList.as_view(), name='patient_lab_test_list'),
+    path('patient/<int:patient_id>/prescription', views.PatientPrescriptionGetList.as_view(), name='patient_prescription_list'),
 
     path('visit', views.VisitGetList.as_view(), name='visit_list'),
     path('visit_dates', views.VisitDatesList.as_view(), name='visit_dates_list'),

@@ -3,14 +3,17 @@ import { Modal, Form, Input, Select, Card, Typography, Row, Col, Avatar} from "a
 import { FileDoneOutlined} from "@ant-design/icons";
 import axios from '../../axiosApi';
 const { Option } = Select;
-const AddDiagnosisModal = ({ visible, onCreate, onCancel }) => {
+const AddDiagnosisModal = ({ visible, onCreate, onCancel, patient_id}) => {
   const { Title } = Typography;
   const [patients, setPatients] = useState([]);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
   const [form] = Form.useForm();
 
   useEffect(() => {
-    loadPatients();
+    if (patient_id === null)
+    {
+      loadPatients();
+    }
   }, []);
 
   const loadPatients = async () => {
@@ -55,6 +58,7 @@ const AddDiagnosisModal = ({ visible, onCreate, onCancel }) => {
               <Avatar shape="square" size={100} icon={<FileDoneOutlined />} />
             </Col>
             <Col span={18}>
+      {patient_id===null &&
       <Form.Item name="patient" label="Pacientas:"
                     rules={[
                       {
@@ -67,7 +71,7 @@ const AddDiagnosisModal = ({ visible, onCreate, onCancel }) => {
                 <Option key={index} value={patient.patient_id}>{patient.name + " " + patient.surname + "  |  " + patient.birthday}</Option>
               ))}
           </Select>
-        </Form.Item>
+        </Form.Item>}
         <Form.Item name="name" label="Diagnozė:"
                     rules={[
                       {

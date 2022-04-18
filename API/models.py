@@ -129,7 +129,7 @@ class Prescriptions(models.Model):
     diagnosis = models.ForeignKey(Diagnoses, models.DO_NOTHING, blank=True, null=True)
     patient = models.ForeignKey(Patients, models.DO_NOTHING)
     doctor = models.ForeignKey(Doctors, models.DO_NOTHING)
-    date = models.DateField()
+    date = models.DateTimeField()
 
     class Meta:
         managed = False

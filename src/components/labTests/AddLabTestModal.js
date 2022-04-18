@@ -10,7 +10,7 @@ import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 
 const { Option } = Select;
 const { Dragger } = Upload;
-const AddLaboratoryTestModal = ({ visible, onCreate, onCancel }) => {
+const AddLaboratoryTestModal = ({ visible, onCreate, onCancel, patient_id }) => {
   const { Title } = Typography;
   const [patients, setPatients] = useState([]);
   const [test_date, setTestDate] = useState(null);
@@ -105,6 +105,7 @@ const AddLaboratoryTestModal = ({ visible, onCreate, onCancel }) => {
               <Avatar shape="square" size={100} icon={<ExperimentOutlined />} />
             </Col>
             <Col span={18}>
+      {patient_id===null &&
       <Form.Item name="patient" label="Pacientas:"
                     rules={[
                       {
@@ -117,7 +118,7 @@ const AddLaboratoryTestModal = ({ visible, onCreate, onCancel }) => {
                 <Option key={index} value={patient.patient_id}>{patient.name + " " + patient.surname + "  |  " + patient.birthday}</Option>
               ))}
           </Select>
-        </Form.Item>
+        </Form.Item>}
         <Form.Item name="test_date" label="Tyrimo data:" 
                       rules={[
                       {

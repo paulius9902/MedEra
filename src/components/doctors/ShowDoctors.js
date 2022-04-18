@@ -66,9 +66,12 @@ const ShowDoctors = () => {
     return (
         <div>
             <h1>Gydytojai</h1>
-            <Divider></Divider>
+            {localStorage.getItem('is_superuser') === 'true' &&
+            <React.Fragment>
+            <Divider style={{'background-color':"#08c"}}/>
             <Button className="mr-2 mb-3" size='large' onClick={() => {setVisible(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti gydytoją</Button>
-            <Divider></Divider>
+            </React.Fragment>}
+            <Divider style={{'background-color':"#08c"}}/>
             <div className="main-doctors-show">
             <Row gutter={[70, 24]} span={4}>
             {
@@ -83,7 +86,7 @@ const ShowDoctors = () => {
                         />
                         }
                         actions={[
-                        localStorage.getItem('is_patient') === 'false' &&
+                        localStorage.getItem('is_superuser') === 'true' &&
                         <Popconfirm
                             placement='topLeft'
                             title='Ar tikrai norite ištrinti?'

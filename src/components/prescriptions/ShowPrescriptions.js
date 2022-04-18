@@ -104,7 +104,9 @@ const ShowPrescriptions = () => {
         return (
           <div>
             <FilePdfOutlined onClick={() => callpdf(record)} style={{ marginRight: 12, fontSize: '150%'}}/>
-            <UpdatePrescriptionModal getAllPrescriptions={getAllPrescriptions} setLoading={setLoading} {...record}/>
+            {localStorage.getItem('is_doctor') === 'true' &&
+            <UpdatePrescriptionModal getAllPrescriptions={getAllPrescriptions} setLoading={setLoading} {...record}/>}
+            {localStorage.getItem('is_patient') === 'false' &&
             <Popconfirm
               placement='topLeft'
               title='Ar tikrai norite ištrinti?'
@@ -115,7 +117,7 @@ const ShowPrescriptions = () => {
               <DeleteOutlined
                 style={{ color: "#ff4d4f", marginLeft: 12, fontSize: '150%'}}
               />
-            </Popconfirm>
+            </Popconfirm>}
           </div>
         );
       }
@@ -126,7 +128,7 @@ const ShowPrescriptions = () => {
   return (
     <>
       <h1>Receptai</h1>
-      <Divider></Divider>
+      <Divider style={{'background-color':"#08c"}}/>
       {localStorage.getItem('is_doctor') === 'true' &&
       <Button className="mr-2 mb-3" size='large' onClick={() => {setVisibleCreate(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti receptą</Button>}
 
@@ -144,6 +146,7 @@ const ShowPrescriptions = () => {
         onCancel={() => {
           setVisibleCreate(false);
         }}
+        patient_id={null}
       />
     </>
   );

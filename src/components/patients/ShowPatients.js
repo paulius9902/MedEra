@@ -136,7 +136,7 @@ const ShowPatients = () => {
   return (
     <>
       <h1>Pacientai</h1>
-      <Divider></Divider>
+      <Divider style={{'background-color':"#08c"}}/>
       {localStorage.getItem('is_patient') === 'false' &&
       <Button className="mr-2 mb-3" size='large' onClick={() => {setVisible(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti pacientą</Button>}
       <Table columns={COLUMNS} 

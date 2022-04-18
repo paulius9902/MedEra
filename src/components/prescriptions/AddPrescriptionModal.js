@@ -6,7 +6,7 @@ import lt from "date-fns/locale/lt";
 import DatePicker from "react-datepicker";
 
 const { Option } = Select;
-const AddPrescriptionModal = ({ visible, onCreate, onCancel }) => {
+const AddPrescriptionModal = ({ visible, onCreate, onCancel, patient_id}) => {
   const { Title } = Typography;
   const [patients, setPatients] = useState([]);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
@@ -59,6 +59,7 @@ const AddPrescriptionModal = ({ visible, onCreate, onCancel }) => {
               <Avatar shape="square" size={100} icon={<AuditOutlined />} />
             </Col>
             <Col span={18}>
+      {patient_id===null &&
       <Form.Item name="patient" label="Pacientas:"
                     rules={[
                       {
@@ -71,7 +72,7 @@ const AddPrescriptionModal = ({ visible, onCreate, onCancel }) => {
                 <Option key={index} value={patient.patient_id}>{patient.name + " " + patient.surname + "  |  " + patient.birthday}</Option>
               ))}
           </Select>
-        </Form.Item>
+        </Form.Item>}
         <Form.Item name="date" label="Recepto data:" 
                       rules={[
                       {
@@ -83,10 +84,11 @@ const AddPrescriptionModal = ({ visible, onCreate, onCancel }) => {
           className="ant-input" 
           onChange={(date) => setPrescriptionDate(date)}
           peekNextMonth
+          showTimeSelect
           showMonthDropdown
           showYearDropdown
-          dateFormat="yyyy-MM-dd"
-          timeIntervals={5}
+          dateFormat="yyyy-MM-dd HH:mm"
+          timeIntervals={60}
           dropdownMode="select"
           placeholderText="Recepto data"
           locale={lt}/>

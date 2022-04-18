@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react';
 import { useParams} from 'react-router';
 import { Link } from 'react-router-dom';
 import {EditOutlined, CheckCircleOutlined, CloseCircleOutlined, LockOutlined} from '@ant-design/icons';
-import {notification, Card, Form, Row, Col, Descriptions} from 'antd';
+import {notification, Card, Form, Row, Col, Descriptions, Divider} from 'antd';
 import UpdateUserModal from './UpdateUserModal';
 import ChangePasswordModal from './ChangePasswordModal';
 
@@ -54,6 +54,7 @@ const getUser = async () => {
 }
     return (
         <Card bordered={false} size="small" style={{ padding: 15 }}>
+        <Divider style={{'background-color':"#08c"}}/>
         <Form layout="vertical">
             <Row>
                 <Col span={6}>
@@ -113,6 +114,7 @@ const getUser = async () => {
             />
             </Row>
             </Form>
+            <Divider style={{'background-color':"#08c"}}/>
             </Card>
     );
 };

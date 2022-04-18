@@ -17,7 +17,7 @@ const callpdf = (record) => {
           alignment: "left"
         },
         {
-          text: `${moment().format("YYYY--MM-DD")}`,
+          text: `${moment().format("YYYY-MM-DD")}`,
           fontSize: 10,
           alignment: "center"
         },
@@ -87,7 +87,7 @@ const callpdf = (record) => {
           style: "header"
         },
         {
-          text: `${record.date}`,
+          text: 'Galioja nuo: ' + `${record.date}`.slice(0, 19).replace('T', ' '),
           style: "date"
         },
         { text: "Receptas", style: "category" },

@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from API.models import Allergies, Patients, NewUser, PatientsAllergies
-from API.serializers import AllergySerializer, PatientSerializer, PatientAllergySerializer
+from API.models import Allergies, Diagnoses, LaboratoryTests, Patients, NewUser, PatientsAllergies, Prescriptions, Visits
+from API.serializers import AllergySerializer, DiagnosisSerializerDepth, LaboratoryTestSerializerDepth, PatientSerializer, PatientAllergySerializer, PrescriptionSerializerDepth, VisitSerializer, VisitSerializerDoctorPatient
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
 from API.serializers import CustomUserSerializer
@@ -111,3 +111,31 @@ class PatientAllergyGet(APIView):
             return HttpResponse('Paciento alergija nerasta!', status=404)
         comment.delete()
         return JsonResponse("Sėkmingai ištrinta!", safe=False)
+
+class PatientVisitsGetList(APIView):
+    permission_classes = [IsAuthenticated, ]
+    def get(self, request, patient_id):
+        visits = Visits.objects.filter(patient=patient_id)
+        visits_serializer=VisitSerializerDoctorPatient(visits, many=True)
+        return JsonResponse(visits_serializer.data, safe=False)
+
+class PatientDiagnosisGetList(APIView):
+    permission_classes = [IsAuthenticated, ]
+    def get(self, request, patient_id):
+        diagnoses = Diagnoses.objects.filter(patient=patient_id)
+        diagnoses_serializer=DiagnosisSerializerDepth(diagnoses, many=True)
+        return JsonResponse(diagnoses_serializer.data, safe=False)
+
+class PatientLaboratoryTestGetList(APIView):
+    permission_classes = [IsAuthenticated, ]
+    def get(self, request, patient_id):
+        laboratory_tests = LaboratoryTests.objects.filter(patient=patient_id)
+        laboratory_tests_serializer=LaboratoryTestSerializerDepth(laboratory_tests, many=True)
+        return JsonResponse(laboratory_tests_serializer.data, safe=False)
+
+class PatientPrescriptionGetList(APIView):
+    permission_classes = [IsAuthenticated, ]
+    def get(self, request, patient_id):
+        prescriptions = Prescriptions.objects.filter(patient=patient_id)
+        prescriptions_serializer=PrescriptionSerializerDepth(prescriptions, many=True)
+        return JsonResponse(prescriptions_serializer.data, safe=False)

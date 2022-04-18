@@ -114,7 +114,7 @@ const ShowLabTests = () => {
   return (
     <>
       <h1>Laboratoriniai tyrimai</h1>
-      <Divider></Divider>
+      <Divider style={{'background-color':"#08c"}}/>
       {localStorage.getItem('is_doctor') === 'true' &&
       <Button className="mr-2 mb-3" size='large' onClick={() => {setVisibleCreate(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti lab. tyrimą</Button>
       }
@@ -132,6 +132,7 @@ const ShowLabTests = () => {
         onCancel={() => {
           setVisibleCreate(false);
         }}
+        patient_id={null}
       />
     </>
   );
