@@ -78,6 +78,7 @@ const COLUMNS_ALLERGIES = [
         
           return (
             <>
+              {localStorage.getItem('is_doctor') === 'true' &&
               <Popconfirm
                 placement='topLeft'
                 title='Ar tikrai norite ištrinti?'
@@ -88,7 +89,7 @@ const COLUMNS_ALLERGIES = [
                 <DeleteOutlined
                   style={{ color: "#f50", marginLeft: 12, fontSize: '150%'}}
                 />
-              </Popconfirm>
+              </Popconfirm>}
             </>
           );
       }
@@ -571,7 +572,7 @@ return (
               </Col>
               <Col span={11} offset={1}>
                 <Card
-                    actions={[
+                    actions={localStorage.getItem('is_doctor') === 'true' &&[
                         <Link style={{fontSize: '125%' }} to={'#'} onClick={() => {setVisiblePatientAllergies(true);}} ><PlusCircleOutlined style={{ color: "#87d068" }}/> Pridėti alergiją</Link>,
                         ]}>
                     <Descriptions title="Alergijos" bordered></Descriptions>

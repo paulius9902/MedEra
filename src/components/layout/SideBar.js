@@ -2,7 +2,7 @@ import React from "react";
 //import "./styles.css";
 import axiosInstance from '../../axiosApi';
 import { Layout, Menu} from "antd";
-import { FileDoneOutlined, AuditOutlined, UserOutlined, IdcardOutlined, ExperimentOutlined, CalendarOutlined, MedicineBoxOutlined} from '@ant-design/icons';
+import { FileDoneOutlined, AuditOutlined, UserOutlined, ExperimentOutlined, CalendarOutlined, MedicineBoxOutlined, IdcardOutlined} from '@ant-design/icons';
 import PropTypes from 'prop-types';
 import {Link } from "react-router-dom";
 
@@ -101,7 +101,7 @@ class SideBar extends React.Component {
           {localStorage.getItem('is_patient') === 'true' &&
           <Menu.Item key="/user" onClick={() => { this.setSelectedKeys("/patient_info")}}>
             <Link to={`/patient/${localStorage.getItem('patient_id')}`}>
-              <UserOutlined style={iconSize}/>
+              <IdcardOutlined style={iconSize}/>
               <span className="nav-text">Paciento kortelė</span>
             </Link>
           </Menu.Item>}
