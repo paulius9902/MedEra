@@ -125,7 +125,7 @@ class Prescriptions(models.Model):
     prescription_id = models.AutoField(primary_key=True)
     medicine = models.CharField(max_length=100)
     custom_usage = models.CharField(max_length=200, blank=True, null=True)
-    quantity = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
+    quantity = models.CharField(max_length=50, blank=True, null=True)
     diagnosis = models.ForeignKey(Diagnoses, models.DO_NOTHING, blank=True, null=True)
     patient = models.ForeignKey(Patients, models.DO_NOTHING)
     doctor = models.ForeignKey(Doctors, models.DO_NOTHING)

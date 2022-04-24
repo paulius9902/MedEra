@@ -61,10 +61,16 @@ const ShowLabTests = () => {
       key: "test_id"
     },
     {
-        title: "Data",
+        title: "Pridėjimo data",
         dataIndex: 'creation_date',
         key: "creation_date",
         render: (text, record) => text.slice(0, 19).replace('T', ' ')
+    },
+    {
+      title: "Tyrimo data",
+      dataIndex: 'test_date',
+      key: "test_date",
+      render: (text, record) => text.slice(0, 19).replace('T', ' ')
     },
     {
         title: 'Pacientas',

@@ -62,6 +62,12 @@ const ShowPrescriptions = () => {
       key: "prescription_id"
     },
     {
+      title: 'Išrašymo data',
+      dataIndex: 'date',
+      key: "date",
+      render: (text, record) => text.slice(0, 10).replace('T', ' ')
+  },
+    {
         title: 'Pacientas',
         dataIndex: ['patient', 'full_name'],
         key: "patient_full_name",
@@ -90,12 +96,6 @@ const ShowPrescriptions = () => {
       title: "Vartojimas",
       dataIndex: 'custom_usage',
       key: "custom_usage"
-    },
-    {
-      title: "Diagnozė",
-      dataIndex: ['diagnosis', 'description'],
-      key: "doctor_surname",
-      ...getColumnSearchProps(['diagnosis', 'description']),
     },
     {
       title: "Veiksmas",

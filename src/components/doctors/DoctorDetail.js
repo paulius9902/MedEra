@@ -89,8 +89,10 @@ return (
                         <Descriptions title="Gydytojo duomenys" bordered>
                             <Descriptions.Item label="Vardas" span={3}>{doctor.name}</Descriptions.Item>
                             <Descriptions.Item label="Pavardė" span={3}>{doctor.surname}</Descriptions.Item>
-                            <Descriptions.Item label="Gimimo data" span={2}>{doctor.birthday ? doctor.birthday : '-'}</Descriptions.Item>
-                            <Descriptions.Item label="Telefono nr." span={2}>{doctor.phone_number}</Descriptions.Item>
+                            <Descriptions.Item label="Specializacija" span={3}>{doctor.specialization ? doctor.specialization : '-'}</Descriptions.Item>
+                            <Descriptions.Item label="Kabinetas">{doctor.room}</Descriptions.Item>
+                            <Descriptions.Item label="Gimimo data">{doctor.birthday ? doctor.birthday : '-'}</Descriptions.Item>
+                            <Descriptions.Item label="Telefono nr.">{doctor.phone_number}</Descriptions.Item>
                         </Descriptions>
                 </Card>
             </Col>

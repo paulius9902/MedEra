@@ -87,7 +87,7 @@ const callpdf = (record) => {
           style: "header"
         },
         {
-          text: 'Galioja nuo: ' + `${record.date}`.slice(0, 19).replace('T', ' '),
+          text: 'Galioja nuo: ' + `${record.date}`.slice(0, 10).replace('T', ' '),
           style: "date"
         },
         { text: "Receptas", style: "category" },

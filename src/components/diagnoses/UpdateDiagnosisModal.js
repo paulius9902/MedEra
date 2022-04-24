@@ -1,6 +1,6 @@
 import React from "react";
 import "antd/dist/antd.css";
-import { Modal, Typography, notification, Form, Card, Row, Col, Avatar, Input} from "antd";
+import { Modal, Typography, notification, Form, Card, Row, Col, Avatar, Input, InputNumber} from "antd";
 import { EditOutlined, FileDoneOutlined} from "@ant-design/icons";
 import axios from '../../axiosApi';
 //import { ShowDiagnoses} from './ShowDiagnoses';
@@ -77,6 +77,11 @@ function UpdateUser({getAllDiagnosis, setLoading, ...record}) {
         <Form form={form} layout="vertical"
           initialValues={{
             description: record.description,
+            name: record.name,
+            temperature: record.temperature,
+            systolic_blood_pressure: record.systolic_blood_pressure,
+            diastolic_blood_pressure: record.diastolic_blood_pressure,
+            heart_rate: record.heart_rate,
         }}>
           
           <Row>
@@ -86,12 +91,71 @@ function UpdateUser({getAllDiagnosis, setLoading, ...record}) {
             <Col span={18}>
               <Form.Item
                 label="Diagnozė:"
-                rules={[{ required: true }]}
+                rules={[
+                  {
+                    required: true,
+                    message: "Įveskite diagnozę!"
+                  }
+                ]}
                 style={{ width: "100%" }}
-                name="description"
+                name="name"
               >
                 <Input placeholder="Diagnozė" />
               </Form.Item>
+                    <Form.Item name="description" label="Aprašymas:"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Įveskite diagnozės aprašymą!"
+                            }
+                          ]}>
+                <Input.TextArea placeholder="Diagnozės aprašymas" showCount maxLength={500}/>
+              </Form.Item>
+              <Form.Item  name="temperature" label="Temperatūra:">
+           <InputNumber
+              min={30}
+              max={45}
+              style={{
+                width: '100%',
+              }}
+              type="number"
+              placeholder="Temperatūra"
+              step="0.1"
+            />
+        </Form.Item>
+        <Form.Item  name="systolic_blood_pressure" label="Sistolinis kraujospūdis:">
+           <InputNumber
+              min={80}
+              max={220}
+              style={{
+                width: '100%',
+              }}
+              type="number"
+              placeholder="Sistolinis kraujospūdis"
+            />
+        </Form.Item>
+        <Form.Item  name="diastolic_blood_pressure" label="Diastolinis kraujospūdis:">
+           <InputNumber
+              min={50}
+              max={160}
+              style={{
+                width: '100%',
+              }}
+              type="number"
+              placeholder="Diastolinis kraujospūdis"
+            />
+        </Form.Item>
+        <Form.Item  name="heart_rate" label="Pulsas:">
+           <InputNumber
+              min={30}
+              max={45}
+              style={{
+                width: '100%',
+              }}
+              type="number"
+              placeholder="Pulsas"
+            />
+        </Form.Item>
             </Col>
           </Row>
         </Form>

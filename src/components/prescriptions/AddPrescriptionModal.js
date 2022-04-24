@@ -102,6 +102,14 @@ const AddPrescriptionModal = ({ visible, onCreate, onCancel, patient_id}) => {
                     ]}>
           <Input placeholder="Vaisto pavadinimas"/>
         </Form.Item>
+        <Form.Item name="quantity" label="Kiekis:" rules={[
+                      {
+                        required: true,
+                        message: "Įveskite vaisto kiekį!"
+                      }
+                    ]}>
+          <Input placeholder="Kiekis"/>
+        </Form.Item>
         <Form.Item name="custom_usage" label="Vartojimas:" rules={[
                       {
                         required: true,

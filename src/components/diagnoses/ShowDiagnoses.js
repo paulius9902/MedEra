@@ -184,6 +184,24 @@ const ShowDiagnoses = () => {
      )
   },
   {
+    title: "Sistolinis/diastolinis kraujospūdis",
+    dataIndex: 'systolic_blood_pressure',
+    key: "systolic_blood_pressure",
+    render: (text, record) => (
+      <span>{record.systolic_blood_pressure}/{record.diastolic_blood_pressure}</span>
+    )
+  },
+  {
+    title: "Pulsas",
+    dataIndex: 'heart_rate',
+    key: "heart_rate",
+  },
+  {
+    title: "Temperatūra",
+    dataIndex: 'temperature',
+    key: "temperature",
+  },
+  {
       title: "Veiksmai",
       key: "action",
       render: (record) => {

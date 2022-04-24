@@ -80,6 +80,7 @@ function UpdatePrescription({getAllPrescriptions, setLoading, ...record}) {
           initialValues={{
             medicine: record.medicine,
             custom_usage: record.custom_usage,
+            quantity: record.quantity,
         }}>
           
           <Row>
@@ -99,6 +100,14 @@ function UpdatePrescription({getAllPrescriptions, setLoading, ...record}) {
                 name="medicine"
               >
                 <Input placeholder="Vaistas" />
+              </Form.Item>
+                    <Form.Item name="quantity" label="Kiekis:" rules={[
+                            {
+                              required: true,
+                              message: "Įveskite vaisto kiekį!"
+                            }
+                          ]}>
+                <Input placeholder="Kiekis"/>
               </Form.Item>
               <Form.Item
                 label="Vartojimas:"

@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { Modal, Form, Input, Select, Card, Typography, Row, Col, Avatar} from "antd";
+import { Modal, Form, Input, Select, Card, Typography, Row, Col, Avatar, InputNumber} from "antd";
 import { FileDoneOutlined} from "@ant-design/icons";
 import axios from '../../axiosApi';
 const { Option } = Select;
@@ -80,6 +80,51 @@ const AddDiagnosisModal = ({ visible, onCreate, onCancel, patient_id}) => {
                       }
                     ]}>
           <Input placeholder="Diagnozės pavadinimas"/>
+        </Form.Item>
+        <Form.Item  name="temperature" label="Temperatūra:">
+           <InputNumber
+              min={30}
+              max={45}
+              style={{
+                width: '100%',
+              }}
+              type="number"
+              placeholder="Temperatūra"
+              step="0.1"
+            />
+        </Form.Item>
+        <Form.Item  name="systolic_blood_pressure" label="Sistolinis kraujospūdis:">
+           <InputNumber
+              min={80}
+              max={220}
+              style={{
+                width: '100%',
+              }}
+              type="number"
+              placeholder="Sistolinis kraujospūdis"
+            />
+        </Form.Item>
+        <Form.Item  name="diastolic_blood_pressure" label="Diastolinis kraujospūdis:">
+           <InputNumber
+              min={50}
+              max={160}
+              style={{
+                width: '100%',
+              }}
+              type="number"
+              placeholder="Diastolinis kraujospūdis"
+            />
+        </Form.Item>
+        <Form.Item  name="heart_rate" label="Pulsas:">
+           <InputNumber
+              min={30}
+              max={45}
+              style={{
+                width: '100%',
+              }}
+              type="number"
+              placeholder="Pulsas"
+            />
         </Form.Item>
         <Form.Item name="description" label="Aprašymas:"
                     rules={[
