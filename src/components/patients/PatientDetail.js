@@ -360,7 +360,7 @@ const COLUMNS_ALLERGIES = [
 const onUpdate = async(values) => {
     console.log(values);
     values.full_name = values.name + ' ' + values.surname
-    values.termination_date = values.termination_date.toISOString().split('T')[0]
+    values.termination_date = values.termination_date ? values.termination_date.toISOString().split('T')[0] : values.termination_date
     await axios.patch(`api/patient/${id}`, values).then(response=>{
       console.log(response.data);
       getSinglePatient();

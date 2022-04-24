@@ -107,28 +107,6 @@ const AddPatientModal = ({ visible, onCreate, onCancel}) => {
               placeholder="Svoris"
             />
         </Form.Item>
-        <Form.Item  name="height" label="Ūgis(cm):">
-           <InputNumber
-              min={50}
-              max={250}
-              style={{
-                width: '100%',
-              }}
-              type="number"
-              placeholder="Ūgis"
-            />
-        </Form.Item>
-        <Form.Item  name="weight" label="Svoris(kg):">
-           <InputNumber
-              min={30}
-              max={200}
-              style={{
-                width: '100%',
-              }}
-              type="number"
-              placeholder="Svoris"
-            />
-        </Form.Item>
         <Form.Item name="termination_date" label="Gydosi iki:" >
         <DatePicker
           selected={termination_date}

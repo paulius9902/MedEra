@@ -6,18 +6,14 @@ import { Link } from 'react-router-dom';
 import {PlusCircleOutlined, DeleteOutlined, SearchOutlined} from '@ant-design/icons';
 import AddDiagnosisModal from './AddDiagnosisModal';
 import UpdateDiagnosisModal from './UpdateDiagnosisModal';
-import Highlighter from 'react-highlight-words';
 import "./custom.css";
-import get from "lodash.get";
-import isequal from "lodash.isequal";
+import useGetColumnSearchProps from '../../utils/getColumnSearchProps';
 
 const ShowDiagnoses = () => {
+  const getColumnSearchProps = useGetColumnSearchProps();
   const [diagnoses, setDiagnoses] = useState([]);
   const [visible_create, setVisibleCreate] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [searchText, setSearchText] = useState("");
-  const [searchedColumn, setSearchedColumn] = useState("");
-  const searchInput = useRef(null);
 
   useEffect(() => {
     getAllDiagnosis();
@@ -59,73 +55,6 @@ const ShowDiagnoses = () => {
     deleteDiagnosis(id);
   };
 
-  const  handleSearch = (selectedKeys, confirm, dataIndex) => {
-    confirm({ closeDropdown: false });
-    setSearchText(selectedKeys[0]);
-    setSearchedColumn(dataIndex)
-   
-  };
-
-  const handleReset = clearFilters => {
-    clearFilters();
-    setSearchText('')
-  };
-
-  const handleClose = confirm => {
-    confirm();
-  };
-
-  const getColumnSearchProps = dataIndex => ({
-
-    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-      <div style={{ padding: 8 }}>
-        <Input
-          ref={searchInput}
-          placeholder={`Paieška...`}
-          value={selectedKeys[0]}
-          onPressEnter={() => handleClose(confirm)}
-          onChange={e => {
-            setSelectedKeys(e.target.value ? [e.target.value] : []);
-            handleSearch(selectedKeys, confirm, dataIndex);}}
-          style={{ width: 188, marginBottom: 8, display: 'block' }}
-        />
-        <Space>
-          <Button
-            type="primary"
-            onClick={() => handleClose(confirm)}
-            icon={<SearchOutlined />}
-            size="small"
-            style={{ width: 90 }}
-          >
-            Uždaryti
-          </Button>
-          <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 90 }}>
-            Ištrinti
-          </Button>
-        </Space>
-      </div>
-    ),
-    filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
-    onFilter: (value, record) =>
-      get(record, dataIndex)
-        ? get(record, dataIndex).toString().toLowerCase().includes(value.toLowerCase())
-        : '',
-    onFilterDropdownVisibleChange: visible => {
-        if (visible) {    setTimeout(() => searchInput.current.select());   }
-    },
-    render: text =>
-      isequal(searchedColumn, dataIndex) ? (
-        <Highlighter
-          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-          searchWords={[searchText]}
-          autoEscape
-          textToHighlight={text.toString()}
-        />
-      ) : (
-        text
-      ),
-  });
-
   const COLUMNS = [
     {
       title: "ID",
@@ -151,12 +80,6 @@ const ShowDiagnoses = () => {
         key: "doctor_full_name",
         ...getColumnSearchProps(["doctor", "full_name"]),
         render: (text, record) => <Link to={'/doctor/' + record.doctor.doctor_id}>{text}</Link>,
-    },
-    {
-        title: "Vizito priežastis",
-        dataIndex: ['visit', 'health_issue'],
-        key: "visit_health_issue",
-        ...getColumnSearchProps(['visit', 'health_issue']),
     },
     {
         title: "Diagnozė",

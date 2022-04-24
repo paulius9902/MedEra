@@ -5,10 +5,12 @@ import {Button, Divider, Popconfirm, notification, Skeleton, Empty} from 'antd';
 import {PlusCircleOutlined, DeleteOutlined, FilePdfOutlined} from '@ant-design/icons';
 import AddLabTestModal from './AddLabTestModal';
 import { Link } from 'react-router-dom';
+import useGetColumnSearchProps from '../../utils/getColumnSearchProps';
 //import "./custom.css";
 //import { Button } from 'react-bootstrap';
 
 const ShowLabTests = () => {
+  const getColumnSearchProps = useGetColumnSearchProps();
   const [lab_tests, setLabTests] = useState([]);
   const [visible_create, setVisibleCreate] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -76,18 +78,21 @@ const ShowLabTests = () => {
         title: 'Pacientas',
         dataIndex: ['patient', 'full_name'],
         key: "patient_full_name",
+        ...getColumnSearchProps(['patient', 'full_name']),
         render: (text, record) => <Link to={'/patient/' + record.patient.patient_id}>{text}</Link>
     },
     {
         title: 'Gydytojas',
         dataIndex: ['doctor', 'full_name'],
         key: "doctor_full_name",
+        ...getColumnSearchProps(['doctor', 'full_name']),
         render: (text, record) => <Link to={'/doctor/' + record.doctor.doctor_id}>{text}</Link>,
     },
     {
         title: "Pavadinimas",
         dataIndex: 'name',
-        key: "name"
+        key: "name",
+        ...getColumnSearchProps('name'),
     },
     {
       title: "Veiksmas",
