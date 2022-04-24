@@ -83,7 +83,7 @@ const callpdf = (record) => {
       ...documentConfig,
       content: [
         {
-          text: "Įšrašytas receptas",
+          text: "Receptas",
           style: "header"
         },
         {
