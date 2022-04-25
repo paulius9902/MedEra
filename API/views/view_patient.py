@@ -19,7 +19,6 @@ class PatientGetList(APIView):
         else:
             patients = Patients.objects.filter(patient_id=user_serializer.data["patient"])
             patients_serializer = PatientSerializer(patients, many=True)
-            patients_serializer.data["full_name"]='a'
         return JsonResponse(patients_serializer.data, safe=False)
     def post(self, request):
         user = NewUser.objects.get(id=self.request.user.id)

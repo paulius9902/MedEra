@@ -29,12 +29,6 @@ class Doctors(models.Model):
         managed = False
         db_table = 'doctors'
 
-    def get_absolute_url(self):
-        return reverse("doctor_detail", args=[str(self.doctor_id)])
-
-    def __str__(self):
-        return f"Doctor: {self.name} {self.surname}"
-
 class VisitStatuses(models.Model):
     status_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
@@ -72,12 +66,6 @@ class Patients(models.Model):
     class Meta:
         managed = False
         db_table = 'patients'
-
-    def get_absolute_url(self):
-        return reverse("patient_detail", args=[str(self.patient_id)])
-
-    def __str__(self):
-        return f"Patient: {self.name} {self.surname}"
 
 class Visits(models.Model):
     start_date = models.DateTimeField()
@@ -170,6 +158,3 @@ class NewUser(AbstractBaseUser, PermissionsMixin):
     class Meta:
         managed = False
         db_table = 'users'
-
-    def __str__(self):
-        return self.email

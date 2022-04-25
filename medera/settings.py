@@ -110,8 +110,12 @@ DATABASES = {
         'PASSWORD': config('PASSWORD'),
         'HOST': 'ec2-54-220-166-184.eu-west-1.compute.amazonaws.com',
         'PORT': '5432',
+        'TEST': {
+            'NAME': config('DB_NAME'),
+        },
     }
 }
+
 db_from_env = dj_database_url.config(conn_max_age=600)
 DATABASES['default'].update(db_from_env)
 
