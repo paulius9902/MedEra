@@ -16,6 +16,7 @@ from API.views.view_auth import PasswordTokenViewAPI, RequestPasswordResetEmail,
 
 urlpatterns=[
     path('allergy', views.AllergyGetList.as_view(), name='allergy_list'),
+    path('allergy/<int:allergy_id>', views.AllergyGet.as_view(), name='allergy_detail'),
 
     path('doctor', views.DoctorGetList.as_view(), name='doctor_list'),
     path('doctor/<int:doctor_id>', views.DoctorGet.as_view(), name='doctor_detail'),

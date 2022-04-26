@@ -204,6 +204,16 @@ class UserAuthTests(APITestCase):
         self.assertTrue('access' in refresh)
         print('test_refresh_token OK')
 
+    def test_patient_reg(self):        
+        response = self.client.get(reverse('patient_reg'))
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        print('test_patient_reg OK')
+
+    def test_user_reg(self):        
+        response = self.client.get(reverse('user_reg'))
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        print('test_user_reg OK')
+
 class UserTests(APITestCase):
     def setUp(self):
         data = {
@@ -384,7 +394,7 @@ class LaboratoryTestCase(APITestCase):
         print('test_laboratory_test_list OK')
     
     def test_laboratory_test_get(self):
-        url = reverse('laboratory_test_detail', kwargs={'laboratory_test_id':15})
+        url = reverse('laboratory_test_detail', kwargs={'test_id':4})
 
         resp = self.client.get(url)
         self.assertEqual(resp.status_code, status.HTTP_200_OK)
@@ -395,7 +405,7 @@ class LaboratoryTestCase(APITestCase):
             "name": "test1"
         }
         
-        response = self.client.patch(reverse('laboratory_test_detail', kwargs={'laboratory_test_id':15}), data=payload, format='json')
+        response = self.client.patch(reverse('laboratory_test_detail', kwargs={'test_id':4}), data=payload, format='json')
         self.assertEqual(status.HTTP_200_OK, response.status_code)
         print('test_laboratory_test_patch OK')
     def test_laboratory_test_post(self):
@@ -413,6 +423,281 @@ class LaboratoryTestCase(APITestCase):
         self.assertEqual(status.HTTP_200_OK, response.status_code)
         print('test_laboratory_test_post OK')
     def test_laboratory_test_delete(self):        
-        response = self.client.delete(reverse('laboratory_test_detail', kwargs={'laboratory_test_id':15}))
+        response = self.client.delete(reverse('laboratory_test_detail', kwargs={'test_id':4}))
         self.assertEqual(status.HTTP_200_OK, response.status_code)
         print('test_laboratory_test_delete OK')
+
+class AllergyTestCase(APITestCase):
+    def setUp(self):
+        data = {
+            'email': 'doctor@doctor.com',
+            'password': 'doctor123'
+        }
+
+        tk_url = reverse('token_obtain_pair')
+        
+        resp = self.client.post(tk_url, data=data)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+
+        token = resp.json()
+        self.assertTrue('refresh' in token)
+        self.assertTrue('access' in token)
+
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token['access']}")
+    def test_allergy_list(self):
+        url = reverse('allergy_list')
+
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        print('test_allergy_list OK')
+    
+    def test_allergy_get(self):
+        url = reverse('allergy_detail', kwargs={'allergy_id':1})
+
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        print('test_allergy_get OK')
+
+class PrescriptionTestCase(APITestCase):
+    def setUp(self):
+        data = {
+            'email': 'doctor@doctor.com',
+            'password': 'doctor123'
+        }
+
+        tk_url = reverse('token_obtain_pair')
+        
+        resp = self.client.post(tk_url, data=data)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+
+        token = resp.json()
+        self.assertTrue('refresh' in token)
+        self.assertTrue('access' in token)
+
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token['access']}")
+    def test_prescription_list(self):
+        url = reverse('prescription_list')
+
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        print('test_prescription_list OK')
+    
+    def test_prescription_get(self):
+        url = reverse('prescription_detail', kwargs={'prescription_id':14})
+
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        print('test_prescription_get OK')
+
+    def test_prescription_patch(self):
+        payload = {
+            "medicine": "test"
+        }
+        
+        response = self.client.patch(reverse('prescription_detail', kwargs={'prescription_id':14}), data=payload, format='json')
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        print('test_prescription_patch OK')
+    def test_prescription_post(self):
+        payload = {
+            "medicine": "test",
+            "patient": 4,
+            "date":"2022-04-05 00:00:00"
+        }
+        
+        response = self.client.post(reverse('prescription_list'), data=payload, format='json')
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        print('test_prescription_post OK')
+    def test_prescription_delete(self):        
+        response = self.client.delete(reverse('prescription_detail', kwargs={'prescription_id':14}))
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        print('test_prescription_delete OK')
+
+class VisitTestCase(APITestCase):
+    def setUp(self):
+        data = {
+            'email': 'doctor@doctor.com',
+            'password': 'doctor123'
+        }
+
+        tk_url = reverse('token_obtain_pair')
+        
+        resp = self.client.post(tk_url, data=data)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+
+        token = resp.json()
+        self.assertTrue('refresh' in token)
+        self.assertTrue('access' in token)
+
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token['access']}")
+    def test_visit_list(self):
+        url = reverse('visit_list')
+
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        print('test_visit_list OK')
+    
+    def test_visit_get(self):
+        url = reverse('visit_detail', kwargs={'visit_id':2})
+
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        print('test_visit_get OK')
+
+    def test_visit_patch(self):
+        payload = {
+                "start_date": "2020-11-01T11:00:00"
+        }
+        
+        response = self.client.patch(reverse('visit_detail', kwargs={'visit_id':2}), data=payload, format='json')
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        print('test_visit_patch OK')
+    def test_visit_delete(self):        
+        response = self.client.delete(reverse('visit_detail', kwargs={'visit_id':2}))
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        print('test_visit_delete OK')
+
+class VisitTestCasePatient(APITestCase):
+    def setUp(self):
+        data = {
+            'email': 'patient@patient.com',
+            'password': 'patient123'
+        }
+
+        tk_url = reverse('token_obtain_pair')
+        
+        resp = self.client.post(tk_url, data=data)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+
+        token = resp.json()
+        self.assertTrue('refresh' in token)
+        self.assertTrue('access' in token)
+
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token['access']}")
+    
+    def test_visit_post(self):
+        payload = {
+            "start_date": "2022-03-24T11:00:00",
+            "doctor": 3,
+            "room": 4,
+            "health_issue": "Skauda galvą",
+            "status": 2
+        }
+        
+        response = self.client.post(reverse('visit_list'), data=payload, format='json')
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        print('test_visit_post OK')
+
+class VisitStatusTestCase(APITestCase):
+    def setUp(self):
+        data = {
+            'email': 'doctor@doctor.com',
+            'password': 'doctor123'
+        }
+
+        tk_url = reverse('token_obtain_pair')
+        
+        resp = self.client.post(tk_url, data=data)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+
+        token = resp.json()
+        self.assertTrue('refresh' in token)
+        self.assertTrue('access' in token)
+
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token['access']}")
+    def test_visit_status_list(self):
+        url = reverse('status_list')
+
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        print('test_visit_status_list OK')
+    
+    def test_visit_status_get(self):
+        url = reverse('status_detail', kwargs={'status_id':1})
+
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        print('test_visit_status_get OK')
+
+    def test_visit_status_patch(self):
+        payload = {
+            "name": "TESTAS"
+        }
+        
+        response = self.client.patch(reverse('status_detail', kwargs={'status_id':1}), data=payload, format='json')
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        print('test_visit_status_patch OK')
+    def test_visit_status_post(self):
+        payload = {
+            "name": "TESTAS"
+        }
+        
+        response = self.client.post(reverse('status_list'), data=payload, format='json')
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        print('test_visit_status_post OK')
+    def test_visit_status_delete(self):        
+        response = self.client.delete(reverse('status_detail', kwargs={'status_id':1}))
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        print('test_visit_status_delete OK')
+
+class VisitEmailTestCase(APITestCase):
+    def setUp(self):
+        data = {
+            'email': 'doctor@doctor.com',
+            'password': 'doctor123'
+        }
+
+        tk_url = reverse('token_obtain_pair')
+        
+        resp = self.client.post(tk_url, data=data)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+
+        token = resp.json()
+        self.assertTrue('refresh' in token)
+        self.assertTrue('access' in token)
+
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token['access']}")
+    def test_confirm_visit(self):
+        url = reverse('visit_confirm_email', kwargs={'visit_id':2})
+
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        print('test_visit_confirm_email OK')
+    
+    def test_cancel_visit(self):
+        url = reverse('visit_cancel_email', kwargs={'visit_id':2})
+
+        resp = self.client.get(url)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+        print('test_visit_cancel_email OK')
+
+class EmailTestCase(APITestCase):
+    def setUp(self):
+        data = {
+            'email': 'doctor@doctor.com',
+            'password': 'doctor123'
+        }
+
+        tk_url = reverse('token_obtain_pair')
+        
+        resp = self.client.post(tk_url, data=data)
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+
+        token = resp.json()
+        self.assertTrue('refresh' in token)
+        self.assertTrue('access' in token)
+
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {token['access']}")
+
+
+    def test_change_password(self):
+        data = {
+            "old_password":"doctor123",
+            "new_password":"doctor1234"
+        }
+
+        url = reverse('change_password')
+        
+        resp = self.client.put(url, data=data, format='json')
+        self.assertEqual(resp.status_code, status.HTTP_200_OK)
+
+        print('test_change_password OK')

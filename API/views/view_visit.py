@@ -96,7 +96,7 @@ class VisitStatusGetList(APIView):
     def post(self, request):
         user = NewUser.objects.get(id=self.request.user.id)
         user_serializer = CustomUserSerializer(user)
-        if(user_serializer.data["is_superuser"]):
+        if(user_serializer.data["is_superuser"] or user_serializer.data["is_doctor"]):
             visit_status_data = JSONParser().parse(request)
             visit_status_serializer = VisitStatusSerializer(data = visit_status_data)
             if visit_status_serializer.is_valid():
@@ -125,7 +125,7 @@ class VisitStatusGet(APIView):
             return HttpResponse('Vizito statusas nerastas!', status=404)
         user = NewUser.objects.get(id=self.request.user.id)
         user_serializer = CustomUserSerializer(user)
-        if(user_serializer.data["is_superuser"]):
+        if(user_serializer.data["is_superuser"] or user_serializer.data["is_doctor"]):
             visit_status_data = JSONParser().parse(request)
             visit_status_serializer = VisitStatusSerializer(status, data = visit_status_data, partial=True)
             if visit_status_serializer.is_valid():
@@ -143,7 +143,7 @@ class VisitStatusGet(APIView):
 
         user = NewUser.objects.get(id=self.request.user.id)
         user_serializer = CustomUserSerializer(user)
-        if(user_serializer.data["is_superuser"]):
+        if(user_serializer.data["is_superuser"] or user_serializer.data["is_doctor"]):
             visit_status_data.delete()
             return JsonResponse("Sėkmingai ištrinta!", safe=False)
         else:
