@@ -32,7 +32,7 @@ class DoctorGetList(APIView):
                 return JsonResponse("Sėkmingai pridėta!",safe=False)
             return JsonResponse(doctors_serializer.errors, status=400)
         else:
-            return HttpResponse('Neturite administratoriaus teisių!', status=204)
+            return HttpResponse('Neturite administratoriaus teisių!', status=403)
     
 class DoctorGet(APIView):
     permission_classes = [IsAuthenticated, ]
@@ -59,7 +59,7 @@ class DoctorGet(APIView):
                 return JsonResponse("Sėkmingai atnaujinta!", status=200, safe=False)
             return JsonResponse(doctors_serializer.errors, status=400, safe=False)
         else:
-            return HttpResponse('Neturite administratoriaus teisių!', status=204)
+            return HttpResponse('Neturite administratoriaus teisių!', status=403)
 
     def delete(self, request, doctor_id):
         try:
@@ -72,4 +72,4 @@ class DoctorGet(APIView):
             doctor.delete()
             return HttpResponse('Sėkmingai ištrinta!')
         else:
-            return HttpResponse('Neturite administratoriaus teisių!', status=204)
+            return HttpResponse('Neturite administratoriaus teisių!', status=403)
