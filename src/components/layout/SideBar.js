@@ -51,7 +51,7 @@ class SideBar extends React.Component {
       this.setState({
         selectedKeys: ["/doctor"]
       });
-    } else if (pathName.includes("/patient")) {
+    } else if (pathName.includes("/patient") && localStorage.getItem('patient_id')==='null') {
       this.setState({
         selectedKeys: ["/patient"]
       });
@@ -70,6 +70,10 @@ class SideBar extends React.Component {
     } else if (pathName.includes("/user")) {
       this.setState({
         selectedKeys: ["/user"]
+      });
+    } else if (pathName.includes("/patient") && localStorage.getItem('patient_id')!=='null') {
+      this.setState({
+        selectedKeys: ["/patient_info"]
       });
     } else {
       this.setState({
@@ -99,7 +103,7 @@ class SideBar extends React.Component {
         <Menu theme="dark" mode="inline"
             selectedKeys={selectedKeys} >
           {localStorage.getItem('is_patient') === 'true' &&
-          <Menu.Item key="/user" onClick={() => { this.setSelectedKeys("/patient_info")}}>
+          <Menu.Item key="/patient_info" onClick={() => { this.setSelectedKeys("/patient_info")}}>
             <Link to={`/patient/${localStorage.getItem('patient_id')}`}>
               <IdcardOutlined style={iconSize}/>
               <span className="nav-text">Paciento kortelė</span>

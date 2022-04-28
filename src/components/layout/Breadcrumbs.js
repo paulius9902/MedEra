@@ -21,10 +21,16 @@ const Breadcrumbs = (props) => {
 
     }else if(pathname.includes('/patient')) {
         return (
-            <Breadcrumb className='breadcrumb-style'>
-                <Breadcrumb.Item href='/'>Pagrindinis</Breadcrumb.Item>
-                <Breadcrumb.Item href='/patient'>Pacientai</Breadcrumb.Item>
-            </Breadcrumb> )
+            <>
+            {localStorage.getItem('patient_id')==='null'?
+                <Breadcrumb className='breadcrumb-style'>
+                    <Breadcrumb.Item href='/'>Pagrindinis</Breadcrumb.Item>
+                    <Breadcrumb.Item href='/patient'>Pacientai</Breadcrumb.Item>
+                </Breadcrumb>:
+                <Breadcrumb className='breadcrumb-style'>
+                </Breadcrumb>}
+            </>
+             )
      }else if(pathname.includes('/diagnosis')) {
         return (
             <Breadcrumb className='breadcrumb-style'>

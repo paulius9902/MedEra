@@ -38,9 +38,13 @@ class HeaderMe extends React.Component {
 
   render() {
     const rightStyle = { position: 'absolute', top: 0, right: 0 };
+    var link  = '/patient/'+localStorage.getItem('patient_id');
     return (
       <Header className="header">
-        <h1 className="medera"><a href="/" >MedEra</a></h1>
+        {localStorage.getItem('patient_id')==='null' ?
+        <h1 className="medera"><a href="/" >MedEra</a></h1> :
+        <h1 className="medera"><a href={link} >MedEra</a></h1>}
+        
         <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['6']}>
           <SubMenu key="4" style={rightStyle} title={<span><UserOutlined style={{ fontSize: '150%'}}/> {this.state.user ? this.state.user : 'Administratorius'}</span>}>
             <Menu.Item onClick={this.settings} key="5"><SettingOutlined style={{ fontSize: '150%'}}/> Nustatymai </Menu.Item>

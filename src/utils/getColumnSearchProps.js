@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { Button, Input, Space } from 'antd';
-import { SearchOutlined, RedoOutlined} from '@ant-design/icons';
+import { FileFilled, FilterFilled, RedoOutlined} from '@ant-design/icons';
 import get from "lodash.get";
 
 const useGetColumnSearchProps = () => {
@@ -46,7 +46,7 @@ const useGetColumnSearchProps = () => {
               </Space>
             </div>
           ),
-          filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
+          filterIcon: filtered => <FilterFilled style={{ color: filtered ? '#1890ff' : undefined }} />,
           onFilter: (value, record) =>
             get(record, dataIndex)
               ? get(record, dataIndex).toString().toLowerCase().includes(value.toLowerCase())

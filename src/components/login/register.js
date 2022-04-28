@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from 'react';
-import { Modal, Form, Input, Select, Card, Typography, Row, Col, Avatar, InputNumber} from "antd";
+import { Modal, Form, Input, Select, Card, Typography, Row, Col, Avatar, InputNumber, Tooltip} from "antd";
 import axios from '../../axiosApi';
-import { UserOutlined} from "@ant-design/icons";
+import { UserOutlined, InfoCircleOutlined} from "@ant-design/icons";
 
 const Register = ({ visible, onCreate, onCancel }) => {
   const { Title } = Typography;
@@ -135,6 +135,11 @@ const Register = ({ visible, onCreate, onCancel }) => {
           <Input
                 onChange={e => onEmailChange(e.target.value)}
                 placeholder="El. paštas"
+                addonBefore={
+                  <Tooltip title="Įveskite asmeninį elektroninį paštą, kurį naudosite prisijungiant">
+                    <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
+                  </Tooltip>
+                }
             />
         </Form.Item>
         <Form.Item name="password" label="Slaptažodis:"
@@ -150,6 +155,11 @@ const Register = ({ visible, onCreate, onCancel }) => {
            <Input
               type="password"
               placeholder="Slaptažodis"
+              addonBefore={
+                <Tooltip title="Įveskite slaptažodį, kuris būtų ne tik gerai prisimenamas, bet ir sunkiai atspėjamas">
+                  <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
+                </Tooltip>
+              }
             />
         </Form.Item>
         <Form.Item  name="personal_code" label="Asmens kodas:"
@@ -170,6 +180,11 @@ const Register = ({ visible, onCreate, onCancel }) => {
               type="number"
               placeholder="Asmens kodas"
               onChange={onPersonalCodeChange}
+              addonBefore={
+                <Tooltip title="Jei esate užsienio pilietis ir neturite asmens kodo, susisiekite su mumis el. paštu mederasite@gmail.com ir mes sukursime jums paskyrą">
+                  <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
+                </Tooltip>
+              }
             />
         </Form.Item>
         </Col>

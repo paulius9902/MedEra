@@ -71,7 +71,10 @@ class App extends React.Component {
 
                                         <Route exact path={"/user/"} element={<ShowUsers/>}/>
 
-                                        <Route exact path="/" element={<Home/>} />
+                                        {localStorage.getItem('patient_id')==='null' ?
+                                        <Route exact path="/" element={<Home/>} />:
+                                        <Route exact path="/" element={<Profile/>} />}
+
 
                                         <Route exact path="*" element={<NotFound/>} />
 

@@ -133,7 +133,7 @@ const ShowVisits = () => {
         },
       ],
       onFilter: (value, record) => record.start_date.indexOf(value) === 0,
-      defaultSortOrder: 'ascend',
+      defaultSortOrder: 'descend',
       sorter: (a, b) => moment(a.start_date).unix() - moment(b.start_date).unix(),
       render: (text, record) => text.slice(0, 16).replace('T', ' ')
     },
@@ -256,7 +256,7 @@ const ShowVisits = () => {
                 <Link to={`/visit/`} onClick={() => cancelVisit(record.visit_id)} >
                   <CloseOutlined style={{color: "#f50", fontSize: '150%', marginLeft: 8,}} />
                 </Link>
-              </React.Fragment>}
+                </React.Fragment>}
               <Popconfirm
                 placement='topLeft'
                 title='Ar tikrai norite ištrinti?'
@@ -288,6 +288,10 @@ const ShowVisits = () => {
                   style={{ color: "#f50", marginLeft: 8, fontSize: '150%'}}
                 />
               </Popconfirm>}
+              {(localStorage.getItem('is_patient') === 'true' && moment(record.start_date).unix() > moment().unix()) &&
+                <Link to={`/visit/`} onClick={() => cancelVisit(record.visit_id)} >
+                  <CloseOutlined style={{color: "#f50", fontSize: '150%', marginLeft: 8,}} />
+                </Link>}
             </>
           );
         }

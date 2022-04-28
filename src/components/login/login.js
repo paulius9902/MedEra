@@ -51,7 +51,7 @@ const NormalLoginForm = () => {
             localStorage.setItem('patient', patientName + " " + patientSurname)
           })
           .then(() =>{
-            window.location = "/";
+            window.location = "/patient/"+localStorage.getItem('patient_id');
           })
         }
         else if (localStorage.getItem('doctor_id')!=='null'){

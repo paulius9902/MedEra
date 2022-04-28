@@ -6,6 +6,7 @@ import {PlusCircleOutlined, DeleteOutlined, FilePdfOutlined} from '@ant-design/i
 import AddLabTestModal from './AddLabTestModal';
 import { Link } from 'react-router-dom';
 import useGetColumnSearchProps from '../../utils/getColumnSearchProps';
+import moment from 'moment';
 //import "./custom.css";
 //import { Button } from 'react-bootstrap';
 
@@ -72,6 +73,8 @@ const ShowLabTests = () => {
       title: "Tyrimo data",
       dataIndex: 'test_date',
       key: "test_date",
+      defaultSortOrder: 'descend',
+      sorter: (a, b) => moment(a.test_date).unix() - moment(b.test_date).unix(),
       render: (text, record) => text.slice(0, 19).replace('T', ' ')
     },
     {

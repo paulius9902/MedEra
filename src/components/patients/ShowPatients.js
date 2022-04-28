@@ -76,6 +76,8 @@ const ShowPatients = () => {
       title: "Vardas pavardė",
       dataIndex: 'full_name',
       key: "full_name",
+      defaultSortOrder: 'ascend',
+      sorter: (a, b) => a.surname.localeCompare(b.surname),
       ...getColumnSearchProps('full_name'),
     },
     {

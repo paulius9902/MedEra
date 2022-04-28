@@ -102,7 +102,7 @@ const COLUMNS_ALLERGIES = [
       dataIndex: 'start_date',
       key: "start_date",
       onFilter: (value, record) => record.start_date.indexOf(value) === 0,
-      defaultSortOrder: 'ascend',
+      defaultSortOrder: 'descend',
       sorter: (a, b) => moment(a.start_date).unix() - moment(b.start_date).unix(),
       render: (text, record) => text.slice(0, 16).replace('T', ' ')
     },
@@ -179,6 +179,8 @@ const COLUMNS_ALLERGIES = [
         title: "Data",
         dataIndex: 'creation_date',
         key: "creation_date",
+        defaultSortOrder: 'descend',
+        sorter: (a, b) => moment(a.creation_date).unix() - moment(b.creation_date).unix(),
         render: (text, record) => text.slice(0, 19).replace('T', ' ')
     },
     {
@@ -237,10 +239,12 @@ const COLUMNS_ALLERGIES = [
 
   const COLUMNS_LAB_TESTS = [
     {
-        title: "Data",
-        dataIndex: 'creation_date',
-        key: "creation_date",
-        render: (text, record) => text.slice(0, 19).replace('T', ' ')
+      title: "Tyrimo data",
+      dataIndex: 'test_date',
+      key: "test_date",
+      defaultSortOrder: 'descend',
+      sorter: (a, b) => moment(a.test_date).unix() - moment(b.test_date).unix(),
+      render: (text, record) => text.slice(0, 19).replace('T', ' ')
     },
     {
         title: 'Gydytojas',
@@ -282,15 +286,12 @@ const COLUMNS_ALLERGIES = [
 
   const COLUMNS_PRESCRIPTIONS = [
     {
-      title: "ID",
-      dataIndex: 'prescription_id',
-      key: "prescription_id"
-    },
-    {
-        title: 'Pacientas',
-        dataIndex: ['patient', 'full_name'],
-        key: "patient_full_name",
-        render: (text, record) => <Link to={'/patient/' + record.doctor.doctor_id}>{text}</Link>,
+      title: 'Išrašymo data',
+      dataIndex: 'date',
+      key: "date",
+      defaultSortOrder: 'descend',
+      sorter: (a, b) => moment(a.date).unix() - moment(b.date).unix(),
+      render: (text, record) => text.slice(0, 10).replace('T', ' ')
     },
     {
         title: 'Gydytojas',

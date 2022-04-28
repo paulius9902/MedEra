@@ -1,7 +1,7 @@
 import React from "react";
 import "antd/dist/antd.css";
 import { Modal, Typography, notification, Form, Card, Row, Col, Avatar, Input} from "antd";
-import { EditOutlined, CalendarOutlined} from "@ant-design/icons";
+import { CommentOutlined, CalendarOutlined} from "@ant-design/icons";
 import axios from '../../axiosApi';
 
 const { Title } = Typography;
@@ -41,7 +41,7 @@ function UpdateVisitModal({getAllVisit, setLoading, ...record}) {
 
   return (
     <>
-      <EditOutlined onClick={showModal} style={{ color: "#08c",  fontSize: '150%'}}/>
+      <CommentOutlined onClick={showModal} style={{ color: "#08c",  fontSize: '150%'}}/>
 
       <Modal
         centered

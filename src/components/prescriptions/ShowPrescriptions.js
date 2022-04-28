@@ -8,6 +8,7 @@ import UpdatePrescriptionModal from './UpdatePrescriptionModal';
 import callpdf from "./callpdf";
 import { Link } from 'react-router-dom';
 import useGetColumnSearchProps from '../../utils/getColumnSearchProps';
+import moment from 'moment';
 
 const ShowPrescriptions = () => {
   const getColumnSearchProps = useGetColumnSearchProps();
@@ -65,6 +66,8 @@ const ShowPrescriptions = () => {
       title: 'Išrašymo data',
       dataIndex: 'date',
       key: "date",
+      defaultSortOrder: 'descend',
+      sorter: (a, b) => moment(a.date).unix() - moment(b.date).unix(),
       render: (text, record) => text.slice(0, 10).replace('T', ' ')
   },
     {

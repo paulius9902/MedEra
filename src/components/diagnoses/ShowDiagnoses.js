@@ -8,6 +8,7 @@ import AddDiagnosisModal from './AddDiagnosisModal';
 import UpdateDiagnosisModal from './UpdateDiagnosisModal';
 import "./custom.css";
 import useGetColumnSearchProps from '../../utils/getColumnSearchProps';
+import moment from 'moment';
 
 const ShowDiagnoses = () => {
   const getColumnSearchProps = useGetColumnSearchProps();
@@ -65,6 +66,8 @@ const ShowDiagnoses = () => {
         title: "Data",
         dataIndex: 'creation_date',
         key: "creation_date",
+        defaultSortOrder: 'descend',
+        sorter: (a, b) => moment(a.creation_date).unix() - moment(b.creation_date).unix(),
         render: (text, record) => text.slice(0, 19).replace('T', ' ')
     },
     {

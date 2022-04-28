@@ -116,7 +116,7 @@ const AddPrescriptionModal = ({ visible, onCreate, onCancel, patient_id}) => {
                         message: "Įveskite vaisto vartojimo aprašymą!"
                       }
                     ]}>
-          <Input placeholder="Vaisto vartojimas"/>
+          <Input.TextArea placeholder="Vaisto vartojimas" showCount maxLength={200}/>
         </Form.Item>
         </Col>
           </Row>
