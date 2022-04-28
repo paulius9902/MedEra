@@ -68,7 +68,7 @@ return (
                 <Card
                 cover={
                     <img
-                        src="https://www.shareicon.net/data/512x512/2016/08/18/813849_people_512x512.png"
+                        src={doctor.image}
                         alt=""
                     />
                     }
