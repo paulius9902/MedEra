@@ -1,7 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import { UserOutlined} from "@ant-design/icons";
-import { Modal, Form, Input, InputNumber, Row, Col, Avatar} from "antd";
-import { useParams } from 'react-router-dom';
+import { Modal, Form, Input, Row, Col, Avatar} from "antd";
 import axios from '../../axiosApi';
 const UpdateUserModal = ({ visible, onCreate, onCancel}) => {
   

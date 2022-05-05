@@ -4,7 +4,6 @@ import DatePicker from "react-datepicker";
 import lt from "date-fns/locale/lt";
 import { IdcardOutlined} from "@ant-design/icons";
 import axios from '../../axiosApi';
-import moment from "moment";
 
 const { Option } = Select;
 const AddPatientModal = ({ visible, onCreate, onCancel }) => {

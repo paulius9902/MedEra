@@ -1,8 +1,6 @@
-import React, { useState, useEffect} from 'react';
-import { Modal, Form, Input, Select, Card, Typography, Row, Col, Avatar} from "antd";
+import React from 'react';
+import { Modal, Form, Input, Card, Typography, Row, Col, Avatar} from "antd";
 import { LockOutlined} from "@ant-design/icons";
-import axios from '../../axiosApi';
-const { Option } = Select;
 const ChangePasswordModal = ({ visible, onChangePassword, onCancel, error_message}) => {
   const { Title } = Typography;
   const [confirmLoading, setConfirmLoading] = React.useState(false);

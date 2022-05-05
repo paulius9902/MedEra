@@ -1,5 +1,5 @@
-import React, { useState} from 'react';
-import { Modal, Form, Input, Select, Row, Col, Avatar, InputNumber} from "antd";
+import React from 'react';
+import { Modal, Form, Select, Row, Col, Avatar} from "antd";
 import { IdcardOutlined} from "@ant-design/icons";
 
 const { Option } = Select;

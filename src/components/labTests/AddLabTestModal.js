@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from 'react';
-import { Modal, Form, Input, Select, Card, Typography, InputNumber, Row, Col, Avatar, Upload, Button, message} from "antd";
-import { ExperimentOutlined, UploadOutlined, InboxOutlined} from "@ant-design/icons";
+import { Modal, Form, Input, Select, Card, Typography, Row, Col, Avatar, Upload, message} from "antd";
+import { ExperimentOutlined, InboxOutlined} from "@ant-design/icons";
 import axios from '../../axiosApi';
 import lt from "date-fns/locale/lt";
 import DatePicker from "react-datepicker";

@@ -1,6 +1,5 @@
 import axios from '../../axiosApi';
 import React, {useState, useEffect} from 'react';
-import { useParams} from 'react-router';
 import { Link } from 'react-router-dom';
 import {EditOutlined, CheckCircleOutlined, CloseCircleOutlined, LockOutlined} from '@ant-design/icons';
 import {notification, Card, Form, Row, Col, Descriptions, Divider} from 'antd';

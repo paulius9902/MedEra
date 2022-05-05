@@ -4,7 +4,7 @@ import "antd/dist/antd.css";
 import axiosInstance from '../../axiosApi'
 import "./login.css";
 import { Form, Input, Button, notification} from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { LockOutlined } from "@ant-design/icons";
 import 'antd/dist/antd.css'; 
 import ResetCompleteModal from './resetCompleteModal';
 

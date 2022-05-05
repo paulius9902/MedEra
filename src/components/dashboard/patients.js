@@ -13,7 +13,6 @@ import {
 } from '@material-ui/core';
 import PeopleIcon from '@mui/icons-material/People';
 import CountUp from 'react-countup';
-import { duration } from 'moment';
 
 const useStyles = makeStyles((theme) => ({
   root: {

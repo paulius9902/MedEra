@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { Button, Input, Space } from 'antd';
-import { FileFilled, FilterFilled, RedoOutlined} from '@ant-design/icons';
+import { FilterFilled, RedoOutlined} from '@ant-design/icons';
 import get from "lodash.get";
 
 const useGetColumnSearchProps = () => {

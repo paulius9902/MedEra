@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState} from 'react';
 import axios from '../../axiosApi';
 import Table from "antd/lib/table";
-import {Button, Divider, Popconfirm, notification, Skeleton, Empty, Tooltip, Input, Space} from 'antd';
+import {Button, Divider, Popconfirm, notification, Skeleton, Empty, Tooltip} from 'antd';
 import { Link } from 'react-router-dom';
-import {PlusCircleOutlined, DeleteOutlined, SearchOutlined} from '@ant-design/icons';
+import {PlusCircleOutlined, DeleteOutlined} from '@ant-design/icons';
 import AddDiagnosisModal from './AddDiagnosisModal';
 import UpdateDiagnosisModal from './UpdateDiagnosisModal';
 import "./custom.css";

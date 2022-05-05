@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { Modal, Form, Input, Select, Card, Typography, Row, Col, Avatar, InputNumber, Tooltip} from "antd";
+import { Modal, Form, Input, Card, Typography, Row, Col, Avatar, InputNumber, Tooltip} from "antd";
 import axios from '../../axiosApi';
 import { UserOutlined, InfoCircleOutlined} from "@ant-design/icons";
 

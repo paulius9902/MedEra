@@ -1,16 +1,14 @@
-import React, { useState, useEffect} from 'react';
-import { Modal, Form, Input, Select, Row, Col, Avatar, Space, Button} from "antd";
+import React, { useState} from 'react';
+import { Modal, Form, Input, Select, Row, Col, Avatar} from "antd";
 import DatePicker from "react-datepicker";
 import setHours from "date-fns/setHours";
-import { CalendarOutlined, SearchOutlined} from "@ant-design/icons";
+import { CalendarOutlined} from "@ant-design/icons";
 import setMinutes from "date-fns/setMinutes";
 import { addDays, isSameDay, parseISO, addMonths } from "date-fns";
 import lt from "date-fns/locale/lt";
-import axios from '../../axiosApi';
 import getDay from "date-fns/getDay";
 import "react-datepicker/dist/react-datepicker.css";
 const { Option } = Select;
-const { TextArea } = Input;
 
 const AddVisitModal = ({ visible, onCreate, onCancel, visits, doctors}) => {
 

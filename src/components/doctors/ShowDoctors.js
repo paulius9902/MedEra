@@ -2,7 +2,7 @@ import axios from '../../axiosApi';
 import React, {useState, useEffect} from 'react';
 import {Button, Card, Row, Col, Divider, notification, Popconfirm} from 'antd';
 import { Link } from 'react-router-dom';
-import {PlusCircleOutlined, InfoCircleOutlined, DeleteOutlined, LoginOutlined} from '@ant-design/icons';
+import {PlusCircleOutlined, DeleteOutlined, LoginOutlined} from '@ant-design/icons';
 import AddDoctorModal from './AddDoctorModal';
 
 const ShowDoctors = () => {

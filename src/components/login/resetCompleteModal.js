@@ -1,10 +1,6 @@
-import React, { useState, useEffect} from 'react';
-import { Modal, Form, Input, Select, Card, Typography, Row, Col, Avatar, Result, Button} from "antd";
-import { AuditOutlined} from "@ant-design/icons";
-import axios from '../../axiosApi';
-const { Option } = Select;
+import React from 'react';
+import { Modal, Result, Button} from "antd";
 const AddPrescriptionModal = ({ visible, onCreate, onCancel }) => {
-  const { Title } = Typography;
 
   return (
     <Modal visible={visible} 

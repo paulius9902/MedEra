@@ -1,9 +1,8 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState} from 'react';
 import { Modal, Form, Input, Row, Col, Avatar} from "antd";
 import DatePicker from "react-datepicker";
 import lt from "date-fns/locale/lt";
 import { CalendarOutlined} from "@ant-design/icons";
-import axios from '../../axiosApi';
 import { addDays, isSameDay, parseISO, addMonths } from "date-fns";
 import setMinutes from "date-fns/setMinutes";
 import setHours from "date-fns/setHours";

@@ -2,8 +2,7 @@ import axios from '../../axiosApi';
 import React, {useState, useEffect} from 'react';
 import { useParams} from 'react-router';
 import { Link } from 'react-router-dom';
-//import { Card, Row } from 'react-bootstrap';
-import {PlusCircleOutlined, EditOutlined, DeleteOutlined, HeartFilled, CheckCircleOutlined, SyncOutlined, CloseCircleOutlined, FilePdfOutlined} from '@ant-design/icons';
+import {PlusCircleOutlined, EditOutlined, DeleteOutlined, CheckCircleOutlined, SyncOutlined, CloseCircleOutlined, FilePdfOutlined} from '@ant-design/icons';
 import {notification, Card, Form, Row, Col, Descriptions, Popconfirm, Table, Divider, Tag, Tooltip, Empty, Skeleton, Button} from 'antd';
 import UpdatePatientModal from './UpdatePatientModal';
 import AddPatientAllergiesModal from './AddPatientAllergiesModal';
@@ -40,12 +39,10 @@ const PatientDetail = () => {
   const {id} = useParams();
   const [visible_patient, setVisiblePatient] = useState(false);
   const [visible_patient_allergies, setVisiblePatientAllergies] = useState(false);
-  const [visible_visit, setVisibleVisit] = useState(false);
 
   useEffect(() => {
     console.log("-----")
     console.log(allergies)
-    console.log(filtered_allergies)
     console.log(filtered_allergies)
     setFilteredAllergies(Object.values(allergies).filter(o1 => !Object.values(patient_allergies).some(o2 => o1.allergy_id === o2.allergy_id)))
     console.log("-----")
