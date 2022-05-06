@@ -28,9 +28,18 @@ const AddPatientAllergiesModal = ({ visible, onCreate, onCancel, allergies }) =>
             </Col>
             <Col span={18}>
         <Form.Item name="allergy" label="Alergijos:">
-          <Select placeholder="Alergijos" mode="multiple">
+          <Select 
+            placeholder="Alergijos" 
+            mode="multiple" 
+            showSearch
+            filterOption={(inputValue, option) =>
+              option.props.children
+                .toString()
+                .toLowerCase()
+                .includes(inputValue.toLowerCase())
+            }>
             {allergies.map((allergy, index) => (
-                <Option key={allergy.allergy_id} value={allergy.allergy_id}>{allergy.name}</Option>
+                <Option key={allergy.allergy_id}>{allergy.code + ' ' + allergy.name}</Option>
               ))}
           </Select>
         </Form.Item>

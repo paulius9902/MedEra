@@ -40,6 +40,7 @@ class VisitStatuses(models.Model):
 class Allergies(models.Model):
     allergy_id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=50)
+    code = models.CharField(max_length=20)
     description = models.CharField(max_length=200, blank=True, null=True)
 
     class Meta:

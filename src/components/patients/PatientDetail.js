@@ -59,6 +59,11 @@ const PatientDetail = () => {
 
 const COLUMNS_ALLERGIES = [
     {
+      title: "Kodas",
+      dataIndex: 'code',
+      key: "code"
+    },
+    {
       title: "Pavadinimas",
       dataIndex: 'name',
       key: "name"
