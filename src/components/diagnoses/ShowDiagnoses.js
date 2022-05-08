@@ -21,10 +21,8 @@ const ShowDiagnoses = () => {
   }, []);
 
   const onCreate = async(values) => {
-    console.log(values);
     await axios.post(`api/diagnosis`, values).then(response=>{
       setLoading(true);
-      console.log(response.data);
       getAllDiagnosis();
       notification.success({ message: 'Sėkmingai sukurta!' });
     })
@@ -156,7 +154,7 @@ const ShowDiagnoses = () => {
   return (
     <>
       <h1>Diagnozės</h1>
-      <Divider style={{'background-color':"#08c"}}/>
+      <Divider style={{'backgroundColor':"#08c"}}/>
       {localStorage.getItem('is_doctor') === 'true' &&
       <Button className="mr-2 mb-3" size='large' onClick={() => {setVisibleCreate(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti diagnozę</Button>}
 

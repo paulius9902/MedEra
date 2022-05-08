@@ -3,9 +3,6 @@ import "antd/dist/antd.css";
 import { Modal, Typography, notification, Form, Card, Row, Col, Avatar, Input} from "antd";
 import { EditOutlined, AuditOutlined} from "@ant-design/icons";
 import axios from '../../axiosApi';
-//import { ShowDiagnoses} from './ShowDiagnoses';
-
-//import "./custom.css";
 
 const { Title } = Typography;
 
@@ -15,10 +12,8 @@ function UpdatePrescription({getAllPrescriptions, setLoading, ...record}) {
   const [confirmLoading, setConfirmLoading] = React.useState(false);
 
   const onUpdate = async(values, id) => {
-    console.log(values);
     await axios.patch(`api/prescription/${id}`, values).then(response=>{
       setLoading(true);
-      console.log(response.data);
       
       notification.success({ message: 'Sėkmingai atnaujinta!' });
       setVisible(false);
@@ -60,7 +55,6 @@ function UpdatePrescription({getAllPrescriptions, setLoading, ...record}) {
           form
             .validateFields()
             .then((values) => {
-              console.log(values)
               handleOk(values, record.prescription_id);
             })
             .catch((info) => {

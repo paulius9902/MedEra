@@ -14,7 +14,10 @@ const AddPrescriptionModal = ({ visible, onCreate, onCancel, patient_id}) => {
   const [prescription_date, setPrescriptionDate] = useState(null);
 
   useEffect(() => {
-    loadPatients();
+    if (patient_id === null)
+    {
+      loadPatients();
+    }
   }, []);
 
   const loadPatients = async () => {
@@ -32,7 +35,6 @@ const AddPrescriptionModal = ({ visible, onCreate, onCancel, patient_id}) => {
                 .validateFields()
                 .then((values) => {
                   form.resetFields();
-                  console.log(values)
                   setConfirmLoading(true);
                   setTimeout(() => {
                     onCreate(values);

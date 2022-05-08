@@ -35,7 +35,6 @@ const AddUserModal = ({ visible, onCreate, onCancel }) => {
                 .validateFields()
                 .then((values) => {
                   form.resetFields();
-                  console.log(values)
                   setConfirmLoading(true);
                   setTimeout(() => {
                     onCreate(values);

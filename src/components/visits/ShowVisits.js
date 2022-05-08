@@ -20,10 +20,8 @@ const ShowVisits = () => {
   const onCreate = async(values, form) => {
     values.status = 1
     values.start_date=new Date(Math.floor(values.start_date.getTime() - values.start_date.getTimezoneOffset() * 60000))
-    console.log(values);
     await axios.post(`api/visit`, values).then(response=>{
       setLoading(true);
-      console.log(response.data);
       form.resetFields();
       getAllVisitDates();
       getAllVisit();
@@ -302,7 +300,7 @@ const ShowVisits = () => {
   return (
     <>
       <h1>Vizitai</h1>
-      <Divider style={{'background-color':"#08c"}}/>
+      <Divider style={{'backgroundColor':"#08c"}}/>
       {localStorage.getItem('is_patient') === 'true' &&
       <Button className="mr-2 mb-3" size='large' onClick={() => {setVisible(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti vizitą</Button>}
       <Table  columns={COLUMNS} 

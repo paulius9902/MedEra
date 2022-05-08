@@ -12,10 +12,8 @@ function UpdateVisitModal({getAllVisit, setLoading, ...record}) {
   const [confirmLoading, setConfirmLoading] = React.useState(false);
 
   const onUpdate = async(values) => {
-    console.log(values);
     await axios.patch(`api/visit/${record.visit_id}`, values).then(response=>{
       setLoading(true);
-      console.log(response.data);
       notification.success({ message: 'Sėkmingai atnaujinta!' });
       setVisible(false);
       getAllVisit();
@@ -53,7 +51,6 @@ function UpdateVisitModal({getAllVisit, setLoading, ...record}) {
           form
             .validateFields()
             .then((values) => {
-              console.log(values)
               handleOk(values);
             })
             .catch((info) => {

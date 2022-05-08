@@ -35,7 +35,6 @@ const Doctors = ({ className, ...rest }) => {
 
   const getDoctorCount = async () => {
     const  { data } = await axios.get(`api/doctor_count`)
-    console.log(data);
     setDoctorCount(data);
   }
 

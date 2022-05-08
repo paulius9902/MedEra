@@ -42,7 +42,6 @@ const Patients = ({ className, ...rest }) => {
 
   const getPatientCount = async () => {
     const  { data } = await axios.get(`api/patient_count`)
-    console.log(data);
     setPatientCount(data);
   }
   return (

@@ -17,7 +17,6 @@ const ChangePasswordModal = ({ visible, onChangePassword, onCancel, error_messag
                 .validateFields()
                 .then((values) => {
                   form.resetFields();
-                  console.log(values)
                   setConfirmLoading(true);
                   setTimeout(() => {
                     onChangePassword(values);

@@ -16,7 +16,6 @@ const UpdateUserModal = ({ visible, onCreate, onCancel}) => {
   const loadUser = async () => {
     const result = await axios.get(`api/user/${id}`);
     setUser(result.data);
-    console.log(result.data)
   };
 
   const handleOk = async (e) => {
@@ -30,7 +29,6 @@ const UpdateUserModal = ({ visible, onCreate, onCancel}) => {
               form
                 .validateFields()
                 .then((values) => {
-                  console.log(values)
                   onCreate(values);
                 })
                 .catch((info) => {

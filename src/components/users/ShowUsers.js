@@ -7,7 +7,6 @@ import AddUserAdminModal from './AddUserModal';
 import UpdateUserModal from './UpdateUserModal';
 import useGetColumnSearchProps from '../../utils/getColumnSearchProps';
 import { Link } from 'react-router-dom';
-//import { Button } from 'react-bootstrap';
 
 const ShowUsers = () => {
   const getColumnSearchProps = useGetColumnSearchProps();
@@ -20,7 +19,6 @@ const ShowUsers = () => {
   }, []);
 
   const onCreate = async(values) => {
-    console.log(values);
     if (values.role === "A")
     {
       values.is_superuser=true
@@ -32,7 +30,6 @@ const ShowUsers = () => {
     }
     await axios.post(`api/user`, values).then(response=>{
       setLoading(true);
-      console.log(response.data);
       getAllUsers();
       notification.success({ message: 'Sėkmingai sukurta!' });
     })
@@ -222,7 +219,7 @@ const ShowUsers = () => {
   return (
     <>
       <h1>Vartotojai</h1>
-      <Divider style={{'background-color':"#08c"}}/>
+      <Divider style={{'backgroundColor':"#08c"}}/>
       <Button className="mr-2 mb-3" size='large' onClick={() => {setVisibleCreateAdmin(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Sukurti vartotoją</Button>
       <Table 
         columns={COLUMNS} 

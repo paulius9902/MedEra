@@ -16,10 +16,8 @@ const Register = ({ visible, onCreate, onCancel }) => {
   function validatePersonalCode(personal_code) {
     var data = patients.find((patient) => 
         patient.personal_code.indexOf(personal_code) > -1)
-    console.log(data)
     if (data) {
       setPatientID(data.patient_id)
-      console.log(patient_id)
       return {
         validateStatus: 'success',
         errorMsg: null,
@@ -33,7 +31,6 @@ const Register = ({ visible, onCreate, onCancel }) => {
   }
 
   function validateEmail(email_val) {
-      console.log(email_val)
     var data = emails.find((email) => 
                    email.email === email_val)
 
@@ -60,7 +57,6 @@ const Register = ({ visible, onCreate, onCancel }) => {
   };
 
   const onEmailChange = (value) => {
-      console.log(value)
     setEmail({ ...validateEmail(value), value });
   };
 
@@ -86,7 +82,6 @@ const Register = ({ visible, onCreate, onCancel }) => {
                 .then((values) => {
                   values.patient=patient_id
                   form.resetFields();
-                  console.log(values)
                   setConfirmLoading(true);
                   setTimeout(() => {
                     onCreate(values);

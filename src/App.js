@@ -3,10 +3,8 @@ import { Layout} from 'antd';
 import { Routes, Route} from "react-router-dom";
 import Header from "./components/layout/Header";
 import Breadcrumb from "./components/layout/Breadcrumbs";
-//import Footer from "./components/layout/Footer";
 import Home from "./components/layout/Home";
 import SideBar from "./components/layout/SideBar";
-//import './App.css';
 import Login from "./components/login/login";
 import ResetPassword from "./components/login/resetPassword";
 

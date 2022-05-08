@@ -42,7 +42,6 @@ const Visits = ({ className, ...rest }) => {
 
   const getVisitCount = async () => {
     const  { data } = await axios.get(`api/visit_count`)
-    console.log(data);
     setVisitCount(data);
   }
 

@@ -48,7 +48,6 @@ const AddVisitModal = ({ visible, onCreate, onCancel, visits, doctors}) => {
               form
                 .validateFields()
                 .then((values) => {
-                  console.log(values)
                   onCreate(values, form);
                   setDoctorID(null)
                   setStartDate(null)

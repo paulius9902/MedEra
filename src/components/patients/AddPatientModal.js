@@ -20,7 +20,6 @@ const AddPatientModal = ({ visible, onCreate, onCancel }) => {
   function validatePersonalCode(personal_code) {
     var data = patients.find((patient) => 
         patient.personal_code.indexOf(personal_code) > -1)
-    console.log(data)
     if (!data) {
       return {
         validateStatus: 'success',
@@ -51,7 +50,6 @@ const AddPatientModal = ({ visible, onCreate, onCancel }) => {
                 .validateFields()
                 .then((values) => {
                   form.resetFields();
-                  console.log(values)
                   onCreate(values);
                 })
                 .catch((info) => {

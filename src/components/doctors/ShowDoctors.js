@@ -11,9 +11,6 @@ const ShowDoctors = () => {
 
     const onCreate = async(values) => {
         values.birthday = values.birthday.toISOString().split('T')[0]
-        console.log(values);
-        console.log(new Date(values.birthday))
-        console.log(new Date(new Date().setFullYear(new Date().getFullYear() + 50)))
         if (values.gender==='V' && new Date(values.birthday) > new Date(new Date().setFullYear(new Date().getFullYear() - 50)))
         {
             values.image="https://www.shareicon.net/data/256x256/2016/08/18/813850_people_512x512.png"
@@ -32,7 +29,6 @@ const ShowDoctors = () => {
         }
         values.full_name = values.name + ' ' + values.surname
         await axios.post(`api/doctor`, values).then(response=>{
-          console.log(response.data);
           fetchDoctors();
           notification.success({ message: 'Sėkmingai pridėta!' });
         })
@@ -51,7 +47,6 @@ const ShowDoctors = () => {
     
     const fetchDoctors = async () => {
         const result = await axios.get('api/doctor');
-        console.log(result.data)
         setDoctors(result.data)
     }
 
@@ -68,15 +63,15 @@ const ShowDoctors = () => {
             <h1>Gydytojai</h1>
             {localStorage.getItem('is_superuser') === 'true' &&
             <React.Fragment>
-            <Divider style={{'background-color':"#08c"}}/>
+            <Divider style={{'backgroundColor':"#08c"}}/>
             <Button className="mr-2 mb-3" size='large' onClick={() => {setVisible(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti gydytoją</Button>
             </React.Fragment>}
-            <Divider style={{'background-color':"#08c"}}/>
+            <Divider/>
             <div className="main-doctors-show">
             <Row gutter={[70, 24]} span={4}>
             {
                 doctors.map((doctor, index) => (
-                    <Col>
+                    <Col key={doctor.doctor_id}>
                     
                     <Card
                         cover={

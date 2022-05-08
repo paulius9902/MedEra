@@ -41,11 +41,7 @@ const PatientDetail = () => {
   const [visible_patient_allergies, setVisiblePatientAllergies] = useState(false);
 
   useEffect(() => {
-    console.log("-----")
-    console.log(allergies)
-    console.log(filtered_allergies)
     setFilteredAllergies(Object.values(allergies).filter(o1 => !Object.values(patient_allergies).some(o2 => o1.allergy_id === o2.allergy_id)))
-    console.log("-----")
   }, [patient_allergies, allergies]);
 
   useEffect(() => {
@@ -361,11 +357,9 @@ const COLUMNS_ALLERGIES = [
   };
 
 const onUpdate = async(values) => {
-    console.log(values);
     values.full_name = values.name + ' ' + values.surname
     values.termination_date = values.termination_date ? values.termination_date.toISOString().split('T')[0] : values.termination_date
     await axios.patch(`api/patient/${id}`, values).then(response=>{
-      console.log(response.data);
       getSinglePatient();
       notification.success({ message: 'Sėkmingai atnaujinta!' });
     })
@@ -381,8 +375,6 @@ const onAddAllergies = async(values) => {
   });
   {res.map((allergy, index) => (
      axios.post(`api/patient/${id}/allergy`, JSON.stringify(allergy)).then(response=>{
-      console.log(response.data);
-      console.log(JSON.stringify(response.data))
       getSinglePatient();
       
     })
@@ -427,10 +419,8 @@ const getAllDiagnoses = async () => {
 
 const onCreateDiagnosis = async(values) => {
   values.patient = id
-  console.log(values);
   await axios.post(`api/diagnosis`, values).then(response=>{
     setLoadingDiagnoses(true);
-    console.log(response.data);
     getAllDiagnoses();
     notification.success({ message: 'Sėkmingai sukurta!' });
     setVisibleDiagnosesCreate(false)
@@ -444,7 +434,6 @@ const onCreateLabTest = async(values) => {
   console.log(values);
   await axios.post(`api/laboratory_test`, values).then(response=>{
     setLoadingLabTests(true);
-    console.log(response.data);
     getAllLabTests();
     notification.success({ message: 'Sėkmingai sukurta!' });
   })
@@ -452,10 +441,10 @@ const onCreateLabTest = async(values) => {
 };
 
 const onCreatePrescription = async(values) => {
+  values.patient = id
   console.log(values);
   await axios.post(`api/prescription`, values).then(response=>{
     setLoadingPrescriptions(true);
-    console.log(response.data);
     getAllPrescriptions();
     notification.success({ message: 'Sėkmingai sukurta!' });
   })
@@ -489,7 +478,6 @@ const getAllPrescriptions = async () => {
 const getSinglePatient = async () => {
   await axios.get(`api/patient/${id}`)
      .then((response) => {
-      console.log(response.data);
       setPatient(response.data);
       setPatientAllergies(response.data.allergies)
      })
@@ -509,7 +497,7 @@ const deletePatient = async (id) => {
 }
 return (
     <Card bordered={false} size="small" style={{ padding: 15 }}>
-      <Divider style={{'background-color':"#08c"}}/>
+      <Divider style={{'backgroundColor':"#08c"}}/>
         <Form layout="vertical">
             <Row>
                 <Col span={6}>
@@ -558,7 +546,7 @@ return (
                 allergies={filtered_allergies}
             />
             </Row>
-            <Divider style={{'background-color':"#08c"}}/>
+            <Divider style={{'backgroundColor':"#08c"}}/>
             <Row>
               <Col span={12}>
                 <Card>
@@ -589,7 +577,7 @@ return (
                     </Card>
               </Col>
             </Row>
-            <Divider style={{'background-color':"#08c"}}/>
+            <Divider style={{'backgroundColor':"#08c"}}/>
             <Row>
               <Col span={12}>
               <Card
@@ -626,7 +614,7 @@ return (
                     </Card>
               </Col>
             </Row>
-            <Divider style={{'background-color':"#08c"}}/>
+            <Divider style={{'backgroundColor':"#08c"}}/>
             <Row>
               <Col span={12}>
               <Card
@@ -646,7 +634,7 @@ return (
                 </Card>
               </Col>
             </Row>
-            <Divider style={{'background-color':"#08c"}}/>
+            <Divider style={{'backgroundColor':"#08c"}}/>
                     
             </Form>
             {localStorage.getItem('is_doctor') === 'true' &&

@@ -90,7 +90,7 @@ class RequestPasswordResetEmail(APIView):
             relativeLink = reverse('password_reset_confirm',kwargs={'uidb64':uidb64, 'token': token})
             absolute_url = current_site+relativeLink
             email_body = 'Sveiki, \n Paspauskite žemiau esančią nurodą ir pakeiskite MedEra paskyros slaptažodį. \n' + absolute_url
-            subject = 'MedEra slaptažodžio keitimas'
+            subject = 'MedEra slaptažodžio atkūrimas'
             data = {'email_body': email_body, 'to_email': user.email, 'email_subject': subject}
             Util.send_email(data)
             return Response("Sėkmingai išsiųsta!")

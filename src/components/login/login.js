@@ -17,7 +17,6 @@ const NormalLoginForm = () => {
     console.log("Received values of form: ", values);
     axiosInstance.post('api/token', values, {crossDomain: true})
     .then((res) => {
-      console.log(res);
       if (res.status === 200) {
         localStorage.setItem('access_token', res.data.access);
 				localStorage.setItem('refresh_token', res.data.refresh);
@@ -45,7 +44,6 @@ const NormalLoginForm = () => {
         {
           axiosInstance.get(`api/patient/${localStorage.getItem('patient_id')}`)
           .then((res) => {
-            console.log(res.data)
             const patientName = res.data.name;
             const patientSurname = res.data.surname;
             localStorage.setItem('patient', patientName + " " + patientSurname)
@@ -57,7 +55,6 @@ const NormalLoginForm = () => {
         else if (localStorage.getItem('doctor_id')!=='null'){
           axiosInstance.get(`api/doctor/${localStorage.getItem('doctor_id')}`)
           .then((res) => {
-            console.log(res.data)
             const doctorName = res.data.name;
             const doctorSurname = res.data.surname;
             localStorage.setItem('doctor', doctorName + " " +doctorSurname)
@@ -82,21 +79,17 @@ const NormalLoginForm = () => {
   };
 
   const onCreate = async(values) => {
-    console.log(values);
     values.is_superuser=false
     values.is_doctor=false
     values.is_patient=true
     await axiosInstance.post(`api/user`, values).then(response=>{
-      console.log(response.data);
       notification.success({ message: 'Sėkmingai prisiregistravote!' });
     })
     setVisibleRegister(false);
   };
 
   const onReset = async(values) => {
-    console.log(values);
     await axiosInstance.post(`api/reset_email_request`, values).then(response=>{
-      console.log(response.data);
       notification.success({ message: 'Laiškas išsiųstas!' });
     })
     setVisibleReset(false);

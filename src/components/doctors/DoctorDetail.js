@@ -29,10 +29,8 @@ const getAllVisit = async () => {
   };
 
 const onUpdate = async(values) => {
-    console.log(values);
     values.full_name = values.name + ' ' + values.surname
     await axios.patch(`api/doctor/${id}`, values).then(response=>{
-      console.log(response.data);
       getSingleDoctor();
       notification.success({ message: 'Sėkmingai atnaujinta!' });
     })
@@ -43,9 +41,7 @@ const addVisit = async(values, form) => {
     values.status = 1
     values.start_date=new Date(Math.floor(values.start_date.getTime() - values.start_date.getTimezoneOffset() * 60000))
     values.doctor=id
-    console.log(values);
     await axios.post(`api/visit`, values).then(response=>{
-      console.log(response.data);
       getSingleDoctor();
       getAllVisit();
       form.resetFields();
@@ -56,7 +52,6 @@ const addVisit = async(values, form) => {
 
 const getSingleDoctor = async () => {
   const  { data } = await axios.get(`api/doctor/${id}`)
-  console.log(data);
   setDoctor(data);
 }
 

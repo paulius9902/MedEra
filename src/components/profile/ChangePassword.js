@@ -23,7 +23,6 @@ const AddPatient = () => {
           url:'api/change_password',
           data: JSON.stringify(state)
         }).then(response=>{
-          console.log(response.data);
           localStorage.clear();
           navigate('/')
         })

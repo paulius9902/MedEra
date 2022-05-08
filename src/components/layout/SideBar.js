@@ -1,5 +1,4 @@
 import React from "react";
-//import "./styles.css";
 import axiosInstance from '../../axiosApi';
 import { Layout, Menu} from "antd";
 import { FileDoneOutlined, AuditOutlined, UserOutlined, ExperimentOutlined, CalendarOutlined, MedicineBoxOutlined, IdcardOutlined} from '@ant-design/icons';
@@ -42,7 +41,6 @@ class SideBar extends React.Component {
 
   componentDidMount() {
     const pathName = window.location.pathname
-    console.log(window.location.pathname)
     if (pathName.includes("/visit")) {
       this.setState({
         selectedKeys: ["/visit"]

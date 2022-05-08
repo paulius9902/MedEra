@@ -14,7 +14,6 @@ const AddPatientAllergiesModal = ({ visible, onCreate, onCancel, allergies }) =>
                 .validateFields()
                 .then((values) => {
                   form.resetFields();
-                  console.log(values)
                   onCreate(values);
                 })
                 .catch((info) => {

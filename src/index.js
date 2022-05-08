@@ -9,12 +9,10 @@ import './index.css';
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
-// axios.defaults.baseURL = 'http://127.0.0.1:8000/app/';
 axios.defaults.headers.common['Authorization'] = 'AUTH_TOKEN';
 
 axios.interceptors.request.use(
   (request) => {
-    console.log(request);
     return request;
   },
   (error) => {
@@ -25,7 +23,6 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   (response) => {
-    console.log(response);
     return response;
   },
   (error) => {

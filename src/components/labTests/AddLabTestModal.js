@@ -53,7 +53,6 @@ const AddLaboratoryTestModal = ({ visible, onCreate, onCancel, patient_id }) => 
         const prog = Math.round(
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
-        console.log(prog)
       },
       (error) => console.log(error),
       () => {
@@ -77,7 +76,6 @@ const AddLaboratoryTestModal = ({ visible, onCreate, onCancel, patient_id }) => 
                 .validateFields()
                 .then((values) => {
                   form.resetFields();
-                  console.log(values)
                   setConfirmLoading(true);
                   setTimeout(() => {
                     console.log('failas: '+values.document.file.originFileObj, values)

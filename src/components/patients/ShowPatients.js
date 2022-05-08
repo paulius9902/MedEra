@@ -25,12 +25,9 @@ const ShowPatients = () => {
     }
     values.birthday = values.birthday.toISOString().split('T')[0]
     values.full_name = values.name + ' ' + values.surname
-    console.log(values);
     await axios.post(`api/patient`, values)
     .then(response=>{
       setLoading(true);
-      console.log(response.data);
-      console.log(response.data.patient_id);
       getAllPatient();
       notification.success({ message: 'Sėkmingai pridėta!' });
     })
@@ -138,7 +135,7 @@ const ShowPatients = () => {
   return (
     <>
       <h1>Pacientai</h1>
-      <Divider style={{'background-color':"#08c"}}/>
+      <Divider style={{'backgroundColor':"#08c"}}/>
       {localStorage.getItem('is_patient') === 'false' &&
       <Button className="mr-2 mb-3" size='large' onClick={() => {setVisible(true);}} style={{float: 'left', background: '#28a745', color: 'white', borderColor: '#28a745'}}><PlusCircleOutlined style={{fontSize: '125%' }}/> Pridėti pacientą</Button>}
       <Table columns={COLUMNS} 

@@ -18,7 +18,6 @@ const AddDoctorModal = ({ visible, onCreate, onCancel }) => {
                 .validateFields()
                 .then((values) => {
                   form.resetFields();
-                  console.log(values)
                   onCreate(values);
                 })
                 .catch((info) => {

@@ -35,7 +35,6 @@ const Users = ({ className, ...rest }) => {
 
   const getUserCount = async () => {
     const  { data } = await axios.get(`api/user_count`)
-    console.log(data);
     setUserCount(data);
   }
 

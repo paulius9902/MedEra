@@ -31,7 +31,6 @@ const AddDiagnosisModal = ({ visible, onCreate, onCancel, patient_id}) => {
                 .validateFields()
                 .then((values) => {
                   form.resetFields();
-                  console.log(values)
                   setConfirmLoading(true);
                   setTimeout(() => {
                     onCreate(values);

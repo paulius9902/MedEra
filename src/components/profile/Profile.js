@@ -20,9 +20,7 @@ useEffect(() => {
 },[])
 
 const onUpdate = async(values) => {
-    console.log(values);
     await axios.patch(`api/user/${id}`, values).then(response=>{
-      console.log(response.data);
       getUser();
       notification.success({ message: 'Sėkmingai atnaujinta!' });
     })
@@ -30,9 +28,7 @@ const onUpdate = async(values) => {
 };
 
 const onChangePassword = async(values) => {
-    console.log(values);
     await axios.put(`api/change_password`, values).then(response=>{
-        console.log(response.data);
         setErrorMsg({errorMsg: ""});
         notification.success({ message: 'Sėkmingai pakeistas slaptažodis!' });
         setVisibleChangePassword(false);
@@ -49,11 +45,10 @@ const onChangePassword = async(values) => {
 const getUser = async () => {
   const  { data } = await axios.get(`api/info`)
   setUser(data);
-  console.log(data);
 }
     return (
         <Card bordered={false} size="small" style={{ padding: 15 }}>
-        <Divider style={{'background-color':"#08c"}}/>
+        <Divider style={{'backgroundColor':"#08c"}}/>
         <Form layout="vertical">
             <Row>
                 <Col span={6}>
@@ -113,7 +108,7 @@ const getUser = async () => {
             />
             </Row>
             </Form>
-            <Divider style={{'background-color':"#08c"}}/>
+            <Divider style={{'backgroundColor':"#08c"}}/>
             </Card>
     );
 };

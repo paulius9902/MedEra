@@ -3,7 +3,6 @@ import "antd/dist/antd.css";
 import { Modal, Typography, notification, Form, Card, Row, Col, Avatar, Input, InputNumber} from "antd";
 import { EditOutlined, FileDoneOutlined} from "@ant-design/icons";
 import axios from '../../axiosApi';
-//import { ShowDiagnoses} from './ShowDiagnoses';
 
 import "./custom.css";
 
@@ -15,10 +14,8 @@ function UpdateUser({getAllDiagnosis, setLoading, ...record}) {
   const [confirmLoading, setConfirmLoading] = React.useState(false);
 
   const onUpdate = async(values) => {
-    console.log(values);
     await axios.patch(`api/diagnosis/${record.diagnosis_id}`, values).then(response=>{
       setLoading(true);
-      console.log(response.data);
       
       notification.success({ message: 'Sėkmingai atnaujinta!' });
       setVisible(false);
@@ -58,7 +55,6 @@ function UpdateUser({getAllDiagnosis, setLoading, ...record}) {
           form
             .validateFields()
             .then((values) => {
-              console.log(values)
               handleOk(values);
             })
             .catch((info) => {

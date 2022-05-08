@@ -15,10 +15,8 @@ const ResetPassword = () => {
   const onFinish = (values) => {
     values.uidb64=uidb64;
     values.token=token;
-    console.log(values);
     axiosInstance.patch('api/password_reset_complete', values, {crossDomain: true})
     .then((res) => {
-      console.log(res);
       notification.success({ message: 'Sėkmingai pakeitėte slaptažodį!'});
       setVisibleResetComplete(true);
     })
@@ -41,7 +39,7 @@ const ResetPassword = () => {
         onFinish={onFinish}
       >
         <div className="login-form-container">
-          <h1>Slaptažodžio keitimas</h1>
+          <h1>Slaptažodžio atkūrimas</h1>
           <Form.Item
             name="password"
             rules={[
@@ -57,7 +55,7 @@ const ResetPassword = () => {
           >
             <Input.Password
               prefix={<LockOutlined className="site-form-item-icon" />}
-              placeholder="Slaptažodis"
+              placeholder="Naujas slaptažodis"
               size="large"
             />
           </Form.Item>

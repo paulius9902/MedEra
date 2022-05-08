@@ -11,7 +11,6 @@ const Register = ({ visible, onReset, onCancel }) => {
   const [email, setEmail] = useState("");
 
   function validateEmail(email_val) {
-      console.log(email_val)
     var data = emails.find((email) => 
                    email.email === email_val)
 
@@ -33,7 +32,6 @@ const Register = ({ visible, onReset, onCancel }) => {
   }, []);
 
   const onEmailChange = (value) => {
-      console.log(value)
     setEmail({ ...validateEmail(value), value });
   };
 
@@ -44,7 +42,7 @@ const Register = ({ visible, onReset, onCancel }) => {
 
   return (
     <Modal visible={visible} 
-            title={<Title level={4}>Slaptažodžio keitimas</Title>} 
+            title={<Title level={4}>Slaptažodžio atkūrimas</Title>} 
             okText="Patvirtinti"
             cancelText="Atšaukti" 
             onCancel={onCancel}
@@ -53,7 +51,6 @@ const Register = ({ visible, onReset, onCancel }) => {
                 .validateFields()
                 .then((values) => {
                   form.resetFields();
-                  console.log(values)
                   setConfirmLoading(true);
                   setTimeout(() => {
                     onReset(values);
@@ -101,7 +98,7 @@ const Register = ({ visible, onReset, onCancel }) => {
                     help={email.errorMsg}>
           <Input
                 onChange={e => onEmailChange(e.target.value)}
-                placeholder="El. paštas"
+                placeholder="Įveskite el. paštą, į kurį gausite atkūrimo nurodą"
             />
         </Form.Item>
         </Col>

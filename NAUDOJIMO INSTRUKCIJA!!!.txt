@@ -1,0 +1,13 @@
+Administratoriaus prisijungimo duomenys:
+El. paštas: admin@admin.com	Slaptažodis: admin
+
+Gydytojo prisijungimo duomenys:
+El. paštas: doctor@doctor.com	Slaptažodis: doctor123
+
+Paciento prisijungimo duomenys:
+El. paštas: patient@patient.com	Slaptažodis: patient123
+
+Galimi asmens kodai naujo vartotojo sukūrimui:
+26240377260
+63635293256
+85598661108
