@@ -1,3 +1,7 @@
+Norint pasinaudoti sistema per Visual Studio reikia vianeme terminale paleisti Django(python manage.py runserver), o kitame React(npm start) ir projektas atsivers naršyklėje
+
+Arba projektą galima atsidaryti https://mederasite.herokuapp.com/
+
 Administratoriaus prisijungimo duomenys:
 El. paštas: admin@admin.com	Slaptažodis: admin
 
@@ -8,6 +12,8 @@ Paciento prisijungimo duomenys:
 El. paštas: patient@patient.com	Slaptažodis: patient123
 
 Galimi asmens kodai naujo vartotojo sukūrimui:
-26240377260
-63635293256
-85598661108
+37956025018
+32212417044
+
+Projektas patalpintas:
+https://mederasite.herokuapp.com/
