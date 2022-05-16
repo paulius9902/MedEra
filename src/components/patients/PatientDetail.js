@@ -313,11 +313,6 @@ const COLUMNS_ALLERGIES = [
       key: "custom_usage"
     },
     {
-      title: "Diagnozė",
-      dataIndex: ['diagnosis', 'description'],
-      key: "doctor_surname",
-    },
-    {
       title: "Veiksmas",
       key: "action",
       render: (record) => {

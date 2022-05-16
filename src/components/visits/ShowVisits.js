@@ -286,7 +286,7 @@ const ShowVisits = () => {
                   style={{ color: "#f50", marginLeft: 8, fontSize: '150%'}}
                 />
               </Popconfirm>}
-              {(localStorage.getItem('is_patient') === 'true' && moment(record.start_date).unix() > moment().unix()) &&
+              {(localStorage.getItem('is_patient') === 'true' && moment(record.start_date).unix() > moment().unix() && record.status.status_id === 2) &&
                 <Link to={`/visit/`} onClick={() => cancelVisit(record.visit_id)} >
                   <CloseOutlined style={{color: "#f50", fontSize: '150%', marginLeft: 8,}} />
                 </Link>}

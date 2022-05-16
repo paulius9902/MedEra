@@ -54,7 +54,7 @@ class VisitGet(APIView):
         user = NewUser.objects.get(id=self.request.user.id)
         user_serializer = CustomUserSerializer(user)
         try:
-            if(user_serializer.data["is_superuser"] or user_serializer.data["is_doctor"]):
+            if(user_serializer.data["is_superuser"] or user_serializer.data["is_doctor"] or user_serializer.data["is_patient"]):
                 visit = Visits.objects.filter(visit_id=visit_id).get()
             else:
                 return HttpResponse('Neturite reikiamų teisių!', status=404)
