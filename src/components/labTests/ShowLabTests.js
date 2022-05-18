@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../axiosApi';
 import Table from "antd/lib/table";
-import {Button, Divider, Popconfirm, notification, Skeleton, Empty} from 'antd';
+import {Button, Divider, Popconfirm, notification, Skeleton, Empty, Tooltip} from 'antd';
 import {PlusCircleOutlined, DeleteOutlined, FilePdfOutlined} from '@ant-design/icons';
 import AddLabTestModal from './AddLabTestModal';
 import { Link } from 'react-router-dom';
@@ -88,11 +88,24 @@ const ShowLabTests = () => {
         render: (text, record) => <Link to={'/doctor/' + record.doctor.doctor_id}>{text}</Link>,
     },
     {
-        title: "Pavadinimas",
-        dataIndex: 'name',
-        key: "name",
-        ...getColumnSearchProps('name'),
-    },
+      title: "Pavadinimas",
+      dataIndex: 'name',
+      key: "name",
+      ...getColumnSearchProps("name"),
+      onCell: () => {
+        return {
+           style: {
+              whiteSpace: 'nowrap',
+              maxWidth: 150,
+           }
+        }
+     },
+     render: (text) => (
+        <Tooltip title={text} placement="topLeft">
+           <div style={{textOverflow: 'ellipsis', overflow: 'hidden'}}>{text}</div>
+        </Tooltip>
+     )
+  },
     {
       title: "Veiksmas",
       key: "action",

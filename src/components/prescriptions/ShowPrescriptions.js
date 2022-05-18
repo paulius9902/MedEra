@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../../axiosApi';
 import Table from "antd/lib/table";
-import {Button, Divider, Popconfirm, notification, Skeleton, Empty} from 'antd';
+import {Button, Divider, Popconfirm, notification, Skeleton, Empty, Tooltip} from 'antd';
 import {PlusCircleOutlined, DeleteOutlined, FilePdfOutlined} from '@ant-design/icons';
 import AddPrescriptionModal from './AddPrescriptionModal';
 import UpdatePrescriptionModal from './UpdatePrescriptionModal';
@@ -97,8 +97,22 @@ const ShowPrescriptions = () => {
     {
       title: "Vartojimas",
       dataIndex: 'custom_usage',
-      key: "custom_usage"
-    },
+      key: "custom_usage",
+      ...getColumnSearchProps("custom_usage"),
+      onCell: () => {
+        return {
+           style: {
+              whiteSpace: 'nowrap',
+              maxWidth: 150,
+           }
+        }
+     },
+     render: (text) => (
+        <Tooltip title={text} placement="topLeft">
+           <div style={{textOverflow: 'ellipsis', overflow: 'hidden'}}>{text}</div>
+        </Tooltip>
+     )
+  },
     {
       title: "Veiksmas",
       key: "action",

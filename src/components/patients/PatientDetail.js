@@ -62,13 +62,39 @@ const COLUMNS_ALLERGIES = [
     {
       title: "Pavadinimas",
       dataIndex: 'name',
-      key: "name"
-    },
-    {
-        title: "Aprašymas",
-        dataIndex: 'description',
-        key: "description"
-      },
+      key: "name",
+      onCell: () => {
+        return {
+           style: {
+              whiteSpace: 'nowrap',
+              maxWidth: 150,
+           }
+        }
+     },
+     render: (text) => (
+        <Tooltip title={text} placement="topLeft">
+           <div style={{textOverflow: 'ellipsis', overflow: 'hidden'}}>{text}</div>
+        </Tooltip>
+     )
+  },
+  {
+    title: "Aprašymas",
+    dataIndex: 'description',
+    key: "description",
+    onCell: () => {
+      return {
+         style: {
+            whiteSpace: 'nowrap',
+            maxWidth: 150,
+         }
+      }
+   },
+   render: (text) => (
+      <Tooltip title={text} placement="topLeft">
+         <div style={{textOverflow: 'ellipsis', overflow: 'hidden'}}>{text}</div>
+      </Tooltip>
+   )
+},
     {
       title: "Veiksmai",
       key: "action",
@@ -188,11 +214,24 @@ const COLUMNS_ALLERGIES = [
         render: (text, record) => <Link to={'/doctor/' + record.doctor.doctor_id}>{text}</Link>,
     },
     {
-        title: "Diagnozė",
-        dataIndex: 'name',
-        key: "name",
-    },
-    {
+      title: "Diagnozė",
+      dataIndex: 'name',
+      key: "name",
+      onCell: () => {
+        return {
+           style: {
+              whiteSpace: 'nowrap',
+              maxWidth: 150,
+           }
+        }
+     },
+     render: (text) => (
+        <Tooltip title={text} placement="topLeft">
+           <div style={{textOverflow: 'ellipsis', overflow: 'hidden'}}>{text}</div>
+        </Tooltip>
+     )
+  },
+  {
       title: "Aprašymas",
       dataIndex: 'description',
       key: "description",
@@ -251,10 +290,23 @@ const COLUMNS_ALLERGIES = [
         render: (text, record) => <Link to={'/doctor/' + record.doctor.doctor_id}>{text}</Link>,
     },
     {
-        title: "Pavadinimas",
-        dataIndex: 'name',
-        key: "name"
-    },
+      title: "Pavadinimas",
+      dataIndex: 'name',
+      key: "name",
+      onCell: () => {
+        return {
+           style: {
+              whiteSpace: 'nowrap',
+              maxWidth: 150,
+           }
+        }
+     },
+     render: (text) => (
+        <Tooltip title={text} placement="topLeft">
+           <div style={{textOverflow: 'ellipsis', overflow: 'hidden'}}>{text}</div>
+        </Tooltip>
+     )
+  },
     {
       title: "Veiksmas",
       key: "action",
@@ -298,10 +350,23 @@ const COLUMNS_ALLERGIES = [
         render: (text, record) => <Link to={'/doctor/' + record.doctor.doctor_id}>{text}</Link>,
     },
     {
-        title: "Vaistas",
-        dataIndex: 'medicine',
-        key: "medicine",
-    },
+      title: "Vaistas",
+      dataIndex: 'medicine',
+      key: "medicine",
+      onCell: () => {
+        return {
+           style: {
+              whiteSpace: 'nowrap',
+              maxWidth: 150,
+           }
+        }
+     },
+     render: (text) => (
+        <Tooltip title={text} placement="topLeft">
+           <div style={{textOverflow: 'ellipsis', overflow: 'hidden'}}>{text}</div>
+        </Tooltip>
+     )
+  },
     {
         title: "Kiekis",
         dataIndex: 'quantity',
@@ -310,7 +375,20 @@ const COLUMNS_ALLERGIES = [
     {
       title: "Vartojimas",
       dataIndex: 'custom_usage',
-      key: "custom_usage"
+      key: "custom_usage",
+      onCell: () => {
+        return {
+           style: {
+              whiteSpace: 'nowrap',
+              maxWidth: 150,
+           }
+        }
+     },
+     render: (text) => (
+        <Tooltip title={text} placement="topLeft">
+           <div style={{textOverflow: 'ellipsis', overflow: 'hidden'}}>{text}</div>
+        </Tooltip>
+     )
     },
     {
       title: "Veiksmas",
