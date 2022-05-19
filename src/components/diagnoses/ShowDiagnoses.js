@@ -83,12 +83,25 @@ const ShowDiagnoses = () => {
         render: (text, record) => <Link to={'/doctor/' + record.doctor.doctor_id}>{text}</Link>,
     },
     {
-        title: "Diagnozė",
-        dataIndex: 'name',
-        key: "name",
-        ...getColumnSearchProps("name"),
-    },
-    {
+      title: "Diagnozė",
+      dataIndex: 'name',
+      key: "name",
+      ...getColumnSearchProps("name"),
+      onCell: () => {
+        return {
+           style: {
+              whiteSpace: 'nowrap',
+              maxWidth: 150,
+           }
+        }
+     },
+     render: (text) => (
+        <Tooltip title={text} placement="topLeft">
+           <div style={{textOverflow: 'ellipsis', overflow: 'hidden'}}>{text}</div>
+        </Tooltip>
+     )
+  },
+  {
       title: "Aprašymas",
       dataIndex: 'description',
       key: "description",
